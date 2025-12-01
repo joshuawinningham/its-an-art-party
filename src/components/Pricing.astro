@@ -1,0 +1,134 @@
+---
+const plans = [
+    {
+        title: "MOBILE PARTY",
+        price: "240",
+        features: [
+            "2 hours of party time",
+            "Full set up/clean up",
+            "Canvas painting",
+            "Supplies included",
+            "Instructor led step-by-step",
+        ],
+        headerColor: "bg-brand-pink",
+        popular: true,
+        btnColor: "bg-brand-pink",
+        priceColor: "text-brand-pink",
+    },
+    {
+        title: "ART LESSONS",
+        price: "45",
+        features: [
+            "Private or Group lessons",
+            "1 hour session",
+            "Skill building focus",
+            "Ages 6 and up",
+            "Various mediums available",
+        ],
+        headerColor: "bg-brand-teal",
+        popular: false,
+        btnColor: "bg-brand-teal",
+        priceColor: "text-brand-teal",
+    },
+    {
+        title: "DIY PARTY",
+        price: "200",
+        features: [
+            "Up to 10 kids",
+            "Pre-sketched canvas",
+            "Paint included",
+            "Supplies included",
+            "Instruction sheet provided",
+        ],
+        headerColor: "bg-brand-yellow",
+        popular: false,
+        btnColor: "bg-brand-yellow",
+        priceColor: "text-brand-yellow",
+    },
+];
+---
+
+<section class="bg-gray-50 py-24 px-4 relative overflow-hidden">
+    <!-- Background stars -->
+    <div class="absolute top-10 left-10 text-white opacity-100 drop-shadow-sm">
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor"
+            ><path
+                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+            ></path></svg
+        >
+    </div>
+    <div
+        class="absolute bottom-20 right-20 text-white opacity-100 drop-shadow-sm"
+    >
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor"
+            ><path
+                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+            ></path></svg
+        >
+    </div>
+
+    <div class="max-w-6xl mx-auto text-center relative z-10">
+        <h2
+            class="text-brand-teal text-5xl md:text-7xl mb-6 drop-shadow-sm tracking-wide font-display"
+        >
+            CHOOSE YOUR PATH TO ART!
+        </h2>
+        <p class="text-brand-pink font-body text-xl mb-16 italic">
+            Options include do-it-yourself, full-service art parties, or art
+            lessons.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {
+                plans.map((plan) => (
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden relative transform transition hover:-translate-y-2 hover:shadow-2xl duration-300">
+                        {plan.popular && (
+                            <div class="absolute top-0 right-0">
+                                <div class="bg-black text-white text-[10px] font-bold px-8 py-1 transform rotate-45 translate-x-8 translate-y-4 shadow-md uppercase tracking-widest">
+                                    Popular
+                                </div>
+                            </div>
+                        )}
+
+                        <div class={`${plan.headerColor} py-6`}>
+                            <h3 class="text-white text-2xl font-display tracking-wider uppercase">
+                                {plan.title}
+                            </h3>
+                        </div>
+
+                        <div class="p-8">
+                            <div
+                                class={`text-5xl font-display ${plan.priceColor} mb-2`}
+                            >
+                                <span class="text-2xl align-top">$</span>
+                                {plan.price}
+                            </div>
+                            <div class="text-gray-400 text-xs uppercase tracking-widest mb-8 font-bold">
+                                Starting Price
+                            </div>
+
+                            <ul class="space-y-4 mb-10 text-left px-4">
+                                {plan.features.map((feature) => (
+                                    <li class="flex items-start text-gray-600 font-body text-sm">
+                                        <span
+                                            class={`mr-2 mt-1 ${plan.priceColor} text-xs`}
+                                        >
+                                            ▶
+                                        </span>
+                                        {feature}
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <button
+                                class={`${plan.btnColor} hover:brightness-90 text-white font-bold py-3 px-10 rounded-full text-xs uppercase tracking-widest transition shadow-md w-full`}
+                            >
+                                Read More
+                            </button>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>

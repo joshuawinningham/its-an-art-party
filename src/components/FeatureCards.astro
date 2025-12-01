@@ -1,0 +1,50 @@
+---
+import { Image } from "astro:assets";
+import featureCustom from "../assets/images/ice-cream-painting.jpg";
+import featureSupplies from "../assets/images/paint-party-supplies.jpg";
+import featureMobile from "../assets/images/kids-paint-birthday-party.jpg";
+
+const features = [
+  {
+    title: "Custom Parties",
+    image: featureCustom,
+    desc: "We work with you to pick a theme, canvas size, and painting to match your party style!",
+  },
+  {
+    title: "Supplies Included",
+    image: featureSupplies,
+    desc: "All supplies, aprons, canvas, table covers, and set up/clean up included!",
+  },
+  {
+    title: "Mobile Parties",
+    image: featureMobile,
+    desc: "Canvas painting parties at your house, venue, church, or property in Charlotte.",
+  },
+];
+---
+
+<section class="bg-brand-pink pb-24 pt-12 px-4 relative z-10">
+  <div
+    class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 relative -top-32 md:-top-48"
+  >
+    {
+      features.map((feature) => (
+        <div class="bg-white p-6 pb-10 text-center shadow-2xl rounded-sm transform transition hover:-translate-y-2 duration-300">
+          <div class="h-64 mb-6 overflow-hidden border-4 border-white shadow-md">
+            <Image
+              src={feature.image}
+              alt={feature.title}
+              class="w-full h-full object-cover transition hover:scale-110 duration-700"
+            />
+          </div>
+          <h3 class="text-brand-pink text-2xl md:text-3xl mb-4 uppercase tracking-wide font-display">
+            {feature.title}
+          </h3>
+          <p class="text-gray-500 font-body text-base leading-relaxed px-4">
+            {feature.desc}
+          </p>
+        </div>
+      ))
+    }
+  </div>
+</section>

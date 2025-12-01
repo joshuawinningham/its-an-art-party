@@ -1,16 +1,34 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import FeatureCards from '../components/FeatureCards.astro';
+import About from '../components/About.astro';
+import Logos from '../components/Logos.astro';
+import Gallery from '../components/Gallery.astro';
+import PartyOptions from '../components/PartyOptions.astro';
+import Pricing from '../components/Pricing.astro';
+import Cta from '../components/Cta.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
 
+const seoDescription = "Mobile art and canvas painting parties for kids in Charlotte, NC. Birthday parties starting at $240 with all supplies included, setup & cleanup. Ages 4+. Book today!";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout 
+	title="Kids Paint Parties in Charlotte NC | Mobile Art Birthday Parties"
+	description={seoDescription}
+	image="/images/og-homepage.jpg"
+>
+	<Header />
+    <FeatureCards />
+    <About />
+    <Logos />
+    <Gallery />
+    <PartyOptions />
+    <Pricing />
+    <Cta />
+    <Testimonials />
+    <Contact />
+    <Footer />
+</Layout>

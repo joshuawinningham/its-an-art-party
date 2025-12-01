@@ -1,0 +1,250 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+	image?: string;
+	type?: 'website' | 'article';
+	publishedTime?: Date;
+	modifiedTime?: Date;
+	author?: string;
+	noindex?: boolean;
+}
+
+const {
+	title,
+	description = "It's an Art Party provides mobile art and canvas painting parties for kids ages 4 and up in Charlotte, NC. All supplies included with full setup and cleanup.",
+	image = '/images/og-default.jpg',
+	type = 'website',
+	publishedTime,
+	modifiedTime,
+	author = 'Robin Winningham',
+	noindex = false
+} = Astro.props;
+
+// ==============================================
+// GOOGLE TRACKING CONFIGURATION
+// ==============================================
+
+// Google Analytics 4 Measurement ID
+const GA_MEASUREMENT_ID = 'G-XCNCP9DMFB';
+
+// Google Search Console verification (get from: search.google.com/search-console)
+// Use the "HTML tag" verification method and copy the content value
+const GOOGLE_SITE_VERIFICATION = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '';
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
+
+// Construct full title with brand
+const fullTitle = title.includes("It's an Art Party") ? title : `${title} | It's an Art Party`;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+		<!-- Google Analytics 4 -->
+		{GA_MEASUREMENT_ID && (
+			<>
+				<script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
+				<script is:inline define:vars={{ GA_MEASUREMENT_ID }}>
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+					gtag('config', GA_MEASUREMENT_ID);
+				</script>
+			</>
+		)}
+		
+		<!-- Google Search Console Verification -->
+		{GOOGLE_SITE_VERIFICATION && (
+			<meta name="google-site-verification" content={GOOGLE_SITE_VERIFICATION} />
+		)}
+		
+		<!-- Primary Meta Tags -->
+		<title>{fullTitle}</title>
+		<meta name="title" content={fullTitle} />
+		<meta name="description" content={description} />
+		<meta name="author" content={author} />
+		<meta name="generator" content={Astro.generator} />
+		
+		<!-- Robots -->
+		{noindex ? (
+			<meta name="robots" content="noindex, nofollow" />
+		) : (
+			<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+		)}
+		
+		<!-- Canonical URL -->
+		<link rel="canonical" href={canonicalURL} />
+		
+		<!-- Geo Tags for Local SEO -->
+		<meta name="geo.region" content="US-NC" />
+		<meta name="geo.placename" content="Charlotte" />
+		<meta name="geo.position" content="35.1645;-80.8266" />
+		<meta name="ICBM" content="35.1645, -80.8266" />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content={type} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={fullTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={imageURL} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:site_name" content="It's an Art Party" />
+		<meta property="og:locale" content="en_US" />
+		
+		{type === 'article' && publishedTime && (
+			<meta property="article:published_time" content={publishedTime.toISOString()} />
+		)}
+		{type === 'article' && modifiedTime && (
+			<meta property="article:modified_time" content={modifiedTime.toISOString()} />
+		)}
+		{type === 'article' && author && (
+			<meta property="article:author" content={author} />
+		)}
+		
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content={canonicalURL} />
+		<meta name="twitter:title" content={fullTitle} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={imageURL} />
+		
+		<!-- Favicons -->
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="theme-color" content="#E84B8A" />
+		<meta name="msapplication-TileColor" content="#E84B8A" />
+		
+		<!-- Preconnect for performance -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Chewy&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+		
+		<!-- JSON-LD Structured Data -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "LocalBusiness",
+			"@id": "https://www.itsanartparty.com/#localbusiness",
+			"name": "It's an Art Party",
+			"image": "https://www.itsanartparty.com/images/its-an-art-party-logo.png",
+			"description": "Mobile art and canvas painting parties for kids in Charlotte, NC. Birthday parties, art lessons, and DIY party kits for ages 4 and up.",
+			"url": "https://www.itsanartparty.com",
+			"telephone": "980-253-4829",
+			"email": "robin@itsanartparty.com",
+			"priceRange": "$$",
+			"address": {
+				"@type": "PostalAddress",
+				"streetAddress": "7845 Colony Rd Ste C4-227",
+				"addressLocality": "Charlotte",
+				"addressRegion": "NC",
+				"postalCode": "28226",
+				"addressCountry": "US"
+			},
+			"geo": {
+				"@type": "GeoCoordinates",
+				"latitude": 35.1645,
+				"longitude": -80.8266
+			},
+			"areaServed": [
+				{
+					"@type": "City",
+					"name": "Charlotte",
+					"sameAs": "https://en.wikipedia.org/wiki/Charlotte,_North_Carolina"
+				}
+			],
+			"openingHoursSpecification": {
+				"@type": "OpeningHoursSpecification",
+				"dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+				"opens": "09:00",
+				"closes": "17:00"
+			},
+			"sameAs": [
+				"https://www.facebook.com/itsanartparty",
+				"https://www.instagram.com/itsanartparty",
+				"https://www.pinterest.com/itsanartparty",
+				"https://www.youtube.com/itsanartparty"
+			],
+			"founder": {
+				"@type": "Person",
+				"name": "Robin Winningham",
+				"jobTitle": "Artist and Owner"
+			},
+			"hasOfferCatalog": {
+				"@type": "OfferCatalog",
+				"name": "Art Party Services",
+				"itemListElement": [
+					{
+						"@type": "Offer",
+						"itemOffered": {
+							"@type": "Service",
+							"name": "Mobile Paint Party",
+							"description": "Canvas painting parties for kids with all supplies included. Setup and cleanup provided."
+						},
+						"price": "240",
+						"priceCurrency": "USD"
+					},
+					{
+						"@type": "Offer",
+						"itemOffered": {
+							"@type": "Service",
+							"name": "Art Lessons",
+							"description": "Private and group art lessons for children ages 4 and up."
+						},
+						"price": "45",
+						"priceCurrency": "USD"
+					},
+					{
+						"@type": "Offer",
+						"itemOffered": {
+							"@type": "Service",
+							"name": "DIY Party Kit",
+							"description": "All supplies and instructions included for hosting your own paint party."
+						},
+						"price": "200",
+						"priceCurrency": "USD"
+					}
+				]
+			},
+			"aggregateRating": {
+				"@type": "AggregateRating",
+				"ratingValue": "5",
+				"reviewCount": "50"
+			}
+		})} />
+		
+		<!-- Website Schema -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "WebSite",
+			"@id": "https://www.itsanartparty.com/#website",
+			"url": "https://www.itsanartparty.com",
+			"name": "It's an Art Party",
+			"description": "Mobile art and canvas painting parties for kids in Charlotte, NC",
+			"publisher": {
+				"@id": "https://www.itsanartparty.com/#localbusiness"
+			},
+			"potentialAction": {
+				"@type": "SearchAction",
+				"target": {
+					"@type": "EntryPoint",
+					"urlTemplate": "https://www.itsanartparty.com/?s={search_term_string}"
+				},
+				"query-input": "required name=search_term_string"
+			}
+		})} />
+	</head>
+	<body class="font-body text-brand-dark antialiased">
+		<slot />
+	</body>
+</html>

@@ -1,0 +1,504 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import PageHeader from "../components/PageHeader.astro";
+import Cta from "../components/Cta.astro";
+
+// Images
+import individualImg from "../assets/images/kids-art-paint-party.jpg";
+import groupImg from "../assets/images/indoor-kids-paint-party.jpg";
+import locationsImg from "../assets/images/kids-painting-birthday-party.jpg";
+import contactBg from "../assets/images/unicorn-kids-paint-party-1024x683.jpg";
+
+const seoDescription = "Kids art lessons in Charlotte, NC starting at $45. Private one-on-one or small group instruction for ages 4+. Mobile lessons at your home with all supplies included.";
+---
+
+<Layout 
+    title="Kids Art Lessons Charlotte NC | Private & Group Art Classes"
+    description={seoDescription}
+    image="/images/og-art-lessons.jpg"
+>
+    <Header showHero={false} />
+
+    <main>
+        <!-- Page Header -->
+        <PageHeader
+            title="KIDS ART LESSONS"
+            subtitle='"Creativity is intelligence having fun." Albert Einstein'
+        />
+
+        <!-- Intro Section -->
+        <section
+            class="bg-brand-teal py-16 text-white text-center relative overflow-hidden"
+        >
+            <!-- Decorative Stars -->
+            <div
+                class="absolute top-10 right-20 text-white text-4xl opacity-40"
+                aria-hidden="true"
+            >
+                ★
+            </div>
+            <div
+                class="absolute bottom-20 left-10 text-white text-3xl opacity-40"
+                aria-hidden="true"
+            >
+                ★
+            </div>
+            <div
+                class="absolute top-1/3 left-1/4 text-white text-2xl opacity-25"
+                aria-hidden="true"
+            >
+                ★
+            </div>
+            <div
+                class="absolute bottom-1/4 right-1/3 text-white text-5xl opacity-30"
+                aria-hidden="true"
+            >
+                ★
+            </div>
+
+            <!-- Decorative Circles -->
+            <div
+                class="absolute top-20 left-10 w-4 h-4 bg-white rounded-full opacity-25"
+                aria-hidden="true"
+            >
+            </div>
+            <div
+                class="absolute bottom-10 right-10 w-6 h-6 bg-white rounded-full opacity-20"
+                aria-hidden="true"
+            >
+            </div>
+            <div
+                class="absolute top-1/2 right-20 w-3 h-3 bg-white rounded-full opacity-30"
+                aria-hidden="true"
+            >
+            </div>
+
+            <div class="container mx-auto px-4 relative z-10">
+                <h2 class="font-display text-3xl md:text-5xl mb-8 uppercase">
+                    KIDS ART LESSONS ARE NOW AVAILABLE!
+                </h2>
+                <div
+                    class="max-w-4xl mx-auto space-y-6 font-body text-sm md:text-base leading-relaxed"
+                >
+                    <p>
+                        Art has been linked to many developmental benefits
+                        including improving fine motor skills and developing
+                        cognitive skills. We love to plan, execute, and problem
+                        solve through a project. It also encourages decision
+                        making and self-expression and may even improve academic
+                        performance.
+                    </p>
+                    <p>
+                        My goal is to encourage out-of-the-box thinking through
+                        hands-on art projects that will keep your child(ren)
+                        learning throughout the summer months. Creativity
+                        fosters imagination and expression through
+                        experimentation with a variety of materials.
+                    </p>
+                    <p>
+                        With art lessons, I will provide private in-home
+                        one-on-one instruction on an individual basis and in
+                        small groups for children ages 6 and up. Art lesson
+                        sessions can be custom designed around the materials
+                        with which the child(ren) would like to work. I can also
+                        provide suggestions and ideas for fun projects.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Details & Pricing Section -->
+        <section class="bg-white pb-20">
+            <!-- Yellow Header Bar -->
+            <div class="bg-brand-yellow py-6 text-center mb-12">
+                <div class="container mx-auto px-4">
+                    <h2
+                        class="font-display text-3xl md:text-4xl text-white uppercase tracking-wide"
+                    >
+                        ART LESSONS DETAILS & PRICING
+                    </h2>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center mb-12">
+                    <p class="text-brand-pink font-medium mb-2">
+                        Art lessons are available Monday-Friday. All supplies
+                        are included. A $25 non-refundable deposit is required
+                        at the time of scheduling.
+                    </p>
+                    <p class="text-brand-pink font-medium">
+                        The deposit will be applied to the total amount on the
+                        day of the session. Each session will last 2 hours.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <!-- Individual Lessons -->
+                    <div
+                        class="bg-gray-50 rounded-lg overflow-hidden shadow-md flex flex-col"
+                    >
+                        <div class="h-48 overflow-hidden">
+                            <div
+                                class="w-32 h-32 mx-auto mt-8 rounded-full overflow-hidden border-4 border-white shadow-lg relative"
+                            >
+                                <img
+                                    src={individualImg.src}
+                                    alt="Individual art lessons for kids - one-on-one instruction"
+                                    class="w-full h-full object-cover"
+                                    loading="lazy"
+                                />
+                            </div>
+                        </div>
+                        <div class="p-6 text-center flex-1 flex flex-col">
+                            <h3
+                                class="font-display text-2xl text-brand-teal mb-4 uppercase"
+                            >
+                                INDIVIDUAL LESSONS
+                            </h3>
+                            <p class="text-sm text-gray-600 mb-6 flex-1">
+                                Individual one-on-one art lesson session (1
+                                child) — $50<br />
+                                Great for kids who need personalized attention and
+                                focus on detailed projects.
+                            </p>
+                            <a
+                                href="/contact"
+                                class="inline-block bg-brand-teal text-white px-8 py-2 rounded-full font-display font-bold uppercase text-sm hover:bg-teal-600 transition"
+                            >
+                                BOOK NOW
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Group Lessons -->
+                    <div
+                        class="bg-gray-50 rounded-lg overflow-hidden shadow-md flex flex-col"
+                    >
+                        <div class="h-48 overflow-hidden">
+                            <div
+                                class="w-32 h-32 mx-auto mt-8 rounded-full overflow-hidden border-4 border-white shadow-lg relative"
+                            >
+                                <img
+                                    src={groupImg.src}
+                                    alt="Group art lessons for kids - small group instruction"
+                                    class="w-full h-full object-cover"
+                                    loading="lazy"
+                                />
+                            </div>
+                        </div>
+                        <div class="p-6 text-center flex-1 flex flex-col">
+                            <h3
+                                class="font-display text-2xl text-brand-pink mb-4 uppercase"
+                            >
+                                GROUP LESSONS
+                            </h3>
+                            <p class="text-sm text-gray-600 mb-6 flex-1">
+                                Group art lesson session<br />
+                                (up to 10 children) — $35 per child<br />
+                                Fun with friends! Group lessons are great for afternoons
+                                or summer breaks.
+                            </p>
+                            <a
+                                href="/contact"
+                                class="inline-block bg-brand-pink text-white px-8 py-2 rounded-full font-display font-bold uppercase text-sm hover:bg-pink-500 transition"
+                            >
+                                BOOK NOW
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Locations -->
+                    <div
+                        class="bg-gray-50 rounded-lg overflow-hidden shadow-md flex flex-col"
+                    >
+                        <div class="h-48 overflow-hidden">
+                            <div
+                                class="w-32 h-32 mx-auto mt-8 rounded-full overflow-hidden border-4 border-white shadow-lg relative"
+                            >
+                                <img
+                                    src={locationsImg.src}
+                                    alt="Art lessons available in Charlotte NC area zip codes"
+                                    class="w-full h-full object-cover"
+                                    loading="lazy"
+                                />
+                            </div>
+                        </div>
+                        <div class="p-6 text-center flex-1 flex flex-col">
+                            <h3
+                                class="font-display text-2xl text-brand-blue mb-4 uppercase"
+                            >
+                                LOCATIONS
+                            </h3>
+                            <p class="text-sm text-gray-600 mb-6 flex-1">
+                                Lessons are provided to the following zip codes:
+                                28207, 28209, 28211, 28210, 28226, 28270, 28105,
+                                28277, 28104, 28173, 28079, 28081, 28083, 28273
+                            </p>
+                            <a
+                                href="/contact"
+                                class="inline-block bg-brand-blue text-white px-8 py-2 rounded-full font-display font-bold uppercase text-sm hover:bg-blue-600 transition"
+                            >
+                                BOOK NOW
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ideas Section -->
+        <section
+            class="bg-brand-pink py-16 text-white relative overflow-hidden"
+        >
+            <div class="container mx-auto px-4 relative z-10">
+                <h2
+                    class="font-display text-3xl md:text-5xl mb-4 uppercase text-center"
+                >
+                    IDEAS TO GET YOU STARTED
+                </h2>
+                <p
+                    class="text-center mb-12 text-sm md:text-base uppercase tracking-wide"
+                >
+                    these projects can be completed during art lessons, or even
+                    used for parties - the possibilities are ENDLESS!
+                </p>
+
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="bg-white rounded-full p-1 mt-1 shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 text-brand-pink"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm md:text-base">
+                            Use vegetables, flowers, bubble wrap, string,
+                            shaving cream and more to create unique designs with
+                            paint.
+                        </p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="bg-white rounded-full p-1 mt-1 shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 text-brand-pink"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm md:text-base">
+                            "Paint" with chalk shavings or use a spray bottle
+                            filled with water or diluted paint.
+                        </p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="bg-white rounded-full p-1 mt-1 shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 text-brand-pink"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm md:text-base">
+                            Learn different techniques for using acrylic paint
+                            on surfaces like canvas, wood, and paper.
+                        </p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="bg-white rounded-full p-1 mt-1 shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 text-brand-pink"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm md:text-base">
+                            Paint a phrase, name, or initials for personalized
+                            wall art.
+                        </p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="bg-white rounded-full p-1 mt-1 shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 text-brand-pink"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm md:text-base">
+                            Learn to draw or paint still life images or
+                            portraits.
+                        </p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="bg-white rounded-full p-1 mt-1 shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 text-brand-pink"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm md:text-base">
+                            Create a collage with words that describe yourself.
+                        </p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="bg-white rounded-full p-1 mt-1 shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 text-brand-pink"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm md:text-base">
+                            Paint on stones or tree branches.
+                        </p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="bg-white rounded-full p-1 mt-1 shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 text-brand-pink"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm md:text-base">
+                            Printmaking using styrofoam templates on paper, card
+                            stock, or note cards.
+                        </p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="bg-white rounded-full p-1 mt-1 shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 text-brand-pink"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm md:text-base">
+                            Learn about color theory and experiment with
+                            painting using the color wheel.
+                        </p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="bg-white rounded-full p-1 mt-1 shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4 text-brand-pink"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm md:text-base">
+                            Glue "odds and ends" (mismatched puzzle pieces,
+                            buttons, bolts, boxes, etc.) to a board and spray
+                            paint everything the same color.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <Cta
+            title="CONTACT ME TODAY!"
+            subtitle="Call or Text: 980-253-4829"
+            buttonText="BOOK LESSON ONLINE"
+            buttonLink="/contact"
+        />
+    </main>
+
+    <Footer />
+</Layout>

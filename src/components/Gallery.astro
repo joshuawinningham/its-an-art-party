@@ -1,0 +1,52 @@
+---
+import { Image } from "astro:assets";
+// 1. Group shot (Top Left)
+import img1 from "../assets/images/charlotte-kids-paint-party.jpg";
+// 2. Supplies table (Top Middle) - Reusing supplies image or similar if unique one not found, using paint-party-supplies.jpg as closest match
+import img2 from "../assets/images/paint-party-supplies.jpg";
+// 3. Butterflies (Top Right)
+import img3 from "../assets/images/butterfly-kids-paint-party.jpg";
+// 4. Cityscape/Sunset (Middle Left)
+import img4 from "../assets/images/cityscape-paint-party.jpg";
+// 5. 3 Canvases/Easels (Middle Middle) - Looking for best match, maybe 'cat-kids-paint-party.jpg' if it shows setup?
+// Or 'owl-paint-party.jpg'. The screenshot shows 3 blank-ish or start-of-painting canvases.
+// Let's try 'owl-paint-party.jpg' or 'scuba-diver-paint-party.jpg' as placeholders if exact match isn't obvious by name.
+// 'kids-paint-birthday-party.jpg' might be the table setup.
+import img5 from "../assets/images/kids-paint-birthday-party.jpg";
+// 6. Unicorn Girls (Middle Right)
+import img6 from "../assets/images/unicorn-kids-paint-party-1024x683.jpg";
+// 7. Mermaid Tail (Bottom Left)
+import img7 from "../assets/images/mermaid-paint-party.jpg";
+// 8. Long Table (Bottom Middle) - 'indoor-kids-paint-party.jpg' often shows table setup
+import img8 from "../assets/images/indoor-kids-paint-party.jpg";
+// 9. Dino/Unicorn (Bottom Right)
+import img9 from "../assets/images/unicorn-dinosaur-paint-party.jpg";
+
+const photos = [img1, img2, img3, img4, img5, img6, img7, img8, img9];
+---
+
+<section class="bg-white py-24 px-4 text-center">
+  <h2
+    class="text-brand-teal text-5xl md:text-6xl mb-4 tracking-wide font-display drop-shadow-sm"
+  >
+    PHOTO GALLERY
+  </h2>
+  <p class="text-brand-pink font-body text-xl mb-16 italic">
+    Here are a few examples of some great parties!
+  </p>
+
+  <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-2">
+    {
+      photos.map((photo, index) => (
+        <div class="overflow-hidden group relative aspect-square">
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition z-10 duration-500" />
+          <Image
+            src={photo}
+            alt={`Gallery image ${index + 1}`}
+            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
+          />
+        </div>
+      ))
+    }
+  </div>
+</section>

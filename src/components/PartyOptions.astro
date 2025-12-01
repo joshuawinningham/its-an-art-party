@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import partyIndoor from '../assets/images/indoor-kids-paint-party.jpg';
+import partyOutdoor from '../assets/images/outdoor-kids-paint-party.jpg';
+import partyTheme from '../assets/images/unicorn-dinosaur-paint-party.jpg';
+
+const options = [
+    { 
+        title: "INDOOR PARTY", 
+        image: partyIndoor, 
+        text: "Art parties are messy! Let us handle the prep and clean up of the party area inside your home or venue.",
+        btn: "BOOK NOW" 
+    },
+    { 
+        title: "OUTDOOR PARTY", 
+        image: partyOutdoor, 
+        text: "Love the weather? We can set up our art stations outside! Perfect for spring and fall parties.",
+        btn: "BOOK NOW" 
+    },
+    { 
+        title: "THEME PARTY", 
+        image: partyTheme, 
+        text: "Have a creative theme? We can come up with custom paintings to match your theme! Just ask!",
+        btn: "BOOK NOW" 
+    }
+];
+---
+<section class="bg-brand-yellow py-16 px-4 relative overflow-hidden">
+   <!-- Background decorations -->
+   <div class="absolute top-10 left-10 text-white/30 text-6xl animate-pulse">★</div>
+   <div class="absolute bottom-20 right-20 text-white/30 text-8xl">★</div>
+   <div class="absolute top-1/2 left-20 text-white/20 text-4xl">★</div>
+   <div class="absolute top-20 right-1/3 text-white/20 text-5xl">★</div>
+
+   <div class="max-w-6xl mx-auto relative z-10 text-center">
+       <h2 class="text-white text-4xl md:text-6xl mb-4 drop-shadow-md">PLAN YOUR UPCOMING PARTY</h2>
+       <p class="text-white font-body text-lg mb-16 max-w-3xl mx-auto">
+           Mobile party options are endless! Contact me today to help you plan something fantastic.
+       </p>
+       
+       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+           {options.map(option => (
+               <div class="bg-white p-8 rounded-sm shadow-xl">
+                   <div class="h-48 mb-6 overflow-hidden border-2 border-gray-100">
+                       <Image src={option.image} alt={option.title} class="w-full h-full object-cover transition hover:scale-110 duration-500" />
+                   </div>
+                   <h3 class="text-brand-teal text-2xl mb-4 uppercase">{option.title}</h3>
+                   <p class="text-gray-500 font-body text-sm mb-8 h-20 leading-relaxed px-2">{option.text}</p>
+                   <button class="bg-brand-teal hover:bg-teal-500 text-white font-bold py-3 px-8 rounded-full text-xs uppercase tracking-widest transition shadow-md">
+                       {option.btn}
+                   </button>
+               </div>
+           ))}
+       </div>
+   </div>
+</section>

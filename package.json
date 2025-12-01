@@ -4,11 +4,26 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
+    "dev:https": "HTTPS=true astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.15.9"
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/sitemap": "^3.6.0",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.1.17",
+    "astro": "^5.15.9",
+    "cheerio": "^1.1.2",
+    "dotenv": "^17.2.3",
+    "tailwindcss": "^4.1.17",
+    "turndown": "^7.2.2",
+    "typescript": "^5.9.3",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-basic-ssl": "^2.1.0",
+    "sharp": "^0.34.5"
   }
 }

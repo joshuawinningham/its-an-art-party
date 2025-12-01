@@ -1,5 +1,22 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*"],
+      "src/*": ["src/*"]
+    },
+    "types": ["astro/client"]
+  },
+  "include": [
+    "src/**/*",
+    "src/**/*.vue",
+    "src/**/*.svelte",
+    ".astro/types.d.ts",
+    "src/env.d.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }

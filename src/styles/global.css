@@ -1,0 +1,89 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+    --font-display: 'Chewy', cursive;
+    --font-body: 'Lato', sans-serif;
+
+    --color-brand-pink: #EA5283;
+    --color-brand-teal: #4ECDC4;
+    --color-brand-yellow: #F7B731;
+    --color-brand-dark: #333333;
+}
+
+body {
+    @apply text-brand-dark;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @apply font-display;
+}
+
+/* Custom list styling with pink checkmarks for TextWithImage component */
+.prose ul {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin-top: 2rem !important;
+}
+
+.prose ul li {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.prose ul li::before {
+    content: "✓" !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    background-color: #FF6B9D !important;
+    color: white !important;
+    border-radius: 50% !important;
+    flex-shrink: 0 !important;
+    font-size: 0.75rem !important;
+    font-weight: bold !important;
+}
+
+.prose ul li p {
+    font-family: var(--font-display) !important;
+    font-size: 1.25rem !important;
+    text-transform: uppercase !important;
+    color: inherit !important;
+    margin: 0 !important;
+}
+
+/* Pink bold text in rich text sections */
+.prose strong {
+    color: #FF6B9D !important;
+    font-weight: bold !important;
+}
+
+/* Paragraph spacing in rich text sections */
+.prose p {
+    margin-bottom: 1.5rem !important;
+}
+
+.prose p:last-child {
+    margin-bottom: 0 !important;
+}
+
+
+/* H3 styling in TextWithImage rich text - match PolicyItem */
+section.bg-brand-teal .prose h3,
+section.bg-gray-50 .prose h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+}

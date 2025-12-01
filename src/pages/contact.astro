@@ -1,0 +1,380 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import PageHeader from "../components/PageHeader.astro";
+
+// Images
+import hearFromYouImg from "../assets/images/9.jpg";
+import mapImg from "../assets/images/charlotte-group-art-lesson.jpg"; // Placeholder
+
+const seoDescription = "Contact It's an Art Party to book your kids paint party or art lesson in Charlotte, NC. Call 980-253-4829 or fill out our online form. Serving Charlotte and surrounding areas.";
+---
+
+<Layout 
+    title="Contact Us | Book Your Charlotte Kids Paint Party"
+    description={seoDescription}
+    image="/images/og-contact.jpg"
+>
+    <Header showHero={false} />
+
+    <main>
+        <!-- Request a Party Section -->
+        <section class="bg-gray-50 py-16 relative overflow-hidden">
+            <!-- Decorative Elements -->
+            <div class="absolute top-10 left-10 text-white text-4xl opacity-20" aria-hidden="true">
+                ★
+            </div>
+            <div
+                class="absolute bottom-10 right-10 text-white text-4xl opacity-20"
+                aria-hidden="true"
+            >
+                ★
+            </div>
+
+            <div class="container mx-auto px-4 text-center relative z-10">
+                <h1
+                    class="font-display text-4xl md:text-6xl text-brand-teal mb-4 uppercase"
+                >
+                    Request a Party
+                </h1>
+                <p class="text-brand-pink font-body mb-12 max-w-2xl mx-auto">
+                    Please fill out the form below to request more information
+                    or schedule a paint party or art lesson.
+                </p>
+
+                <div
+                    class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-sm"
+                >
+                    <form class="space-y-6" name="contact" method="POST" data-netlify="true">
+                        <input type="hidden" name="form-name" value="contact" />
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="sr-only">Your Name</label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    placeholder="Name"
+                                    required
+                                    class="w-full border border-gray-200 rounded-full px-6 py-3 focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink transition"
+                                />
+                            </div>
+                            <div>
+                                <label for="email" class="sr-only">Your Email</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Email"
+                                    required
+                                    class="w-full border border-gray-200 rounded-full px-6 py-3 focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink transition"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label for="phone" class="sr-only">Your Phone Number</label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="Phone"
+                                class="w-full border border-gray-200 rounded-full px-6 py-3 focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink transition"
+                            />
+                        </div>
+                        <div>
+                            <label for="message" class="sr-only">Your Message</label>
+                            <textarea
+                                id="message"
+                                name="message"
+                                rows="6"
+                                placeholder="Message - Tell us about your party or art lesson needs!"
+                                required
+                                class="w-full border border-gray-200 rounded-2xl px-6 py-3 focus:outline-none focus:border-brand-pink focus:ring-1 focus:ring-brand-pink transition resize-none"
+                            ></textarea>
+                        </div>
+
+                        <div class="flex justify-center">
+                            <button
+                                type="submit"
+                                class="bg-brand-pink text-white font-display font-bold uppercase tracking-wider px-12 py-3 rounded-full hover:bg-pink-500 transition shadow-md"
+                            >
+                                Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- I Can't Wait To Hear From You Section -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-4 text-center">
+                <h2
+                    class="font-display text-3xl md:text-5xl text-brand-teal mb-6 uppercase"
+                >
+                    I Can't Wait To Hear From You!
+                </h2>
+                <p class="font-body text-gray-600 mb-2">
+                    You can also call or text me directly at <a
+                        href="tel:9802534829"
+                        class="text-brand-pink hover:underline">980-253-4829</a
+                    > or send an email to <a
+                        href="mailto:robin@itsanartparty.com"
+                        class="text-brand-pink hover:underline"
+                        >robin@itsanartparty.com</a
+                    > and I will respond as soon as possible.
+                </p>
+                <p class="font-body text-gray-600 mb-12">Thank you!</p>
+
+                <div class="max-w-5xl mx-auto">
+                    <img
+                        src={hearFromYouImg.src}
+                        alt="Happy kids at an art party painting colorful canvases"
+                        class="w-full h-auto object-cover rounded-lg shadow-sm"
+                        loading="lazy"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <!-- Get In Touch Section -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <div
+                    class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+                >
+                    <!-- Contact Info -->
+                    <div>
+                        <h2
+                            class="font-display text-4xl text-brand-teal mb-12 uppercase text-center md:text-left"
+                        >
+                            Get In Touch
+                        </h2>
+
+                        <address class="space-y-8 not-italic">
+                            <div class="flex items-center gap-6">
+                                <div
+                                    class="w-14 h-14 bg-brand-pink rounded-full flex items-center justify-center flex-shrink-0 text-white shadow-sm"
+                                    aria-hidden="true"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-7 w-7"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3
+                                        class="font-display text-xl text-brand-teal mb-1"
+                                    >
+                                        Address
+                                    </h3>
+                                    <p class="font-body text-gray-600">
+                                        7845 Colony Rd Ste C4-227<br
+                                        />Charlotte, NC 28226
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-6">
+                                <div
+                                    class="w-14 h-14 bg-brand-pink rounded-full flex items-center justify-center flex-shrink-0 text-white shadow-sm"
+                                    aria-hidden="true"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-7 w-7"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3
+                                        class="font-display text-xl text-brand-teal mb-1"
+                                    >
+                                        Call or Text
+                                    </h3>
+                                    <p class="font-body text-gray-600">
+                                        <a href="tel:9802534829" class="hover:text-brand-pink transition">980-253-4829</a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-6">
+                                <div
+                                    class="w-14 h-14 bg-brand-pink rounded-full flex items-center justify-center flex-shrink-0 text-white shadow-sm"
+                                    aria-hidden="true"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-7 w-7"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
+                                        ></path>
+                                        <path
+                                            d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3
+                                        class="font-display text-xl text-brand-teal mb-1"
+                                    >
+                                        Email
+                                    </h3>
+                                    <p class="font-body text-gray-600">
+                                        <a href="mailto:robin@itsanartparty.com" class="hover:text-brand-pink transition">robin@itsanartparty.com</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </address>
+
+                        <!-- Social Icons -->
+                        <nav
+                            class="flex gap-4 mt-12 justify-center md:justify-start"
+                            aria-label="Social media links"
+                        >
+                            <a
+                                href="https://www.facebook.com/itsanartparty"
+                                class="text-brand-pink hover:text-pink-600 transition text-2xl"
+                                aria-label="Follow us on Facebook"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <svg
+                                    class="w-6 h-6 fill-current"
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                    ><path
+                                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                                    ></path></svg
+                                >
+                            </a>
+                            <a
+                                href="https://twitter.com/itsanartparty"
+                                class="text-brand-pink hover:text-pink-600 transition text-2xl"
+                                aria-label="Follow us on Twitter"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <svg
+                                    class="w-6 h-6 fill-current"
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                    ><path
+                                        d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                                    ></path></svg
+                                >
+                            </a>
+                            <a
+                                href="https://www.youtube.com/itsanartparty"
+                                class="text-brand-pink hover:text-pink-600 transition text-2xl"
+                                aria-label="Subscribe to our YouTube channel"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <svg
+                                    class="w-6 h-6 fill-current"
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                    ><path
+                                        d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.263-4.356 2.698-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.63-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"
+                                    ></path></svg
+                                >
+                            </a>
+                        </nav>
+                    </div>
+
+                    <!-- Map -->
+                    <div
+                        class="h-96 bg-gray-200 rounded-lg overflow-hidden relative"
+                    >
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3261.687867696636!2d-80.82646868475515!3d35.16436798031804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88569f9a7a7a7a7a%3A0x7a7a7a7a7a7a7a7a!2s7845%20Colony%20Rd%20Ste%20C4-227%2C%20Charlotte%2C%20NC%2028226!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
+                            width="100%"
+                            height="100%"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            title="It's an Art Party location in Charlotte, NC"
+                            class="absolute inset-0 w-full h-full"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="bg-brand-pink py-16">
+            <div
+                class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center gap-8"
+            >
+                <div class="flex items-center gap-4">
+                    <div class="text-white text-4xl" aria-hidden="true">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-12 w-12"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                            ></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="font-display text-3xl text-white uppercase">
+                            Newsletter
+                        </h2>
+                        <p class="font-body text-white text-sm">
+                            Subscribe to my newsletter to stay updated!
+                        </p>
+                    </div>
+                </div>
+
+                <form
+                    class="flex flex-col md:flex-row gap-4 w-full md:w-auto items-center"
+                    name="newsletter"
+                    method="POST"
+                    data-netlify="true"
+                >
+                    <input type="hidden" name="form-name" value="newsletter" />
+                    <label for="newsletter-email" class="sr-only">Email address</label>
+                    <input
+                        type="email"
+                        id="newsletter-email"
+                        name="email"
+                        placeholder="Email"
+                        required
+                        class="h-12 px-6 rounded-full border-none bg-white focus:ring-2 focus:ring-white focus:outline-none w-full md:w-96 text-gray-800"
+                    />
+                    <button
+                        type="submit"
+                        class="h-12 bg-white text-brand-pink font-bold uppercase px-10 rounded-full hover:bg-gray-100 transition shadow-sm flex items-center justify-center"
+                    >
+                        Join
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <Footer />
+</Layout>

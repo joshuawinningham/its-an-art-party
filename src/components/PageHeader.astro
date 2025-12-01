@@ -1,0 +1,41 @@
+---
+interface Props {
+    title: string;
+    subtitle?: string;
+    maxWidth?: string;
+}
+
+const { title, subtitle, maxWidth = "container" } = Astro.props;
+---
+
+<section class="bg-gray-100 py-20 relative overflow-hidden">
+    <!-- Decorative Elements (Stars/Dots) -->
+    <div class="absolute top-10 left-10 text-white text-4xl opacity-50">★</div>
+    <div class="absolute bottom-10 right-20 text-white text-2xl opacity-50">
+        ★
+    </div>
+    <div
+        class="absolute top-20 right-1/4 w-4 h-4 bg-white rounded-full opacity-50"
+    >
+    </div>
+    <div
+        class="absolute bottom-20 left-1/4 w-6 h-6 bg-white rounded-full opacity-30"
+    >
+    </div>
+
+    <div class={`${maxWidth} mx-auto px-4 text-center relative z-10`}>
+        <h1
+            class="text-6xl md:text-7xl font-display text-brand-teal mb-4 drop-shadow-sm"
+        >
+            {title}
+        </h1>
+        {
+            subtitle && (
+                <p class="text-brand-pink text-xl md:text-2xl font-body">
+                    {subtitle}
+                </p>
+            )
+        }
+        <slot />
+    </div>
+</section>

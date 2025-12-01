@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+import avatarJulie from '../assets/images/juliet.jpg';
+import avatarAmy from '../assets/images/kelly.jpg';
+import avatarLeslie from '../assets/images/lyndsi.jpg';
+
+const testimonials = [
+  {
+    text: "Thank you for the awesome party for my daughter's 10th. They painted a custom otter for our otter themed party. My daughter and her friends loved it!",
+    author: "Julie",
+    image: avatarJulie
+  },
+  {
+    text: "Rose did an amazing job for my daughter's party! For everything you get, the party price is a total bargain and doesn't even compare to what else is out there!!",
+    author: "Amy",
+    image: avatarAmy
+  },
+  {
+    text: "Had a great experience with 'It's An Art Party!'. Robin thought of all the supplies and guided everyone in a fun project. My daughter loved it!",
+    author: "Leslie",
+    image: avatarLeslie
+  }
+];
+---
+<section class="bg-brand-teal py-20 px-4 text-center text-white relative overflow-hidden">
+  <!-- Background stars -->
+  <div class="absolute top-10 left-10 text-white/20 text-5xl">★</div>
+  <div class="absolute bottom-10 right-10 text-white/20 text-7xl">★</div>
+
+  <h2 class="text-4xl md:text-6xl mb-4 drop-shadow-md tracking-wide">TESTIMONIALS</h2>
+  <p class="text-sm font-body mb-16 opacity-90 tracking-wider uppercase font-bold">Hear what Charlotte area moms are saying about It's an Art Party!</p>
+  <div class="text-4xl mb-8 animate-bounce">♥</div>
+  
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+    {testimonials.map(t => (
+      <div class="flex flex-col items-center">
+        <div class="mb-8 relative">
+           <p class="font-body text-sm leading-relaxed italic px-4 min-h-[80px]">{t.text}</p>
+        </div>
+        <div class="flex items-center justify-center space-x-4">
+            <Image src={t.image} alt={t.author} class="w-12 h-12 rounded-full border-2 border-white shadow-md object-cover" />
+            <p class="font-display tracking-widest uppercase text-sm">{t.author}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,58 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+  buttonText?: string;
+  buttonLink?: string;
+  useBackgroundImage?: boolean;
+}
+
+const { 
+  title = "READY TO BOOK YOUR PARTY?",
+  subtitle = "Call or Text: 580-253-4029",
+  buttonText = "Book Party Online",
+  buttonLink = "/contact",
+  useBackgroundImage = true
+} = Astro.props;
+
+let optimizedCtaBg;
+if (useBackgroundImage) {
+  const { getImage } = await import("astro:assets");
+  const ctaBgImage = await import("../assets/images/9-e1595665307785.jpg");
+  optimizedCtaBg = await getImage({src: ctaBgImage.default, format: 'webp'});
+}
+---
+
+<section class="relative py-20 md:py-24 text-center text-white overflow-hidden">
+  {useBackgroundImage && optimizedCtaBg ? (
+    <>
+      <!-- Background Image with Pink Overlay -->
+      <div class="absolute inset-0 bg-cover bg-center" style={`background-image: url('${optimizedCtaBg.src}'); background-position: center 30%;`}></div>
+      <div class="absolute inset-0 bg-[#d9739f]/90 mix-blend-multiply"></div>
+      <div class="absolute inset-0 bg-[#d9739f]/78"></div>
+    </>
+  ) : (
+    <!-- Solid Pink Background -->
+    <div class="absolute inset-0 bg-brand-pink"></div>
+  )}
+
+  <!-- Decorative Stars -->
+  <div class="absolute top-10 left-1/4 text-white text-2xl opacity-50">★</div>
+  <div class="absolute bottom-10 right-1/4 text-white text-4xl opacity-50">★</div>
+
+  <div class="relative z-10 max-w-4xl mx-auto px-4">
+    <h2 class="font-display text-4xl md:text-6xl mb-4 uppercase drop-shadow-md tracking-wide">
+      {title}
+    </h2>
+    <p class="font-body text-lg md:text-xl mb-8 md:mb-10 opacity-90">
+      {subtitle}
+    </p>
+    
+    <a 
+      href={buttonLink}
+      class="inline-block bg-white text-brand-pink font-display hover:bg-gray-100 font-bold py-4 px-10 rounded-full text-xl uppercase tracking-wide transition transform hover:scale-105 shadow-lg"
+    >
+      {buttonText}
+    </a>
+  </div>
+</section>

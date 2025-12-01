@@ -1,0 +1,162 @@
+---
+import logoImage from "../assets/images/its-an-art-party-logo-black.svg";
+---
+
+<nav
+    class="relative z-50 flex justify-between items-center px-6 py-8 max-w-none mx-auto text-xs font-body font-bold uppercase tracking-widest bg-brand-teal w-full md:px-12"
+>
+    <div class="logo">
+        {/* Logo Image */}
+        <img
+            src={logoImage.src}
+            alt="Art Party Logo"
+            class="h-12 w-auto drop-shadow-md"
+        />
+    </div>
+
+    {/* Desktop Menu */}
+    <ul class="hidden md:flex space-x-8">
+        <li>
+            <a href="/" class="hover:text-brand-yellow transition duration-300"
+                >Home</a
+            >
+        </li>
+        <li>
+            <a
+                href="/about"
+                class="hover:text-brand-yellow transition duration-300">About</a
+            >
+        </li>
+        <li>
+            <a
+                href="/kids-birthdays"
+                class="hover:text-brand-yellow transition duration-300"
+                >Kids Parties</a
+            >
+        </li>
+        <li>
+            <a
+                href="/art-lessons"
+                class="hover:text-brand-yellow transition duration-300"
+                >Art Lessons</a
+            >
+        </li>
+        <li>
+            <a
+                href="/blog"
+                class="hover:text-brand-yellow transition duration-300">Blog</a
+            >
+        </li>
+        <li>
+            <a
+                href="/contact"
+                class="hover:text-brand-yellow transition duration-300"
+                >Contact</a
+            >
+        </li>
+        <li>
+            <a href="#" class="hover:text-brand-yellow transition duration-300"
+                >980-253-4829</a
+            >
+        </li>
+    </ul>
+
+    {/* Mobile Menu Button */}
+    <button
+        id="mobile-menu-btn"
+        class="md:hidden text-brand-dark focus:outline-none z-50"
+    >
+        <svg
+            class="w-8 h-8 drop-shadow-md"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+</nav>
+
+{/* Mobile Menu Overlay */}
+<div
+    id="mobile-menu"
+    class="fixed inset-0 bg-brand-teal z-40 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center"
+>
+    <ul
+        class="flex flex-col space-y-8 text-center text-2xl font-display text-white"
+    >
+        <li>
+            <a
+                href="/"
+                class="mobile-link hover:text-brand-yellow transition duration-300"
+                >Home</a
+            >
+        </li>
+        <li>
+            <a
+                href="/about"
+                class="mobile-link hover:text-brand-yellow transition duration-300"
+                >About</a
+            >
+        </li>
+        <li>
+            <a
+                href="/kids-birthdays"
+                class="mobile-link hover:text-brand-yellow transition duration-300"
+                >Kids Parties</a
+            >
+        </li>
+        <li>
+            <a
+                href="/art-lessons"
+                class="mobile-link hover:text-brand-yellow transition duration-300"
+                >Art Lessons</a
+            >
+        </li>
+        <li>
+            <a
+                href="/blog"
+                class="mobile-link hover:text-brand-yellow transition duration-300"
+                >Blog</a
+            >
+        </li>
+        <li>
+            <a
+                href="/contact"
+                class="mobile-link hover:text-brand-yellow transition duration-300"
+                >Contact</a
+            >
+        </li>
+        <li>
+            <a
+                href="#"
+                class="mobile-link hover:text-brand-yellow transition duration-300"
+                >980-253-4829</a
+            >
+        </li>
+    </ul>
+</div>
+
+<script>
+    const btn = document.getElementById("mobile-menu-btn");
+    const menu = document.getElementById("mobile-menu");
+    const links = document.querySelectorAll(".mobile-link");
+
+    if (btn && menu) {
+        btn.addEventListener("click", () => {
+            menu.classList.toggle("translate-x-full");
+            // Toggle icon (optional, simple implementation for now)
+        });
+
+        links.forEach((link) => {
+            link.addEventListener("click", () => {
+                menu.classList.add("translate-x-full");
+            });
+        });
+    }
+</script>

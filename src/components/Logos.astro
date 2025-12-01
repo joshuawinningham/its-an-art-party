@@ -1,0 +1,34 @@
+---
+import { Image } from "astro:assets";
+import logo1 from "../assets/images/the-charlotte-observer.jpg";
+import logo2 from "../assets/images/moms-charlotte-logo.png";
+import logo3 from "../assets/images/mommybknowsbest.png";
+import logo4 from "../assets/images/thebestcrowesnest.png"; // Creative Child / Best Crowe's Nest
+import logo5 from "../assets/images/brittneys-rabbit-hole-logo.png";
+
+const logos = [
+  { src: logo1, alt: "The Charlotte Observer" },
+  { src: logo2, alt: "Charlotte Parent" },
+  { src: logo3, alt: "Macaroni Kid" },
+  { src: logo4, alt: "Creative Child" },
+  { src: logo5, alt: "Brittany's Rabbit Hole" },
+];
+---
+
+<section class="bg-brand-teal py-16 px-4">
+  <div
+    class="max-w-6xl mx-auto flex flex-wrap justify-center items-center gap-8 md:gap-16"
+  >
+    {
+      logos.map((logo) => (
+        <div class="transform transition duration-500 hover:scale-110 grayscale hover:grayscale-0 opacity-80 hover:opacity-100 p-4 bg-white rounded-xl shadow-md">
+          <Image
+            src={logo.src}
+            alt={logo.alt}
+            class="h-16 w-auto object-contain"
+          />
+        </div>
+      ))
+    }
+  </div>
+</section>

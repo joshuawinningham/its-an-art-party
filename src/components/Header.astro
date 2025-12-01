@@ -1,0 +1,96 @@
+---
+import { getImage } from "astro:assets";
+import headerBgImage from "../assets/images/charlotte-kids-paint-party.jpg";
+import logoImage from "../assets/images/its-an-art-party-logo-black.svg";
+import AnnouncementBar from "./AnnouncementBar.astro";
+import Navigation from "./Navigation.astro";
+
+interface Props {
+  showHero?: boolean;
+}
+
+const { showHero = true } = Astro.props;
+
+const optimizedBackground = await getImage({
+  src: headerBgImage,
+  format: "webp",
+});
+---
+
+<header
+  class={`relative overflow-hidden ${showHero ? "text-white" : "text-brand-dark"}`}
+>
+  <AnnouncementBar />
+
+  {/* Background Image with Overlay - Only for Hero */}
+  {
+    showHero && (
+      <>
+        <div
+          class="absolute inset-0 bg-cover bg-center"
+          style={`background-image: url('${optimizedBackground.src}');`}
+        />
+        <div class="absolute inset-0 bg-black/40" />
+      </>
+    )
+  }
+
+  <Navigation />
+
+  {/* Hero Content - Only for Hero */}
+  {
+    showHero && (
+      <>
+        {/* Top Wave Decoration (Teal) */}
+        <div class="absolute top-0 left-0 w-full z-10 overflow-hidden leading-[0]">
+          <svg
+            class="relative block w-[calc(100%+1.3px)] h-[160px]"
+            data-name="Layer 1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+              class="fill-brand-teal"
+            />
+          </svg>
+        </div>
+
+        {/* Hero Content */}
+        <div class="relative z-10 pt-32 pb-72 px-4 text-center max-w-5xl mx-auto">
+          <h1 class="text-6xl md:text-8xl mb-4 drop-shadow-xl font-display transform -rotate-2">
+            MAKE YOUR PARTY <span class="text-brand-yellow">FUN</span> WITH ART!
+          </h1>
+          <h2 class="text-3xl md:text-5xl mb-10 text-white drop-shadow-md tracking-wide font-display">
+            CELEBRATE AND CREATE!
+          </h2>
+          <p class="text-lg md:text-xl mb-12 font-body max-w-2xl mx-auto text-gray-100 font-light">
+            Mobile art and canvas painting parties with all supplies included
+            for ages 4 and up
+          </p>
+
+          <button class="bg-brand-pink hover:bg-pink-600 text-white font-bold py-4 px-10 rounded-full text-lg uppercase tracking-widest transition transform hover:scale-105 shadow-xl border-4 border-white/20">
+            Request Your Party
+          </button>
+        </div>
+
+        {/* Bottom Wave Decoration (Pink) */}
+        <div class="absolute bottom-0 left-0 w-full z-10 overflow-hidden leading-[0]">
+          <svg
+            class="relative block w-[calc(100%+1.3px)] h-[150px]"
+            data-name="Layer 1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
+              class="fill-brand-pink"
+            />
+          </svg>
+        </div>
+      </>
+    )
+  }
+</header>
