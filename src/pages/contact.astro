@@ -9,6 +9,8 @@ import hearFromYouImg from "../assets/images/9.jpg";
 import mapImg from "../assets/images/charlotte-group-art-lesson.jpg"; // Placeholder
 
 const seoDescription = "Contact It's an Art Party to book your kids paint party or art lesson in Charlotte, NC. Call 980-253-4829 or fill out our online form. Serving Charlotte and surrounding areas.";
+
+// Check for success parameters (handled client-side since Astro is static)
 ---
 
 <Layout 
@@ -43,11 +45,39 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                     or schedule a paint party or art lesson.
                 </p>
 
+                <!-- Success Message for Contact Form -->
                 <div
+                    id="contact-success"
+                    class="hidden max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-sm text-center"
+                >
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h2 class="font-display text-2xl text-brand-teal mb-4 uppercase">Message Sent!</h2>
+                    <p class="font-body text-gray-600 mb-6">
+                        Thank you for reaching out! I'll get back to you as soon as possible.
+                    </p>
+                    <a
+                        href="/contact/"
+                        class="inline-block bg-brand-pink text-white font-display font-bold uppercase tracking-wider px-8 py-3 rounded-full hover:bg-pink-500 transition shadow-md"
+                    >
+                        Send Another Message
+                    </a>
+                </div>
+
+                <div
+                    id="contact-form-container"
                     class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-sm"
                 >
-                    <form class="space-y-6" name="contact" method="POST" data-netlify="true">
-                        <input type="hidden" name="form-name" value="contact" />
+                    <form class="space-y-6" action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="fa36c3ee-5545-45ed-b966-ea77eef22cb3" />
+                        <input type="hidden" name="subject" value="New Party Request from itsanartparty.com" />
+                        <input type="hidden" name="from_name" value="It's an Art Party" />
+                        <input type="hidden" name="replyto" value="" id="replyto-field" />
+                        <input type="hidden" name="redirect" value="https://www.itsanartparty.com/contact/?success=true" />
+                        <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label for="name" class="sr-only">Your Name</label>
@@ -106,6 +136,33 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                 </div>
             </div>
         </section>
+
+        <!-- Newsletter Success Message -->
+        <div
+            id="newsletter-success"
+            class="hidden fixed bottom-6 right-6 bg-white rounded-2xl shadow-xl p-6 max-w-sm z-50 border-l-4 border-green-500"
+        >
+            <button
+                onclick="this.parentElement.classList.add('hidden')"
+                class="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+                aria-label="Close"
+            >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <div class="flex items-start gap-4">
+                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="font-display text-lg text-brand-teal uppercase">You're Subscribed!</h3>
+                    <p class="font-body text-gray-600 text-sm">Thanks for joining the newsletter!</p>
+                </div>
+            </div>
+        </div>
 
         <!-- I Can't Wait To Hear From You Section -->
         <section class="py-20 bg-white">
@@ -351,11 +408,13 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
 
                 <form
                     class="flex flex-col md:flex-row gap-4 w-full md:w-auto items-center"
-                    name="newsletter"
+                    action="https://api.web3forms.com/submit"
                     method="POST"
-                    data-netlify="true"
                 >
-                    <input type="hidden" name="form-name" value="newsletter" />
+                    <input type="hidden" name="access_key" value="fa36c3ee-5545-45ed-b966-ea77eef22cb3" />
+                    <input type="hidden" name="subject" value="New Newsletter Signup from itsanartparty.com" />
+                    <input type="hidden" name="redirect" value="https://www.itsanartparty.com/contact/?subscribed=true" />
+                    <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
                     <label for="newsletter-email" class="sr-only">Email address</label>
                     <input
                         type="email"
@@ -378,3 +437,44 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
 
     <Footer />
 </Layout>
+
+<script>
+    // Sync email field to replyto field for proper email replies
+    const emailField = document.getElementById('email') as HTMLInputElement;
+    const replytoField = document.getElementById('replyto-field') as HTMLInputElement;
+    
+    if (emailField && replytoField) {
+        emailField.addEventListener('input', () => {
+            replytoField.value = emailField.value;
+        });
+    }
+
+    // Check URL parameters for success states
+    const params = new URLSearchParams(window.location.search);
+    
+    if (params.get('success') === 'true') {
+        // Show contact form success, hide the form
+        const successEl = document.getElementById('contact-success');
+        const formEl = document.getElementById('contact-form-container');
+        if (successEl) successEl.classList.remove('hidden');
+        if (formEl) formEl.classList.add('hidden');
+        
+        // Clean up URL without reload
+        window.history.replaceState({}, '', '/contact/');
+    }
+    
+    if (params.get('subscribed') === 'true') {
+        // Show newsletter success toast
+        const newsletterSuccess = document.getElementById('newsletter-success');
+        if (newsletterSuccess) {
+            newsletterSuccess.classList.remove('hidden');
+            // Auto-hide after 8 seconds
+            setTimeout(() => {
+                newsletterSuccess.classList.add('hidden');
+            }, 8000);
+        }
+        
+        // Clean up URL without reload
+        window.history.replaceState({}, '', '/contact/');
+    }
+</script>
