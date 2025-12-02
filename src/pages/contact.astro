@@ -71,12 +71,10 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                     id="contact-form-container"
                     class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-sm"
                 >
-                    <form class="space-y-6" action="https://api.web3forms.com/submit" method="POST">
+                    <form id="contact-form" class="space-y-6">
                         <input type="hidden" name="access_key" value="fa36c3ee-5545-45ed-b966-ea77eef22cb3" />
                         <input type="hidden" name="subject" value="New Party Request from itsanartparty.com" />
                         <input type="hidden" name="from_name" value="It's an Art Party" />
-                        <input type="hidden" name="replyto" value="" id="replyto-field" />
-                        <input type="hidden" name="redirect" value="https://www.itsanartparty.com/contact/?success=true" />
                         <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
@@ -127,7 +125,8 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                         <div class="flex justify-center">
                             <button
                                 type="submit"
-                                class="bg-brand-pink text-white font-display font-bold uppercase tracking-wider px-12 py-3 rounded-full hover:bg-pink-500 transition shadow-md"
+                                id="contact-submit-btn"
+                                class="bg-brand-pink text-white font-display font-bold uppercase tracking-wider px-12 py-3 rounded-full hover:bg-pink-500 transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 Send
                             </button>
@@ -407,13 +406,11 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                 </div>
 
                 <form
+                    id="newsletter-form"
                     class="flex flex-col md:flex-row gap-4 w-full md:w-auto items-center"
-                    action="https://api.web3forms.com/submit"
-                    method="POST"
                 >
                     <input type="hidden" name="access_key" value="fa36c3ee-5545-45ed-b966-ea77eef22cb3" />
                     <input type="hidden" name="subject" value="New Newsletter Signup from itsanartparty.com" />
-                    <input type="hidden" name="redirect" value="https://www.itsanartparty.com/contact/?subscribed=true" />
                     <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
                     <label for="newsletter-email" class="sr-only">Email address</label>
                     <input
@@ -426,7 +423,8 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                     />
                     <button
                         type="submit"
-                        class="h-12 bg-white text-brand-pink font-bold uppercase px-10 rounded-full hover:bg-gray-100 transition shadow-sm flex items-center justify-center"
+                        id="newsletter-submit-btn"
+                        class="h-12 bg-white text-brand-pink font-bold uppercase px-10 rounded-full hover:bg-gray-100 transition shadow-sm flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         Join
                     </button>
@@ -439,42 +437,99 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
 </Layout>
 
 <script>
-    // Sync email field to replyto field for proper email replies
-    const emailField = document.getElementById('email') as HTMLInputElement;
-    const replytoField = document.getElementById('replyto-field') as HTMLInputElement;
-    
-    if (emailField && replytoField) {
-        emailField.addEventListener('input', () => {
-            replytoField.value = emailField.value;
+    // Contact Form AJAX Submission
+    const contactForm = document.getElementById('contact-form') as HTMLFormElement;
+    const contactSubmitBtn = document.getElementById('contact-submit-btn') as HTMLButtonElement;
+    const contactSuccess = document.getElementById('contact-success');
+    const contactFormContainer = document.getElementById('contact-form-container');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Disable button and show loading state
+            contactSubmitBtn.disabled = true;
+            contactSubmitBtn.textContent = 'Sending...';
+            
+            const formData = new FormData(contactForm);
+            
+            // Add replyto field with email value
+            const emailInput = contactForm.querySelector('input[name="email"]') as HTMLInputElement;
+            if (emailInput) {
+                formData.append('replyto', emailInput.value);
+            }
+            
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Show success message, hide form
+                    if (contactSuccess) contactSuccess.classList.remove('hidden');
+                    if (contactFormContainer) contactFormContainer.classList.add('hidden');
+                    
+                    // Scroll to top of section
+                    contactSuccess?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    throw new Error(result.message || 'Form submission failed');
+                }
+            } catch (error) {
+                alert('Something went wrong. Please try again or contact us directly at robin@itsanartparty.com');
+                contactSubmitBtn.disabled = false;
+                contactSubmitBtn.textContent = 'Send';
+            }
         });
     }
 
-    // Check URL parameters for success states
-    const params = new URLSearchParams(window.location.search);
-    
-    if (params.get('success') === 'true') {
-        // Show contact form success, hide the form
-        const successEl = document.getElementById('contact-success');
-        const formEl = document.getElementById('contact-form-container');
-        if (successEl) successEl.classList.remove('hidden');
-        if (formEl) formEl.classList.add('hidden');
-        
-        // Clean up URL without reload
-        window.history.replaceState({}, '', '/contact/');
-    }
-    
-    if (params.get('subscribed') === 'true') {
-        // Show newsletter success toast
-        const newsletterSuccess = document.getElementById('newsletter-success');
-        if (newsletterSuccess) {
-            newsletterSuccess.classList.remove('hidden');
-            // Auto-hide after 8 seconds
-            setTimeout(() => {
-                newsletterSuccess.classList.add('hidden');
-            }, 8000);
-        }
-        
-        // Clean up URL without reload
-        window.history.replaceState({}, '', '/contact/');
+    // Newsletter Form AJAX Submission
+    const newsletterForm = document.getElementById('newsletter-form') as HTMLFormElement;
+    const newsletterSubmitBtn = document.getElementById('newsletter-submit-btn') as HTMLButtonElement;
+    const newsletterSuccess = document.getElementById('newsletter-success');
+
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Disable button and show loading state
+            newsletterSubmitBtn.disabled = true;
+            newsletterSubmitBtn.textContent = 'Joining...';
+            
+            const formData = new FormData(newsletterForm);
+            
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Show success toast
+                    if (newsletterSuccess) {
+                        newsletterSuccess.classList.remove('hidden');
+                        // Auto-hide after 8 seconds
+                        setTimeout(() => {
+                            newsletterSuccess.classList.add('hidden');
+                        }, 8000);
+                    }
+                    
+                    // Reset form and button
+                    newsletterForm.reset();
+                    newsletterSubmitBtn.disabled = false;
+                    newsletterSubmitBtn.textContent = 'Join';
+                } else {
+                    throw new Error(result.message || 'Form submission failed');
+                }
+            } catch (error) {
+                alert('Something went wrong. Please try again.');
+                newsletterSubmitBtn.disabled = false;
+                newsletterSubmitBtn.textContent = 'Join';
+            }
+        });
     }
 </script>
