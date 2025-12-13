@@ -1,0 +1,251 @@
+[
+    {
+        "key": "group_page_builder",
+        "title": "Page Builder",
+        "fields": [
+            {
+                "key": "field_page_builder_content",
+                "label": "Page Content",
+                "name": "page_builder",
+                "type": "flexible_content",
+                "instructions": "Add blocks to build your page layout.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layouts": [
+                    {
+                        "key": "layout_hero_section",
+                        "name": "hero_section",
+                        "label": "Hero Section",
+                        "display": "block",
+                        "sub_fields": [
+                            {
+                                "key": "field_hero_headline",
+                                "label": "Headline",
+                                "name": "headline",
+                                "type": "text"
+                            },
+                            {
+                                "key": "field_hero_subheadline",
+                                "label": "Subheadline",
+                                "name": "subheadline",
+                                "type": "text"
+                            },
+                            {
+                                "key": "field_hero_image",
+                                "label": "Background Image",
+                                "name": "image",
+                                "type": "image",
+                                "return_format": "array",
+                                "preview_size": "medium"
+                            },
+                            {
+                                "key": "field_hero_quote",
+                                "label": "Quote",
+                                "name": "quote",
+                                "type": "text",
+                                "instructions": "Optional quote (e.g. Picasso quote)"
+                            },
+                            {
+                                "key": "field_hero_button_text",
+                                "label": "Button Text",
+                                "name": "button_text",
+                                "type": "text"
+                            },
+                            {
+                                "key": "field_hero_button_link",
+                                "label": "Button Link",
+                                "name": "button_link",
+                                "type": "text",
+                                "default_value": "#contact"
+                            }
+                        ]
+                    },
+                    {
+                        "key": "layout_text_image",
+                        "name": "text_image_block",
+                        "label": "Text + Image",
+                        "display": "block",
+                        "sub_fields": [
+                            {
+                                "key": "field_text_image_title",
+                                "label": "Section Title",
+                                "name": "title",
+                                "type": "text"
+                            },
+                            {
+                                "key": "field_text_image_content",
+                                "label": "Content",
+                                "name": "content",
+                                "type": "wysiwyg"
+                            },
+                            {
+                                "key": "field_text_image_image",
+                                "label": "Image",
+                                "name": "image",
+                                "type": "image",
+                                "return_format": "array",
+                                "preview_size": "medium"
+                            },
+                            {
+                                "key": "field_text_image_layout",
+                                "label": "Image Position",
+                                "name": "image_position",
+                                "type": "select",
+                                "choices": {
+                                    "left": "Left",
+                                    "right": "Right"
+                                },
+                                "default_value": "right"
+                            },
+                            {
+                                "key": "field_text_image_pricing",
+                                "label": "Pricing Text",
+                                "name": "pricing_text",
+                                "type": "textarea",
+                                "rows": 3,
+                                "instructions": "Optional bold pricing text block"
+                            },
+                            {
+                                "key": "field_text_image_features",
+                                "label": "Feature List",
+                                "name": "features",
+                                "type": "repeater",
+                                "sub_fields": [
+                                    {
+                                        "key": "field_feature_text_simple",
+                                        "label": "Feature",
+                                        "name": "text",
+                                        "type": "text"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "key": "layout_feature_grid",
+                        "name": "feature_grid",
+                        "label": "Feature Cards (Colored)",
+                        "display": "block",
+                        "sub_fields": [
+                            {
+                                "key": "field_feature_grid_title",
+                                "label": "Section Title",
+                                "name": "title",
+                                "type": "text"
+                            },
+                            {
+                                "key": "field_feature_grid_items",
+                                "label": "Cards",
+                                "name": "items",
+                                "type": "repeater",
+                                "sub_fields": [
+                                    {
+                                        "key": "field_card_color",
+                                        "label": "Color",
+                                        "name": "color",
+                                        "type": "color_picker",
+                                        "default_value": "#5BBAB5"
+                                    },
+                                    {
+                                        "key": "field_card_icon",
+                                        "label": "Icon",
+                                        "name": "icon",
+                                        "type": "select",
+                                        "choices": {
+                                            "shirt": "Shirt (What to wear)",
+                                            "brush": "Brush (Supplies)",
+                                            "gift": "Gift (Favors)",
+                                            "person": "Person (Instruction)"
+                                        }
+                                    },
+                                    {
+                                        "key": "field_card_title",
+                                        "label": "Title",
+                                        "name": "title",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "field_card_desc",
+                                        "label": "Description",
+                                        "name": "description",
+                                        "type": "textarea"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "key": "layout_gallery",
+                        "name": "gallery_block",
+                        "label": "Photo Gallery",
+                        "display": "block",
+                        "sub_fields": [
+                            {
+                                "key": "field_gallery_images",
+                                "label": "Images",
+                                "name": "images",
+                                "type": "gallery",
+                                "return_format": "array",
+                                "preview_size": "medium"
+                            }
+                        ]
+                    },
+                    {
+                        "key": "layout_cta",
+                        "name": "cta_banner",
+                        "label": "CTA Banner",
+                        "display": "block",
+                        "sub_fields": [
+                            {
+                                "key": "field_cta_title",
+                                "label": "Title",
+                                "name": "title",
+                                "type": "text"
+                            },
+                            {
+                                "key": "field_cta_subtitle",
+                                "label": "Subtitle",
+                                "name": "subtitle",
+                                "type": "text"
+                            },
+                            {
+                                "key": "field_cta_link",
+                                "label": "Link",
+                                "name": "link",
+                                "type": "text",
+                                "default_value": "#contact"
+                            }
+                        ]
+                    }
+                ],
+                "button_label": "Add Block",
+                "min": "",
+                "max": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "page"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": [
+            "the_content"
+        ],
+        "active": 1,
+        "description": "Flexible content builder for custom pages"
+    }
+]

@@ -6,6 +6,8 @@ import logo3 from "../assets/images/mommybknowsbest.png";
 import logo4 from "../assets/images/thebestcrowesnest.png"; // Creative Child / Best Crowe's Nest
 import logo5 from "../assets/images/brittneys-rabbit-hole-logo.png";
 
+const { images } = Astro.props;
+
 const logos = [
   { src: logo1, alt: "The Charlotte Observer" },
   { src: logo2, alt: "Charlotte Parent" },
@@ -13,18 +15,27 @@ const logos = [
   { src: logo4, alt: "Creative Child" },
   { src: logo5, alt: "Brittany's Rabbit Hole" },
 ];
+
+const displayLogos = images?.length
+  ? images.map((img: any) => ({
+      src: img.src || img.url || img, // Handle both WP image object and direct URL
+      alt: img.alt || "Press Logo",
+    }))
+  : logos;
 ---
 
-<section class="bg-brand-teal py-16 px-4">
+<section class="bg-brand-teal py-8 px-4">
   <div
-    class="max-w-6xl mx-auto flex flex-wrap justify-center items-center gap-8 md:gap-16"
+    class="max-w-6xl mx-auto flex flex-wrap justify-center items-center gap-6 md:gap-12"
   >
     {
-      logos.map((logo) => (
-        <div class="transform transition duration-500 hover:scale-110 grayscale hover:grayscale-0 opacity-80 hover:opacity-100 p-4 bg-white rounded-xl shadow-md">
+      displayLogos.map((logo: any) => (
+        <div class="transform transition duration-500 hover:scale-110 grayscale hover:grayscale-0 opacity-80 hover:opacity-100 px-6 py-3 bg-white rounded-xl shadow-md">
           <Image
             src={logo.src}
             alt={logo.alt}
+            width={200}
+            height={100}
             class="h-16 w-auto object-contain"
           />
         </div>

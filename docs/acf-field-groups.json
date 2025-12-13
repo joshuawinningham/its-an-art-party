@@ -1,0 +1,960 @@
+[
+    {
+        "key": "group_home_page",
+        "title": "Home Page Fields",
+        "fields": [
+            {
+                "key": "field_home_hero",
+                "label": "Hero Section",
+                "name": "hero_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_home_hero_headline",
+                        "label": "Headline",
+                        "name": "hero_headline",
+                        "type": "text",
+                        "instructions": "Main headline, e.g., MAKE YOUR PARTY FUN WITH ART!"
+                    },
+                    {
+                        "key": "field_home_hero_subheadline",
+                        "label": "Subheadline",
+                        "name": "hero_subheadline",
+                        "type": "text",
+                        "instructions": "e.g., CELEBRATE AND CREATE!"
+                    },
+                    {
+                        "key": "field_home_hero_description",
+                        "label": "Description",
+                        "name": "hero_description",
+                        "type": "textarea",
+                        "instructions": "Short description below the headlines"
+                    },
+                    {
+                        "key": "field_home_hero_button_text",
+                        "label": "Button Text",
+                        "name": "hero_button_text",
+                        "type": "text",
+                        "default_value": "Request Your Party"
+                    },
+                    {
+                        "key": "field_home_hero_button_link",
+                        "label": "Button Link",
+                        "name": "hero_button_link",
+                        "type": "text",
+                        "default_value": "/contact/"
+                    },
+                    {
+                        "key": "field_home_hero_image",
+                        "label": "Background Image",
+                        "name": "hero_image",
+                        "type": "image",
+                        "return_format": "array"
+                    }
+                ]
+            },
+            {
+                "key": "field_home_feature_cards",
+                "label": "Feature Cards",
+                "name": "feature_cards",
+                "type": "repeater",
+                "instructions": "3 feature cards below the hero",
+                "min": 3,
+                "max": 3,
+                "sub_fields": [
+                    {
+                        "key": "field_home_feature_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_home_feature_description",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "textarea"
+                    },
+                    {
+                        "key": "field_home_feature_image",
+                        "label": "Image",
+                        "name": "image",
+                        "type": "image",
+                        "return_format": "array"
+                    }
+                ]
+            },
+            {
+                "key": "field_home_about",
+                "label": "About Section",
+                "name": "about_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_home_about_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text",
+                        "instructions": "e.g., CHARLOTTE PAINTING PARTIES FOR KIDS"
+                    },
+                    {
+                        "key": "field_home_about_content",
+                        "label": "Content",
+                        "name": "content",
+                        "type": "wysiwyg"
+                    },
+                    {
+                        "key": "field_home_about_lessons_title",
+                        "label": "Art Lessons Title",
+                        "name": "art_lessons_title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_home_about_lessons_content",
+                        "label": "Art Lessons Content",
+                        "name": "art_lessons_content",
+                        "type": "wysiwyg"
+                    },
+                    {
+                        "key": "field_home_about_zip_codes",
+                        "label": "Service Zip Codes",
+                        "name": "zip_codes",
+                        "type": "text",
+                        "instructions": "Comma-separated zip codes"
+                    },
+                    {
+                        "key": "field_home_about_image",
+                        "label": "Image",
+                        "name": "image",
+                        "type": "image",
+                        "return_format": "array"
+                    }
+                ]
+            },
+            {
+                "key": "field_home_testimonials",
+                "label": "Testimonials",
+                "name": "testimonials",
+                "type": "repeater",
+                "instructions": "Customer testimonials",
+                "sub_fields": [
+                    {
+                        "key": "field_home_testimonial_quote",
+                        "label": "Quote",
+                        "name": "quote",
+                        "type": "textarea"
+                    },
+                    {
+                        "key": "field_home_testimonial_author",
+                        "label": "Author",
+                        "name": "author",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_home_testimonial_image",
+                        "label": "Author Image",
+                        "name": "image",
+                        "type": "image",
+                        "return_format": "array"
+                    }
+                ]
+            },
+            {
+                "key": "field_home_press",
+                "label": "Press / As Seen In",
+                "name": "press_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_home_press_logos",
+                        "label": "Press Logos",
+                        "name": "press_logos",
+                        "type": "gallery",
+                        "return_format": "array",
+                        "instructions": "Upload logos for the 'As Seen In' section"
+                    }
+                ]
+            },
+            {
+                "key": "field_home_seo",
+                "label": "SEO",
+                "name": "seo",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_home_seo_description",
+                        "label": "SEO Description",
+                        "name": "seo_description",
+                        "type": "textarea",
+                        "instructions": "Meta description for the home page"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "page_type",
+                    "operator": "==",
+                    "value": "front_page"
+                }
+            ],
+            [
+                {
+                    "param": "page",
+                    "operator": "==",
+                    "value": "1731"
+                }
+            ]
+        ],
+        "active": true
+    },
+    {
+        "key": "group_about_page",
+        "title": "About Page Fields",
+        "fields": [
+            {
+                "key": "field_about_hero",
+                "label": "Hero",
+                "name": "hero",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_about_subtitle_quote",
+                        "label": "Subtitle Quote",
+                        "name": "subtitle_quote",
+                        "type": "text",
+                        "instructions": "Quote displayed in page header"
+                    }
+                ]
+            },
+            {
+                "key": "field_about_intro",
+                "label": "Intro Section",
+                "name": "intro_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_about_intro_image",
+                        "label": "Intro Image",
+                        "name": "intro_image",
+                        "type": "image",
+                        "return_format": "array",
+                        "instructions": "Robin's photo"
+                    },
+                    {
+                        "key": "field_about_intro_text",
+                        "label": "Intro Text",
+                        "name": "intro_text",
+                        "type": "textarea",
+                        "instructions": "Opening paragraph"
+                    },
+                    {
+                        "key": "field_about_owner_name",
+                        "label": "Owner Name",
+                        "name": "owner_name",
+                        "type": "text",
+                        "instructions": "e.g., Robin Winningham"
+                    },
+                    {
+                        "key": "field_about_owner_title",
+                        "label": "Owner Title",
+                        "name": "owner_title",
+                        "type": "text",
+                        "instructions": "e.g., Artist and Owner"
+                    }
+                ]
+            },
+            {
+                "key": "field_about_me",
+                "label": "About Me",
+                "name": "about_me",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_about_me_content",
+                        "label": "About Me Content",
+                        "name": "about_me_content",
+                        "type": "wysiwyg",
+                        "instructions": "Full about me content"
+                    }
+                ]
+            },
+            {
+                "key": "field_about_why_choose",
+                "label": "Why Choose Section",
+                "name": "why_choose_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_about_why_title",
+                        "label": "Title",
+                        "name": "why_choose_title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_about_why_description",
+                        "label": "Description",
+                        "name": "why_choose_description",
+                        "type": "textarea"
+                    },
+                    {
+                        "key": "field_about_why_features",
+                        "label": "Features",
+                        "name": "why_choose_features",
+                        "type": "repeater",
+                        "sub_fields": [
+                            {
+                                "key": "field_about_feature_text",
+                                "label": "Feature Text",
+                                "name": "feature_text",
+                                "type": "text",
+                                "instructions": "e.g., Professional Planning"
+                            }
+                        ]
+                    },
+                    {
+                        "key": "field_about_collage",
+                        "label": "Collage Images",
+                        "name": "collage_images",
+                        "type": "gallery",
+                        "instructions": "6 images for the collage"
+                    }
+                ]
+            },
+            {
+                "key": "field_about_policies",
+                "label": "Policies Section",
+                "name": "policies_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_about_policies_title",
+                        "label": "Title",
+                        "name": "policies_title",
+                        "type": "text",
+                        "instructions": "e.g., Other Policies"
+                    },
+                    {
+                        "key": "field_about_policies_subtitle",
+                        "label": "Subtitle",
+                        "name": "policies_subtitle",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_about_policies_list",
+                        "label": "Policies",
+                        "name": "policies",
+                        "type": "repeater",
+                        "sub_fields": [
+                            {
+                                "key": "field_policy_icon_color",
+                                "label": "Icon Color",
+                                "name": "icon_color",
+                                "type": "select",
+                                "choices": {
+                                    "teal": "Teal",
+                                    "yellow": "Yellow",
+                                    "pink": "Pink",
+                                    "blue": "Blue"
+                                }
+                            },
+                            {
+                                "key": "field_policy_title",
+                                "label": "Title",
+                                "name": "title",
+                                "type": "text",
+                                "instructions": "e.g., Age Limitation"
+                            },
+                            {
+                                "key": "field_policy_description",
+                                "label": "Description",
+                                "name": "description",
+                                "type": "textarea"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "field_about_cta",
+                "label": "CTA",
+                "name": "cta",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_about_cta_title",
+                        "label": "CTA Title",
+                        "name": "cta_title",
+                        "type": "text",
+                        "instructions": "e.g., Ready to Book Your Party?"
+                    }
+                ]
+            },
+            {
+                "key": "field_about_seo",
+                "label": "SEO",
+                "name": "seo",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_about_seo_description",
+                        "label": "SEO Description",
+                        "name": "seo_description",
+                        "type": "textarea"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "page",
+                    "operator": "==",
+                    "value": "1733"
+                }
+            ]
+        ],
+        "active": true
+    },
+    {
+        "key": "group_contact_page",
+        "title": "Contact Page Fields",
+        "fields": [
+            {
+                "key": "field_contact_form",
+                "label": "Form Section",
+                "name": "form_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_contact_form_title",
+                        "label": "Form Title",
+                        "name": "form_title",
+                        "type": "text",
+                        "instructions": "e.g., Request a Party"
+                    },
+                    {
+                        "key": "field_contact_form_subtitle",
+                        "label": "Form Subtitle",
+                        "name": "form_subtitle",
+                        "type": "textarea",
+                        "instructions": "Instructions above the form"
+                    }
+                ]
+            },
+            {
+                "key": "field_contact_hear",
+                "label": "Hear From You Section",
+                "name": "hear_from_you_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_contact_hear_title",
+                        "label": "Title",
+                        "name": "hear_from_you_title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_contact_hear_text",
+                        "label": "Text",
+                        "name": "hear_from_you_text",
+                        "type": "wysiwyg"
+                    },
+                    {
+                        "key": "field_contact_hear_image",
+                        "label": "Image",
+                        "name": "hear_from_you_image",
+                        "type": "image",
+                        "return_format": "array"
+                    }
+                ]
+            },
+            {
+                "key": "field_contact_info",
+                "label": "Contact Info",
+                "name": "contact_info",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_contact_info_title",
+                        "label": "Title",
+                        "name": "contact_title",
+                        "type": "text",
+                        "instructions": "e.g., Get In Touch"
+                    },
+                    {
+                        "key": "field_contact_address",
+                        "label": "Address",
+                        "name": "address",
+                        "type": "textarea"
+                    },
+                    {
+                        "key": "field_contact_phone",
+                        "label": "Phone",
+                        "name": "phone",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_contact_email",
+                        "label": "Email",
+                        "name": "email",
+                        "type": "email"
+                    }
+                ]
+            },
+            {
+                "key": "field_contact_social",
+                "label": "Social Links",
+                "name": "social_links",
+                "type": "repeater",
+                "sub_fields": [
+                    {
+                        "key": "field_social_platform",
+                        "label": "Platform",
+                        "name": "platform",
+                        "type": "select",
+                        "choices": {
+                            "facebook": "Facebook",
+                            "twitter": "Twitter",
+                            "youtube": "YouTube",
+                            "instagram": "Instagram",
+                            "pinterest": "Pinterest"
+                        }
+                    },
+                    {
+                        "key": "field_social_url",
+                        "label": "URL",
+                        "name": "url",
+                        "type": "url"
+                    }
+                ]
+            },
+            {
+                "key": "field_contact_map",
+                "label": "Map",
+                "name": "map",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_contact_map_url",
+                        "label": "Map Embed URL",
+                        "name": "map_embed_url",
+                        "type": "url",
+                        "instructions": "Google Maps embed URL"
+                    }
+                ]
+            },
+            {
+                "key": "field_contact_newsletter",
+                "label": "Newsletter",
+                "name": "newsletter",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_newsletter_title",
+                        "label": "Title",
+                        "name": "newsletter_title",
+                        "type": "text",
+                        "instructions": "e.g., Newsletter"
+                    },
+                    {
+                        "key": "field_newsletter_subtitle",
+                        "label": "Subtitle",
+                        "name": "newsletter_subtitle",
+                        "type": "text"
+                    }
+                ]
+            },
+            {
+                "key": "field_contact_seo",
+                "label": "SEO",
+                "name": "seo",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_contact_seo_description",
+                        "label": "SEO Description",
+                        "name": "seo_description",
+                        "type": "textarea"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "page",
+                    "operator": "==",
+                    "value": "1734"
+                }
+            ],
+            [
+                {
+                    "param": "page_template",
+                    "operator": "==",
+                    "value": "default"
+                },
+                {
+                    "param": "post",
+                    "operator": "==",
+                    "value": "1734"
+                }
+            ]
+        ],
+        "active": true
+    },
+    {
+        "key": "group_blog_post",
+        "title": "Blog Post Fields",
+        "fields": [
+            {
+                "key": "field_blog_description",
+                "label": "Description",
+                "name": "description",
+                "type": "textarea",
+                "instructions": "SEO description for the post"
+            },
+            {
+                "key": "field_blog_author",
+                "label": "Author",
+                "name": "author",
+                "type": "text",
+                "instructions": "Author name (defaults to Robin Winningham)",
+                "default_value": "Robin Winningham"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "active": true
+    },
+    {
+        "key": "group_kids_birthdays_page",
+        "title": "Kids Birthdays Page Fields",
+        "fields": [
+            {
+                "key": "field_kb_hero",
+                "label": "Hero",
+                "name": "hero",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_kb_subtitle_quote",
+                        "label": "Subtitle Quote",
+                        "name": "subtitle_quote",
+                        "type": "text",
+                        "instructions": "Quote displayed in page header"
+                    }
+                ]
+            },
+            {
+                "key": "field_kb_main_content",
+                "label": "Main Content",
+                "name": "main_content",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_kb_description",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "wysiwyg",
+                        "instructions": "Main description content about paint parties"
+                    },
+                    {
+                        "key": "field_kb_pricing_text",
+                        "label": "Pricing Text",
+                        "name": "pricing_text",
+                        "type": "textarea",
+                        "instructions": "e.g., All parties are $240 for up to 8 children..."
+                    },
+                    {
+                        "key": "field_kb_features",
+                        "label": "Features",
+                        "name": "features",
+                        "type": "repeater",
+                        "button_label": "Add Feature",
+                        "sub_fields": [
+                            {
+                                "key": "field_kb_feature_text",
+                                "label": "Feature Text",
+                                "name": "feature_text",
+                                "type": "text"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "field_kb_detail_cards",
+                "label": "Detail Cards",
+                "name": "detail_cards",
+                "type": "repeater",
+                "instructions": "4 colored info cards",
+                "button_label": "Add Card",
+                "sub_fields": [
+                    {
+                        "key": "field_kb_card_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_kb_card_description",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "textarea"
+                    },
+                    {
+                        "key": "field_kb_card_color",
+                        "label": "Color",
+                        "name": "color",
+                        "type": "color_picker"
+                    }
+                ]
+            },
+            {
+                "key": "field_kb_what_to_expect",
+                "label": "What to Expect",
+                "name": "what_to_expect",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_kb_wte_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text",
+                        "default_value": "What To Expect"
+                    },
+                    {
+                        "key": "field_kb_wte_content",
+                        "label": "Content",
+                        "name": "content",
+                        "type": "wysiwyg"
+                    }
+                ]
+            },
+            {
+                "key": "field_kb_cta_section",
+                "label": "CTA Section",
+                "name": "cta_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_kb_cta_title",
+                        "label": "CTA Title",
+                        "name": "cta_title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_kb_cta_subtitle",
+                        "label": "CTA Subtitle",
+                        "name": "cta_subtitle",
+                        "type": "text"
+                    }
+                ]
+            },
+            {
+                "key": "field_kb_seo",
+                "label": "SEO",
+                "name": "seo",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_kb_seo_description",
+                        "label": "SEO Description",
+                        "name": "seo_description",
+                        "type": "textarea"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "page"
+                },
+                {
+                    "param": "page",
+                    "operator": "==",
+                    "value": "1800"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "active": true,
+        "description": "Custom fields for the Kids Birthday Art Parties page"
+    },
+    {
+        "key": "group_art_lessons_page",
+        "title": "Art Lessons Page Fields",
+        "fields": [
+            {
+                "key": "field_al_hero",
+                "label": "Hero",
+                "name": "hero",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_al_subtitle_quote",
+                        "label": "Subtitle Quote",
+                        "name": "subtitle_quote",
+                        "type": "text",
+                        "instructions": "Quote displayed in page header"
+                    }
+                ]
+            },
+            {
+                "key": "field_al_main_content",
+                "label": "Main Content",
+                "name": "main_content",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_al_description",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "wysiwyg",
+                        "instructions": "Main description about art lessons"
+                    },
+                    {
+                        "key": "field_al_pricing_text",
+                        "label": "Pricing Text",
+                        "name": "pricing_text",
+                        "type": "textarea"
+                    },
+                    {
+                        "key": "field_al_features",
+                        "label": "Features",
+                        "name": "features",
+                        "type": "repeater",
+                        "button_label": "Add Feature",
+                        "sub_fields": [
+                            {
+                                "key": "field_al_feature_text",
+                                "label": "Feature Text",
+                                "name": "feature_text",
+                                "type": "text"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "field_al_detail_cards",
+                "label": "Detail Cards",
+                "name": "detail_cards",
+                "type": "repeater",
+                "instructions": "Lesson type cards (Individual, Group, Locations)",
+                "button_label": "Add Card",
+                "sub_fields": [
+                    {
+                        "key": "field_al_card_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_al_card_description",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "textarea"
+                    },
+                    {
+                        "key": "field_al_card_color",
+                        "label": "Color",
+                        "name": "color",
+                        "type": "color_picker"
+                    }
+                ]
+            },
+            {
+                "key": "field_al_what_to_expect",
+                "label": "Ideas to Get You Started",
+                "name": "what_to_expect",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_al_wte_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text",
+                        "default_value": "Ideas to get you started"
+                    },
+                    {
+                        "key": "field_al_wte_content",
+                        "label": "Content",
+                        "name": "content",
+                        "type": "wysiwyg"
+                    }
+                ]
+            },
+            {
+                "key": "field_al_cta_section",
+                "label": "CTA Section",
+                "name": "cta_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_al_cta_title",
+                        "label": "CTA Title",
+                        "name": "cta_title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_al_cta_subtitle",
+                        "label": "CTA Subtitle",
+                        "name": "cta_subtitle",
+                        "type": "text"
+                    }
+                ]
+            },
+            {
+                "key": "field_al_seo",
+                "label": "SEO",
+                "name": "seo",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_al_seo_description",
+                        "label": "SEO Description",
+                        "name": "seo_description",
+                        "type": "textarea"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "page"
+                },
+                {
+                    "param": "page",
+                    "operator": "==",
+                    "value": "1801"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "active": true,
+        "description": "Custom fields for the Kids Art Lessons page"
+    }
+]

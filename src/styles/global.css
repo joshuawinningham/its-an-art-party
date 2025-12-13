@@ -8,6 +8,7 @@
     --color-brand-pink: #EA5283;
     --color-brand-teal: #4ECDC4;
     --color-brand-yellow: #F7B731;
+    --color-brand-blue: #2B80B0;
     --color-brand-dark: #333333;
 }
 
@@ -86,4 +87,14 @@ section.bg-gray-50 .prose h3 {
     margin-top: 0;
     margin-bottom: 0.5rem;
     font-weight: normal;
+}
+
+/* Hide scrollbar for gallery */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
 }

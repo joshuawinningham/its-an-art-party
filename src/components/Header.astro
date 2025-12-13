@@ -1,20 +1,43 @@
 ---
-import { getImage } from "astro:assets";
+// import { getImage } from "astro:assets";
 import headerBgImage from "../assets/images/charlotte-kids-paint-party.jpg";
-import logoImage from "../assets/images/its-an-art-party-logo-black.svg";
+// import logoImage from "../assets/images/its-an-art-party-logo-black.svg";
 import AnnouncementBar from "./AnnouncementBar.astro";
 import Navigation from "./Navigation.astro";
 
 interface Props {
   showHero?: boolean;
+  heroHeadline?: string;
+  heroSubheadline?: string;
+  heroDescription?: string;
+  heroButtonText?: string;
+  heroButtonLink?: string;
 }
 
-const { showHero = true } = Astro.props;
+const {
+  showHero = true,
+  heroHeadline = "MAKE YOUR PARTY FUN WITH ART!",
+  heroSubheadline = "CELEBRATE AND CREATE!",
+  heroDescription = "Mobile art and canvas painting parties with all supplies included for ages 4 and up",
+  heroButtonText = "Request Your Party",
+  heroButtonLink = "/contact/",
+} = Astro.props;
 
-const optimizedBackground = await getImage({
-  src: headerBgImage,
-  format: "webp",
-});
+// const optimizedBackground = await getImage({
+//   src: headerBgImage,
+//   format: "webp",
+// });
+
+// ...
+
+// style={`background-image: url('${optimizedBackground.src}');`}
+
+// Helper to highlight "FUN" if it exists in the headline (preserves the yellow color style)
+// If the headline is exactly the default, we keep the span.
+// For dynamic content, we might not be able to guarantee which word is highlighted without more complex logic,
+// so we'll just render the text or try to replace specific keywords if needed.
+// For now, let's treat the incoming headline as raw text, but maybe insert the HTML if it matches default.
+const isDefaultHeadline = heroHeadline.includes("MAKE YOUR PARTY FUN WITH ART");
 ---
 
 <header
@@ -28,7 +51,7 @@ const optimizedBackground = await getImage({
       <>
         <div
           class="absolute inset-0 bg-cover bg-center"
-          style={`background-image: url('${optimizedBackground.src}');`}
+          style={`background-image: url('/images/charlotte-kids-paint-party.jpg');`}
         />
         <div class="absolute inset-0 bg-black/40" />
       </>
@@ -60,18 +83,27 @@ const optimizedBackground = await getImage({
         {/* Hero Content */}
         <div class="relative z-10 pt-32 pb-72 px-4 text-center max-w-5xl mx-auto">
           <h1 class="text-6xl md:text-8xl mb-4 drop-shadow-xl font-display transform -rotate-2">
-            MAKE YOUR PARTY <span class="text-brand-yellow">FUN</span> WITH ART!
+            {isDefaultHeadline ? (
+              <>
+                MAKE YOUR PARTY <span class="text-brand-yellow">FUN</span> WITH
+                ART!
+              </>
+            ) : (
+              heroHeadline
+            )}
           </h1>
           <h2 class="text-3xl md:text-5xl mb-10 text-white drop-shadow-md tracking-wide font-display">
-            CELEBRATE AND CREATE!
+            {heroSubheadline}
           </h2>
           <p class="text-lg md:text-xl mb-12 font-body max-w-2xl mx-auto text-gray-100 font-light">
-            Mobile art and canvas painting parties with all supplies included
-            for ages 4 and up
+            {heroDescription}
           </p>
 
-          <a href="/contact/" class="inline-block bg-brand-pink hover:bg-pink-600 text-white font-bold py-4 px-10 rounded-full text-lg uppercase tracking-widest transition transform hover:scale-105 shadow-xl border-4 border-white/20">
-            Request Your Party
+          <a
+            href={heroButtonLink}
+            class="inline-block bg-brand-pink hover:bg-pink-600 text-white font-bold py-4 px-10 rounded-full text-lg uppercase tracking-widest transition transform hover:scale-105 shadow-xl border-4 border-white/20"
+          >
+            {heroButtonText}
           </a>
         </div>
 

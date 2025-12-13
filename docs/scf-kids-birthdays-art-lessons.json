@@ -1,0 +1,339 @@
+[
+    {
+        "key": "group_kids_birthdays_page",
+        "title": "Kids Birthdays Page Fields",
+        "fields": [
+            {
+                "key": "field_kb_hero",
+                "label": "Hero",
+                "name": "hero",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_kb_subtitle_quote",
+                        "label": "Subtitle Quote",
+                        "name": "subtitle_quote",
+                        "type": "text",
+                        "instructions": "Quote displayed in page header, e.g., \"The world is but a canvas to the imagination.\" Henry David Thoreau"
+                    }
+                ]
+            },
+            {
+                "key": "field_kb_main_content",
+                "label": "Main Content",
+                "name": "main_content",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_kb_description",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "wysiwyg",
+                        "instructions": "Main description content about paint parties"
+                    },
+                    {
+                        "key": "field_kb_pricing_text",
+                        "label": "Pricing Text",
+                        "name": "pricing_text",
+                        "type": "textarea",
+                        "instructions": "e.g., All parties are $240 for up to 8 children. Add $20 for each additional child."
+                    },
+                    {
+                        "key": "field_kb_features",
+                        "label": "Features",
+                        "name": "features",
+                        "type": "repeater",
+                        "button_label": "Add Feature",
+                        "sub_fields": [
+                            {
+                                "key": "field_kb_feature_text",
+                                "label": "Feature Text",
+                                "name": "feature_text",
+                                "type": "text",
+                                "instructions": "e.g., Starting From $240"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "field_kb_detail_cards",
+                "label": "Detail Cards",
+                "name": "detail_cards",
+                "type": "repeater",
+                "instructions": "4 colored info cards (What to Wear, Art Supplies, Party Favors, Instruction)",
+                "button_label": "Add Card",
+                "sub_fields": [
+                    {
+                        "key": "field_kb_card_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text",
+                        "instructions": "e.g., What to Wear"
+                    },
+                    {
+                        "key": "field_kb_card_description",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "textarea"
+                    },
+                    {
+                        "key": "field_kb_card_color",
+                        "label": "Color",
+                        "name": "color",
+                        "type": "color_picker",
+                        "instructions": "Background color (hex)"
+                    }
+                ]
+            },
+            {
+                "key": "field_kb_what_to_expect",
+                "label": "What to Expect",
+                "name": "what_to_expect",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_kb_wte_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text",
+                        "default_value": "What To Expect"
+                    },
+                    {
+                        "key": "field_kb_wte_content",
+                        "label": "Content",
+                        "name": "content",
+                        "type": "wysiwyg"
+                    }
+                ]
+            },
+            {
+                "key": "field_kb_cta_section",
+                "label": "CTA Section",
+                "name": "cta_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_kb_cta_title",
+                        "label": "CTA Title",
+                        "name": "cta_title",
+                        "type": "text",
+                        "instructions": "e.g., Plan Your Party Today!"
+                    },
+                    {
+                        "key": "field_kb_cta_subtitle",
+                        "label": "CTA Subtitle",
+                        "name": "cta_subtitle",
+                        "type": "text",
+                        "instructions": "e.g., Call or Text: 980-253-4829"
+                    }
+                ]
+            },
+            {
+                "key": "field_kb_seo",
+                "label": "SEO",
+                "name": "seo",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_kb_seo_description",
+                        "label": "SEO Description",
+                        "name": "seo_description",
+                        "type": "textarea",
+                        "instructions": "Meta description for the page"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "page"
+                },
+                {
+                    "param": "page",
+                    "operator": "==",
+                    "value": "kids-birthdays"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "active": true,
+        "description": "Custom fields for the Kids Birthday Art Parties page"
+    },
+    {
+        "key": "group_art_lessons_page",
+        "title": "Art Lessons Page Fields",
+        "fields": [
+            {
+                "key": "field_al_hero",
+                "label": "Hero",
+                "name": "hero",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_al_subtitle_quote",
+                        "label": "Subtitle Quote",
+                        "name": "subtitle_quote",
+                        "type": "text",
+                        "instructions": "Quote displayed in page header, e.g., \"Creativity is intelligence having fun.\" Albert Einstein"
+                    }
+                ]
+            },
+            {
+                "key": "field_al_main_content",
+                "label": "Main Content",
+                "name": "main_content",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_al_description",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "wysiwyg",
+                        "instructions": "Main description content about art lessons and developmental benefits"
+                    },
+                    {
+                        "key": "field_al_pricing_text",
+                        "label": "Pricing Text",
+                        "name": "pricing_text",
+                        "type": "textarea",
+                        "instructions": "e.g., Art lessons are available Monday-Friday. All supplies are included..."
+                    },
+                    {
+                        "key": "field_al_features",
+                        "label": "Features",
+                        "name": "features",
+                        "type": "repeater",
+                        "button_label": "Add Feature",
+                        "sub_fields": [
+                            {
+                                "key": "field_al_feature_text",
+                                "label": "Feature Text",
+                                "name": "feature_text",
+                                "type": "text",
+                                "instructions": "e.g., Individual Lessons: $45 (1 child)"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "field_al_detail_cards",
+                "label": "Detail Cards",
+                "name": "detail_cards",
+                "type": "repeater",
+                "instructions": "Lesson type cards (Individual, Group, Locations)",
+                "button_label": "Add Card",
+                "sub_fields": [
+                    {
+                        "key": "field_al_card_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text",
+                        "instructions": "e.g., Individual Lessons"
+                    },
+                    {
+                        "key": "field_al_card_description",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "textarea"
+                    },
+                    {
+                        "key": "field_al_card_color",
+                        "label": "Color",
+                        "name": "color",
+                        "type": "color_picker",
+                        "instructions": "Background color (hex)"
+                    }
+                ]
+            },
+            {
+                "key": "field_al_what_to_expect",
+                "label": "Ideas to Get You Started",
+                "name": "what_to_expect",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_al_wte_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text",
+                        "default_value": "Ideas to get you started"
+                    },
+                    {
+                        "key": "field_al_wte_content",
+                        "label": "Content",
+                        "name": "content",
+                        "type": "wysiwyg",
+                        "instructions": "List of project ideas with HTML ul/li elements"
+                    }
+                ]
+            },
+            {
+                "key": "field_al_cta_section",
+                "label": "CTA Section",
+                "name": "cta_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_al_cta_title",
+                        "label": "CTA Title",
+                        "name": "cta_title",
+                        "type": "text",
+                        "instructions": "e.g., CONTACT ME TODAY!"
+                    },
+                    {
+                        "key": "field_al_cta_subtitle",
+                        "label": "CTA Subtitle",
+                        "name": "cta_subtitle",
+                        "type": "text",
+                        "instructions": "e.g., Call or Text: 980-253-4829"
+                    }
+                ]
+            },
+            {
+                "key": "field_al_seo",
+                "label": "SEO",
+                "name": "seo",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_al_seo_description",
+                        "label": "SEO Description",
+                        "name": "seo_description",
+                        "type": "textarea",
+                        "instructions": "Meta description for the page"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "page"
+                },
+                {
+                    "param": "page",
+                    "operator": "==",
+                    "value": "art-lessons"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "active": true,
+        "description": "Custom fields for the Kids Art Lessons page"
+    }
+]

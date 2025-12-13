@@ -1,0 +1,215 @@
+[
+    {
+        "key": "group_custom_page_details",
+        "title": "Page Details (Extended)",
+        "fields": [
+            {
+                "key": "field_hero_section",
+                "label": "Hero Section",
+                "name": "hero_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_hero_headline",
+                        "label": "Headline",
+                        "name": "headline",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_hero_subheadline",
+                        "label": "Subheadline",
+                        "name": "subheadline",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_hero_image",
+                        "label": "Background Image",
+                        "name": "image",
+                        "type": "image",
+                        "return_format": "array"
+                    },
+                    {
+                        "key": "field_hero_quote",
+                        "label": "Quote",
+                        "name": "quote",
+                        "type": "textarea"
+                    },
+                    {
+                        "key": "field_hero_button_text",
+                        "label": "Button Text",
+                        "name": "button_text",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_hero_button_link",
+                        "label": "Button Link",
+                        "name": "button_link",
+                        "type": "text"
+                    }
+                ]
+            },
+            {
+                "key": "field_main_content",
+                "label": "Main Content",
+                "name": "main_content",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_section_title",
+                        "label": "Section Title",
+                        "name": "section_title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_description",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "wysiwyg"
+                    },
+                    {
+                        "key": "field_pricing_text",
+                        "label": "Pricing Text",
+                        "name": "pricing_text",
+                        "type": "textarea"
+                    },
+                    {
+                        "key": "field_features",
+                        "label": "Features",
+                        "name": "features",
+                        "type": "repeater",
+                        "sub_fields": [
+                            {
+                                "key": "field_feature_text",
+                                "label": "Feature",
+                                "name": "feature_text",
+                                "type": "text"
+                            }
+                        ]
+                    },
+                    {
+                        "key": "field_main_image",
+                        "label": "Image",
+                        "name": "image",
+                        "type": "image",
+                        "return_format": "array"
+                    }
+                ]
+            },
+            {
+                "key": "field_gallery",
+                "label": "Photo Gallery",
+                "name": "gallery",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_gallery_images",
+                        "label": "Images",
+                        "name": "gallery_images",
+                        "type": "gallery",
+                        "return_format": "array"
+                    }
+                ]
+            },
+            {
+                "key": "field_detail_cards",
+                "label": "Detail Cards",
+                "name": "detail_cards",
+                "type": "repeater",
+                "sub_fields": [
+                    {
+                        "key": "field_card_color",
+                        "label": "Color",
+                        "name": "color",
+                        "type": "color_picker"
+                    },
+                    {
+                        "key": "field_card_icon",
+                        "label": "Icon",
+                        "name": "icon",
+                        "type": "select",
+                        "choices": {
+                            "shirt": "Shirt",
+                            "brush": "Brush",
+                            "gift": "Gift",
+                            "person": "Person"
+                        }
+                    },
+                    {
+                        "key": "field_card_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_card_description",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "textarea"
+                    }
+                ]
+            },
+            {
+                "key": "field_what_to_expect",
+                "label": "What to Expect",
+                "name": "what_to_expect",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_expect_title",
+                        "label": "Title",
+                        "name": "what_to_expect_title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_expect_content",
+                        "label": "Content",
+                        "name": "what_to_expect_content",
+                        "type": "wysiwyg"
+                    },
+                    {
+                        "key": "field_expect_image",
+                        "label": "Image",
+                        "name": "what_to_expect_image",
+                        "type": "image",
+                        "return_format": "array"
+                    }
+                ]
+            },
+            {
+                "key": "field_cta_section",
+                "label": "CTA Section",
+                "name": "cta_section",
+                "type": "group",
+                "sub_fields": [
+                    {
+                        "key": "field_cta_title",
+                        "label": "Title",
+                        "name": "cta_title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_cta_subtitle",
+                        "label": "Subtitle",
+                        "name": "cta_subtitle",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_cta_link",
+                        "label": "Link",
+                        "name": "cta_link",
+                        "type": "text"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "page"
+                }
+            ]
+        ]
+    }
+]

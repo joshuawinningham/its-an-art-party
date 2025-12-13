@@ -560,11 +560,14 @@ export async function getContactPage(): Promise<WPContactPage | null> {
  * Fetch the Home page with ACF fields
  */
 export async function getHomePage(): Promise<WPHomePage | null> {
-  // Try fetching page with slug 'home', 'homepage', or ID if known. 
-  // Standard WP home often has slug 'home' or is set as front page.
-  // We can try fetching by slug 'home' first.
-  let page = await getPage<WPHomePage>('home');
-  return page;
+  // Home page has a different ACF structure than generic WPPage,
+  // so we fetch directly instead of using the generic getPage function.
+  const pages = await wpFetch<WPHomePage[]>('/wp/v2/pages', {
+    slug: 'home',
+    _embed: 'true',
+  });
+
+  return pages.length > 0 ? pages[0] : null;
 }
 
 /**
