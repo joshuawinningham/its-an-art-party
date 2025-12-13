@@ -1,0 +1,34 @@
+---
+import { type ACFBlock } from "../lib/wordpress";
+import HeroBlock from "./blocks/HeroBlock.astro";
+import TextImageBlock from "./blocks/TextImageBlock.astro";
+import FeatureGridBlock from "./blocks/FeatureGridBlock.astro";
+import GalleryBlock from "./blocks/GalleryBlock.astro";
+import CtaBlock from "./blocks/CtaBlock.astro";
+
+interface Props {
+    blocks: ACFBlock[];
+}
+
+const { blocks } = Astro.props;
+---
+
+{
+    blocks &&
+        blocks.map((block) => {
+            switch (block.acf_fc_layout) {
+                case "hero_section":
+                    return <HeroBlock block={block} />;
+                case "text_image_block":
+                    return <TextImageBlock block={block} />;
+                case "feature_grid":
+                    return <FeatureGridBlock block={block} />;
+                case "gallery_block":
+                    return <GalleryBlock block={block} />;
+                case "cta_banner":
+                    return <CtaBlock block={block} />;
+                default:
+                    return null;
+            }
+        })
+}

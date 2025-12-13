@@ -1,0 +1,52 @@
+---
+import { type GalleryBlock } from "../../lib/wordpress";
+
+interface Props {
+    block: GalleryBlock;
+}
+
+const { block } = Astro.props;
+const { images } = block;
+---
+
+<section class="bg-white py-14" aria-label="Photo gallery">
+    <div class="container mx-auto px-4">
+        <div class="overflow-x-auto pb-4">
+            <div class="flex gap-4 min-w-max">
+                {
+                    images &&
+                        images.map((image) => (
+                            <div class="w-64 h-64 flex-shrink-0 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+                                <img
+                                    src={image.url || image.sizes?.medium}
+                                    alt={image.alt}
+                                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                    loading="lazy"
+                                />
+                            </div>
+                        ))
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .overflow-x-auto::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .overflow-x-auto::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .overflow-x-auto::-webkit-scrollbar-thumb {
+        background: #ea5283;
+        border-radius: 10px;
+    }
+
+    .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+        background: #d9739f;
+    }
+</style>
