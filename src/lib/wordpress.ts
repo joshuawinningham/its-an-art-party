@@ -526,11 +526,17 @@ export async function getPages(options: {
  */
 export async function getPageSlugs(excludeSlugs: string[] = []): Promise<string[]> {
   const pages = await getPages({ perPage: 100 });
-  
-  // Default exclusions - pages with dedicated .astro files
-  const defaultExclusions = ['home', 'about', 'contact', 'kids-birthdays', 'art-lessons'];
+
+  // Default exclusions - pages with dedicated .astro files and legacy WooCommerce pages
+  const defaultExclusions = [
+    'home', 'about', 'contact', 'kids-birthdays', 'art-lessons',
+    // Legacy WooCommerce pages (not needed)
+    'cart', 'checkout', 'shop', 'my-account', 'review-order',
+    'terms-and-conditions', 'privacy-policy', 'thank-you',
+    'charlotte-birthday-paint-parties-kids'
+  ];
   const allExclusions = [...defaultExclusions, ...excludeSlugs];
-  
+
   return pages
     .map(page => page.slug)
     .filter(slug => !allExclusions.includes(slug));
