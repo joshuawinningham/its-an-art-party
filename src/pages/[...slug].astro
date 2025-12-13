@@ -1,184 +1,69 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import PageHeader from "../components/PageHeader.astro";
-import { Image } from "astro:assets";
-import robinImg from "../assets/images/robin-winningham.jpg";
+import PageRenderer from "../components/PageRenderer.astro";
+import { getPage, getPageSlugs } from "../lib/wordpress";
 
+/**
+ * Generate static paths for all WordPress pages at build time.
+ * Pages with dedicated .astro files (home, about, contact, etc.) are excluded
+ * since they have their own route handlers.
+ */
 export async function getStaticPaths() {
-    const posts: CollectionEntry<"blog">[] = await getCollection("blog");
-    return posts.map((post) => ({
-        params: { slug: post.slug },
-        props: post,
-    }));
-}
-type Props = CollectionEntry<"blog">;
-
-const post = Astro.props;
-const { Content } = await post.render();
-
-// Generate a description from the content if none exists
-const description = post.data.description || post.body.substring(0, 160).replace(/[#*\n]/g, '').trim() + '...';
-
-// Article structured data
-const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": post.data.title,
-    "description": description,
-    "image": post.data.heroImage || "https://www.itsanartparty.com/images/og-blog.jpg",
-    "datePublished": post.data.pubDate.toISOString(),
-    "dateModified": (post.data.updatedDate || post.data.pubDate).toISOString(),
-    "author": {
-        "@type": "Person",
-        "name": post.data.author,
-        "url": "https://www.itsanartparty.com/about"
-    },
-    "publisher": {
-        "@type": "Organization",
-        "name": "It's an Art Party",
-        "logo": {
-            "@type": "ImageObject",
-            "url": "https://www.itsanartparty.com/images/its-an-art-party-logo.png"
-        }
-    },
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": `https://www.itsanartparty.com/${post.slug}`
+    try {
+        const slugs = await getPageSlugs();
+        return slugs.map((slug) => ({
+            params: { slug },
+        }));
+    } catch (error) {
+        console.error(
+            "Failed to fetch WordPress page slugs for static paths:",
+            error,
+        );
+        return [];
     }
-};
+}
 
-// BreadcrumbList schema
-const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-        {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://www.itsanartparty.com"
-        },
-        {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Blog",
-            "item": "https://www.itsanartparty.com/blog"
-        },
-        {
-            "@type": "ListItem",
-            "position": 3,
-            "name": post.data.title,
-            "item": `https://www.itsanartparty.com/${post.slug}`
-        }
-    ]
-};
+const { slug } = Astro.params;
+
+if (!slug) {
+    return Astro.redirect("/404");
+}
+
+// Exclude specific pages that have their own dedicated route files
+const excludedSlugs = ["kids-birthdays", "art-lessons"];
+if (excludedSlugs.includes(slug)) {
+    return Astro.redirect(`/${slug}`);
+}
+
+const page = await getPage(slug);
+
+if (!page) {
+    return Astro.redirect("/404");
+}
+
+const { title, acf } = page;
+const seoDescription =
+    acf?.seo?.seo_description || `Detail page for ${title.rendered}`;
+const blocks = acf?.page_builder || [];
+
+// Check if the page has a Hero block. If so, we render a minimal Header (just nav).
+// If not, we might want a standard Header with title?
+// For Flexible Content pages, usually the Header is just the Nav.
+const hasHero = blocks.some((b) => b.acf_fc_layout === "hero_section");
 ---
 
-<Layout 
-    title={post.data.title}
-    description={description}
-    image={post.data.heroImage || "/images/og-blog.jpg"}
-    type="article"
-    publishedTime={post.data.pubDate}
-    modifiedTime={post.data.updatedDate}
-    author={post.data.author}
+<Layout
+    title={title.rendered}
+    description={seoDescription}
+    image="/images/og-default.jpg"
 >
     <Header showHero={false} />
 
-    <!-- Article Schema -->
-    <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
-    
-    <!-- Breadcrumb Schema -->
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-
-    <PageHeader title={post.data.title} maxWidth="max-w-2xl">
-        <div class="flex flex-col items-center justify-center mt-8">
-            <div class="w-24 h-24 mb-4 relative">
-                <Image
-                    src={robinImg}
-                    alt={`${post.data.author} - Author`}
-                    class="w-full h-full object-cover rounded-full border-4 border-white shadow-md"
-                />
-            </div>
-            <div class="text-center">
-                <p class="font-display text-2xl text-brand-pink uppercase mb-1">
-                    By {post.data.author}
-                </p>
-
-                <time
-                    datetime={post.data.pubDate.toISOString()}
-                    class="font-body text-xs text-gray-400 mt-2 uppercase tracking-widest block"
-                >
-                    {
-                        post.data.pubDate.toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                        })
-                    }
-                </time>
-            </div>
-        </div>
-    </PageHeader>
-
-    <!-- Breadcrumb Navigation -->
-    <nav class="container mx-auto px-4 max-w-2xl py-4" aria-label="Breadcrumb">
-        <ol class="flex items-center gap-2 text-sm text-gray-500">
-            <li>
-                <a href="/" class="hover:text-brand-pink transition">Home</a>
-            </li>
-            <li aria-hidden="true">/</li>
-            <li>
-                <a href="/blog" class="hover:text-brand-pink transition">Blog</a>
-            </li>
-            <li aria-hidden="true">/</li>
-            <li class="text-gray-400 truncate max-w-[200px]" aria-current="page">
-                {post.data.title}
-            </li>
-        </ol>
-    </nav>
-
-    <main class="py-16 bg-white">
-        <article class="container mx-auto px-4 max-w-2xl" itemscope itemtype="https://schema.org/Article">
-            <meta itemprop="headline" content={post.data.title} />
-            <meta itemprop="datePublished" content={post.data.pubDate.toISOString()} />
-            <meta itemprop="author" content={post.data.author} />
-            
-            <div
-                class="prose prose-lg mx-auto max-w-none
-                prose-headings:font-display prose-headings:uppercase prose-headings:text-gray-900 prose-headings:mb-8 prose-headings:mt-16
-                prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
-                prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
-                prose-p:font-body prose-p:text-gray-600 prose-p:leading-loose prose-p:mb-8
-                prose-li:font-body prose-li:text-gray-600 prose-li:leading-loose
-                prose-img:rounded-xl prose-img:shadow-md prose-img:my-12
-                prose-a:text-brand-pink prose-a:no-underline hover:prose-a:underline
-                prose-strong:text-gray-900 prose-strong:font-bold"
-                itemprop="articleBody"
-            >
-                <Content />
-            </div>
-        </article>
+    <main>
+        <PageRenderer blocks={blocks} />
     </main>
-
-    <!-- Related Content CTA -->
-    <section class="bg-gray-50 py-16">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="font-display text-3xl text-brand-teal mb-4 uppercase">Ready to Book Your Party?</h2>
-            <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
-                Now that you've learned some great tips, let us help make your next art party unforgettable!
-            </p>
-            <a 
-                href="/contact" 
-                class="inline-block bg-brand-pink text-white px-8 py-3 rounded-full font-display font-bold uppercase hover:bg-pink-500 transition shadow-md"
-            >
-                Contact Us Today
-            </a>
-        </div>
-    </section>
 
     <Footer />
 </Layout>

@@ -4,45 +4,105 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import PageHeader from "../components/PageHeader.astro";
 import Cta from "../components/Cta.astro";
+import { getKidsBirthdaysPage, type WPPage } from "../lib/wordpress";
 
-// Pricing image
-import pricingImg from "../assets/images/art-diary-picasso-quote.jpg";
+// Fallback image
+import paintPartyImg from "../assets/images/kids-art-paint-party.jpg";
 
-// Gallery Images
-import gallery1 from "../assets/images/kids-art-paint-party.jpg";
-import gallery2 from "../assets/images/kids-painting-birthday-party.jpg";
-import gallery3 from "../assets/images/custom-dog-paint-party.jpg";
-import gallery4 from "../assets/images/mermaid-initial-paint-party.jpg";
-import gallery5 from "../assets/images/ice-cream-paint-party.jpg";
-import gallery6 from "../assets/images/dinosaur-kids-paint-party.jpg";
-import gallery7 from "../assets/images/kids-paint-birthday-party.jpg";
-import gallery8 from "../assets/images/unicorn-kids-canvas-painting.jpg";
-import gallery9 from "../assets/images/mermaid-paint-party.jpg";
+// Gallery images for the photo strip
+import img1 from "../assets/images/unicorn-kids-canvas-painting.jpg";
+import img2 from "../assets/images/unicorn-kids-paint-party-1024x683.jpg";
+import img3 from "../assets/images/paint-party-supplies.jpg";
+import img4 from "../assets/images/dinosaur-kids-paint-party.jpg";
+import img5 from "../assets/images/ice-cream-paint-party.jpg";
+import img6 from "../assets/images/mermaid-paint-party.jpg";
+import img7 from "../assets/images/outdoor-kids-paint-party.jpg";
+import img8 from "../assets/images/indoor-kids-paint-party.jpg";
 
-const galleryImages = [
-    { src: gallery1, alt: "Kids art paint party with colorful canvases" },
-    { src: gallery2, alt: "Children painting at birthday party celebration" },
-    { src: gallery3, alt: "Custom dog portrait painting party" },
-    { src: gallery4, alt: "Mermaid initial letter painting for girls party" },
-    { src: gallery5, alt: "Ice cream cone canvas painting for summer party" },
-    { src: gallery6, alt: "Dinosaur themed birthday paint party for boys" },
-    { src: gallery7, alt: "Kids paint birthday party group activity" },
-    { src: gallery8, alt: "Unicorn canvas painting party for girls" },
-    { src: gallery9, alt: "Mermaid tail painting party design" },
+// Gift of Art styled image
+import giftOfArtImg from "../assets/images/kids-art-paint-party.jpg";
+
+const galleryImages = [img1, img2, img3, img4, img5, img6, img7, img8];
+
+// Try to fetch from WordPress
+let wpPage: WPPage | null = null;
+let useWordPress = false;
+
+try {
+    wpPage = await getKidsBirthdaysPage();
+    if (wpPage?.acf) {
+        useWordPress = true;
+    }
+} catch (error) {
+    console.warn(
+        "WordPress API unavailable for Kids Birthdays page, using fallback content",
+    );
+}
+
+// Extract WordPress data or use fallback values
+const acf = wpPage?.acf || {};
+
+// Page content (WordPress or fallback)
+const seoDescription =
+    acf.seo?.seo_description ||
+    "Celebrate your kids next birthday party with It's an Art Party! I bring the supplies and fun to you!";
+
+// Description
+const description =
+    acf.main_content?.description ||
+    "<p>Paint parties are a great way to celebrate while exploring art with family and friends!</p><p>Customize any project based on the birthday theme or the personal taste of the birthday boy or girl.</p>";
+
+// Pricing
+const pricing =
+    acf.main_content?.pricing_text ||
+    "All parties are $240 for up to 8 children. Add $20 for each additional child.";
+
+// Features
+const features = acf.main_content?.features || [
+    { feature_text: "Starting From $240" },
+    { feature_text: "Unlimited Design Themes" },
+    { feature_text: "Up To 25 Guests" },
+    { feature_text: "1 - 2 Hours (45-60 minute painting time)" },
+    { feature_text: "Free Planning and Consultation" },
 ];
 
-const seoDescription = "Kids canvas paint party packages in Charlotte starting at $240 for up to 8 children. Mobile birthday parties with all supplies, setup & cleanup included. Custom themes available!";
+// Detail Cards
+const details = acf.detail_cards || [
+    {
+        title: "What to Wear",
+        description:
+            "Dress for fun in clothes that will get a little messy and/or bring a smock to wear.",
+        color: "#5BBAB5",
+    },
+    {
+        title: "Art Supplies",
+        description:
+            "I bring the supplies to you and they are included in the party price.",
+        color: "#F5C024",
+    },
+    {
+        title: "Party Favors",
+        description:
+            "Guests get to take their custom painting home to display as a party favor!",
+        color: "#EF6490",
+    },
+    {
+        title: "Instruction",
+        description:
+            "I provide professional instruction for painting with hands-on help and guidance.",
+        color: "#2B80B0",
+    },
+];
 ---
 
-<Layout 
-    title="Kids Birthday Paint Parties Charlotte | Canvas Painting Packages"
+<Layout
+    title="Kids Birthday Art Parties • It's an Art Party"
     description={seoDescription}
-    image="/images/og-kids-birthdays.jpg"
+    image="/images/kids-art-paint-party.jpg"
 >
     <Header showHero={false} />
 
     <main>
-        <!-- Page Header -->
         <PageHeader
             title="PARTIES FOR KIDS"
             subtitle='"The world is but a canvas to the imagination." Henry David Thoreau'
@@ -73,130 +133,43 @@ const seoDescription = "Kids canvas paint party packages in Charlotte starting a
                             >
                                 Description
                             </h3>
-                            <p class="text-gray-600 mb-4 leading-relaxed">
-                                Paint parties are a great way to celebrate while
-                                exploring art with family and friends!
-                            </p>
-                            <p class="text-gray-600 mb-4 leading-relaxed">
-                                <strong>Customize any project</strong> based on the
-                                birthday theme or the personal taste of the birthday
-                                boy or girl.
-                            </p>
-                            <p class="text-gray-600 mb-4 leading-relaxed">
-                                <strong
-                                    >All parties are $240 for up to 8 children.
-                                    Add $20 for each additional child.</strong
-                                >
-                            </p>
-                            <p class="text-gray-600 mb-6 leading-relaxed">
-                                <strong
-                                    >A $75 non-refundable deposit is due at the
+
+                            <div
+                                class="text-gray-600 mb-4 leading-relaxed space-y-3 prose prose-a:text-brand-pink prose-a:no-underline hover:prose-a:underline"
+                                set:html={description}
+                            />
+
+                            <div class="text-gray-600 mb-6 leading-relaxed">
+                                <p><strong>{pricing}</strong></p>
+                                <p class="text-sm mt-2">
+                                    A $75 non-refundable deposit is due at the
                                     time of booking and will be applied to the
-                                    total amount on the day of the party.</strong
-                                >
-                            </p>
+                                    total amount on the day of the party.
+                                </p>
+                            </div>
 
                             <ul class="space-y-2 mb-8">
-                                <li
-                                    class="flex items-center gap-3 text-gray-700 font-medium"
-                                >
-                                    <div
-                                        class="bg-brand-pink rounded-full p-0.5"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="h-3 w-3 text-white"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    Starting From $240
-                                </li>
-                                <li
-                                    class="flex items-center gap-3 text-gray-700 font-medium"
-                                >
-                                    <div
-                                        class="bg-brand-pink rounded-full p-0.5"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="h-3 w-3 text-white"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    Unlimited Design Themes
-                                </li>
-                                <li
-                                    class="flex items-center gap-3 text-gray-700 font-medium"
-                                >
-                                    <div
-                                        class="bg-brand-pink rounded-full p-0.5"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="h-3 w-3 text-white"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    Up To 25 Guests
-                                </li>
-                                <li
-                                    class="flex items-center gap-3 text-gray-700 font-medium"
-                                >
-                                    <div
-                                        class="bg-brand-pink rounded-full p-0.5"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="h-3 w-3 text-white"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    1 - 2 Hours (45-60 minute painting time)
-                                </li>
-                                <li
-                                    class="flex items-center gap-3 text-gray-700 font-medium"
-                                >
-                                    <div
-                                        class="bg-brand-pink rounded-full p-0.5"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="h-3 w-3 text-white"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    Free Planning and Consultation
-                                </li>
+                                {
+                                    features.map((item: any) => (
+                                        <li class="flex items-center gap-3 text-gray-700 font-medium">
+                                            <div class="bg-brand-pink rounded-full p-0.5">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    class="h-3 w-3 text-white"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                        clip-rule="evenodd"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            {item.feature_text}
+                                        </li>
+                                    ))
+                                }
                             </ul>
 
                             <a
@@ -207,68 +180,16 @@ const seoDescription = "Kids canvas paint party packages in Charlotte starting a
                             </a>
                         </div>
 
-                        <!-- Right Content (Carousel) -->
+                        <!-- Right Content (Image) -->
                         <div class="flex-1 relative group">
                             <div
                                 class="overflow-hidden rounded-lg shadow-md h-[400px] relative"
                             >
-                                <div
-                                    id="carousel-track"
-                                    class="flex transition-transform duration-500 ease-in-out h-full"
-                                >
-                                    {
-                                        galleryImages.map((image, index) => (
-                                            <div class="w-full flex-shrink-0 h-full">
-                                                <img
-                                                    src={image.src.src}
-                                                    alt={image.alt}
-                                                    class="w-full h-full object-cover"
-                                                    loading={index === 0 ? "eager" : "lazy"}
-                                                />
-                                            </div>
-                                        ))
-                                    }
-                                </div>
-
-                                <!-- Navigation Arrows -->
-                                <button
-                                    id="prev-btn"
-                                    class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer z-10"
-                                    aria-label="Previous slide"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M15 19l-7-7 7-7"></path>
-                                    </svg>
-                                </button>
-                                <button
-                                    id="next-btn"
-                                    class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer z-10"
-                                    aria-label="Next slide"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </button>
+                                <img
+                                    src={paintPartyImg.src}
+                                    alt="Kids paint party"
+                                    class="w-full h-full object-cover"
+                                />
                             </div>
                         </div>
                     </div>
@@ -285,209 +206,47 @@ const seoDescription = "Kids canvas paint party packages in Charlotte starting a
                     <div
                         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
                     >
-                        <!-- What to Wear -->
-                        <div
-                            class="bg-[#5BBAB5] text-white p-8 text-center rounded-sm shadow-md flex flex-col items-center h-full"
-                        >
-                            <div class="mb-4">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-16 w-16"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                    aria-hidden="true"
+                        {
+                            details.map((card: any) => (
+                                <div
+                                    class="text-white p-8 text-center rounded-sm shadow-md flex flex-col items-center h-full"
+                                    style={`background-color: ${card.color}`}
                                 >
-                                    <path
-                                        d="M12 2C13.1 2 14 2.9 14 4V5H18C19.1 5 20 5.9 20 7V19C20 20.1 19.1 21 18 21H6C4.9 21 4 20.1 4 19V7C4 5.9 4.9 5 6 5H10V4C10 2.9 10.9 2 12 2M12 4C11.45 4 11 4.45 11 5H13C13 4.45 12.55 4 12 4M6 7V19H18V7H6Z"
-                                    ></path>
-                                </svg>
-                            </div>
-                            <h4
-                                class="font-display text-xl uppercase mb-3 font-bold"
-                            >
-                                What to Wear
-                            </h4>
-                            <p class="text-sm leading-relaxed opacity-90">
-                                Dress for fun in clothes that will get a little
-                                messy and/or bring a smock to wear.
-                            </p>
-                        </div>
-
-                        <!-- Art Supplies -->
-                        <div
-                            class="bg-[#F5C024] text-white p-8 text-center rounded-sm shadow-md flex flex-col items-center h-full"
-                        >
-                            <div class="mb-4">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-16 w-16"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        d="M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z"
-                                    ></path>
-                                </svg>
-                            </div>
-                            <h4
-                                class="font-display text-xl uppercase mb-3 font-bold"
-                            >
-                                Art Supplies
-                            </h4>
-                            <p class="text-sm leading-relaxed opacity-90">
-                                I bring the supplies to you and they are
-                                included in the party price.
-                            </p>
-                        </div>
-
-                        <!-- Party Favors -->
-                        <div
-                            class="bg-[#EF6490] text-white p-8 text-center rounded-sm shadow-md flex flex-col items-center h-full"
-                        >
-                            <div class="mb-4">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-16 w-16"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        d="M18,6V4H6V6H2V20H22V6H18M6,18V8H9V18H6M18,18H15V8H18V18M11,18H13V8H11V18M12,2L14.5,4.5L12,7L9.5,4.5L12,2Z"
-                                    ></path>
-                                </svg>
-                            </div>
-                            <h4
-                                class="font-display text-xl uppercase mb-3 font-bold"
-                            >
-                                Party Favors
-                            </h4>
-                            <p class="text-sm leading-relaxed opacity-90">
-                                Guests get to take their custom painting home to
-                                display as a party favor!
-                            </p>
-                        </div>
-
-                        <!-- Instruction -->
-                        <div
-                            class="bg-[#2B80B0] text-white p-8 text-center rounded-sm shadow-md flex flex-col items-center h-full"
-                        >
-                            <div class="mb-4">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-16 w-16"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"
-                                    ></path>
-                                </svg>
-                            </div>
-                            <h4
-                                class="font-display text-xl uppercase mb-3 font-bold"
-                            >
-                                Instruction
-                            </h4>
-                            <p class="text-sm leading-relaxed opacity-90">
-                                I provide professional instruction for painting
-                                with hands-on help and guidance.
-                            </p>
-                        </div>
+                                    <h4 class="font-display text-xl uppercase mb-3 font-bold">
+                                        {card.title}
+                                    </h4>
+                                    <p class="text-sm leading-relaxed opacity-90">
+                                        {card.description}
+                                    </p>
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
             </div>
         </section>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const track = document.getElementById("carousel-track");
-                const prevBtn = document.getElementById("prev-btn");
-                const nextBtn = document.getElementById("next-btn");
-
-                if (!track || !prevBtn || !nextBtn) return;
-
-                const slides = track.children;
-                const slideCount = slides.length;
-                let currentIndex = 0;
-
-                const updateCarousel = () => {
-                    track.style.transform = `translateX(-${currentIndex * 100}%)`;
-                };
-
-                const nextSlide = () => {
-                    currentIndex = (currentIndex + 1) % slideCount;
-                    updateCarousel();
-                };
-
-                const prevSlide = () => {
-                    currentIndex = (currentIndex - 1 + slideCount) % slideCount;
-                    updateCarousel();
-                };
-
-                nextBtn.addEventListener("click", nextSlide);
-                prevBtn.addEventListener("click", prevSlide);
-
-                // Auto advance every 5 seconds
-                setInterval(nextSlide, 5000);
-            });
-        </script>
-
         <!-- What to Expect Section -->
         <section
-            class="bg-brand-pink py-16 text-white text-center relative overflow-hidden"
+            class="bg-brand-pink py-16 text-white relative overflow-hidden"
         >
-            <!-- Decorative Stars -->
             <div
                 class="absolute top-10 right-20 text-white text-4xl opacity-40"
-                aria-hidden="true"
             >
                 ★
             </div>
             <div
-                class="absolute bottom-20 left-10 text-white text-3xl opacity-40"
-                aria-hidden="true"
+                class="absolute bottom-16 left-10 text-white text-2xl opacity-30"
             >
                 ★
             </div>
-            <div
-                class="absolute top-1/3 left-1/4 text-white text-2xl opacity-25"
-                aria-hidden="true"
-            >
-                ★
-            </div>
-            <div
-                class="absolute bottom-1/4 right-1/3 text-white text-5xl opacity-30"
-                aria-hidden="true"
-            >
-                ★
-            </div>
-
-            <!-- Decorative Circles -->
-            <div
-                class="absolute top-20 left-10 w-4 h-4 bg-white rounded-full opacity-25"
-                aria-hidden="true"
-            >
-            </div>
-            <div
-                class="absolute bottom-10 right-10 w-6 h-6 bg-white rounded-full opacity-20"
-                aria-hidden="true"
-            >
-            </div>
-            <div
-                class="absolute top-1/2 right-20 w-3 h-3 bg-white rounded-full opacity-30"
-                aria-hidden="true"
-            >
-            </div>
-
-            <div class="container mx-auto px-4 relative z-10">
+            <div class="container mx-auto px-4 relative z-10 text-center">
                 <h2 class="font-display text-4xl md:text-5xl mb-8 uppercase">
                     What to Expect
                 </h2>
-                <div class="max-w-3xl mx-auto mb-12">
-                    <p class="font-body text-sm md:text-base leading-relaxed">
+
+                <div class="max-w-4xl mx-auto mb-10">
+                    <p class="font-body text-lg md:text-xl leading-relaxed">
                         Party planning includes selecting a theme for canvas
                         designs a week in advance of the party. I will create
                         black and white outline designs ahead of time on each
@@ -498,72 +257,128 @@ const seoDescription = "Kids canvas paint party packages in Charlotte starting a
                         supplies and prepare your tables for other activities of
                         your choosing (food and drinks not included). If there
                         is anything else I can do to assist during the party,
-                        just ask! I am here to help. Most parties only require
+                        just ask! I am here to help! Most parties only require
                         access to trash cans and sinks.
                     </p>
                 </div>
 
-                <!-- Picasso Quote Image -->
-                <div class="flex justify-center">
+                <!-- Gift of Art Card (Centered) -->
+                <div
+                    class="inline-block transform rotate-2 hover:rotate-0 transition-transform duration-300"
+                >
                     <div
-                        class="w-48 h-48 md:w-56 md:h-56 bg-white rounded-lg shadow-2xl overflow-hidden"
+                        class="bg-white rounded-lg shadow-xl overflow-hidden w-64"
                     >
                         <img
-                            src={pricingImg.src}
-                            alt="Painting is just another way of keeping a diary - Pablo Picasso quote"
-                            class="w-full h-full object-cover"
-                            loading="lazy"
+                            src={giftOfArtImg.src}
+                            alt="Gift of Art"
+                            class="w-full h-48 object-cover"
                         />
+                        <div class="p-4 text-center">
+                            <p
+                                class="font-display text-brand-pink text-xl uppercase"
+                            >
+                                Gift of Art
+                            </p>
+                            <p class="font-body text-brand-dark text-sm">
+                                Perfect for any occasion!
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Photo Gallery -->
-        <section class="bg-white py-14" aria-label="Paint party photo gallery">
-            <div class="container mx-auto px-4">
-                <div class="overflow-x-auto pb-4">
-                    <div class="flex gap-4 min-w-max">
+        <!-- Photo Gallery Strip -->
+        <section class="py-4 bg-white overflow-hidden relative group">
+            <div class="container mx-auto relative">
+                <!-- Wrapper for styling/positioning -->
+                <div class="relative px-8 md:px-12">
+                    <button
+                        id="gallery-prev"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-brand-pink/80 hover:bg-brand-pink text-white p-2 rounded-full shadow-lg transition-colors opacity-0 group-hover:opacity-100 duration-300"
+                        aria-label="Previous photos"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+
+                    <div
+                        id="gallery-container"
+                        class="flex gap-4 animate-none overflow-x-auto scrollbar-hide px-4 scroll-smooth"
+                        style="scroll-snap-type: x mandatory;"
+                    >
                         {
-                            galleryImages.map((image) => (
-                                <div class="w-64 h-64 flex-shrink-0 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+                            galleryImages.map((img, idx) => (
+                                <div
+                                    class="flex-shrink-0 w-64 h-48 overflow-hidden rounded-lg shadow-md"
+                                    style="scroll-snap-align: start;"
+                                >
                                     <img
-                                        src={image.src.src}
-                                        alt={image.alt}
+                                        src={img.src}
+                                        alt={`Party photo ${idx + 1}`}
                                         class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                                        loading="lazy"
                                     />
                                 </div>
                             ))
                         }
                     </div>
+
+                    <button
+                        id="gallery-next"
+                        class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-brand-pink/80 hover:bg-brand-pink text-white p-2 rounded-full shadow-lg transition-colors opacity-0 group-hover:opacity-100 duration-300"
+                        aria-label="Next photos"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </section>
 
-        <!-- CTA -->
-        <Cta title="Plan Your Party Today!" />
+        <Cta
+            title="Plan Your Party Today!"
+            subtitle="Call or Text: 980-253-4829"
+        />
     </main>
 
     <Footer />
 </Layout>
 
-<style>
-    .overflow-x-auto::-webkit-scrollbar {
-        height: 6px;
-    }
+<script>
+    const container = document.getElementById("gallery-container");
+    const prevBtn = document.getElementById("gallery-prev");
+    const nextBtn = document.getElementById("gallery-next");
 
-    .overflow-x-auto::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 10px;
-    }
+    if (container && prevBtn && nextBtn) {
+        prevBtn.addEventListener("click", () => {
+            container.scrollBy({ left: -300, behavior: "smooth" });
+        });
 
-    .overflow-x-auto::-webkit-scrollbar-thumb {
-        background: #ea5283;
-        border-radius: 10px;
+        nextBtn.addEventListener("click", () => {
+            container.scrollBy({ left: 300, behavior: "smooth" });
+        });
     }
-
-    .overflow-x-auto::-webkit-scrollbar-thumb:hover {
-        background: #d9739f;
-    }
-</style>
+</script>
