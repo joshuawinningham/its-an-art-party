@@ -1,34 +1,107 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import FeatureCards from '../components/FeatureCards.astro';
-import About from '../components/About.astro';
-import Logos from '../components/Logos.astro';
-import Gallery from '../components/Gallery.astro';
-import PartyOptions from '../components/PartyOptions.astro';
-import Pricing from '../components/Pricing.astro';
-import Cta from '../components/Cta.astro';
-import Testimonials from '../components/Testimonials.astro';
-import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import FeatureCards from "../components/FeatureCards.astro";
+import AboutSection from "../components/AboutSection.astro";
+import Logos from "../components/Logos.astro";
+import Gallery from "../components/Gallery.astro";
+import PartyOptions from "../components/PartyOptions.astro";
+import Pricing from "../components/Pricing.astro";
+import Cta from "../components/Cta.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+import { getHomePage } from "../lib/wordpress";
+import featureCustomImg from "../assets/images/ice-cream-painting.jpg";
+import featureSuppliesImg from "../assets/images/paint-party-supplies.jpg";
+import featureMobileImg from "../assets/images/kids-paint-birthday-party.jpg";
 
-const seoDescription = "Mobile art and canvas painting parties for kids in Charlotte, NC. Birthday parties starting at $240 with all supplies included, setup & cleanup. Ages 4+. Book today!";
+// Fetch data from WordPress
+const homePage = await getHomePage();
+const acf = homePage?.acf;
+
+// SEO
+const seoDescription =
+    acf?.seo?.seo_description ||
+    "Mobile art and canvas painting parties for kids in Charlotte, NC. Birthday parties starting at $240 with all supplies included, setup & cleanup. Ages 4+. Book today!";
+const pageTitle =
+    "Kids Paint Parties in Charlotte NC | Mobile Art Birthday Parties";
+
+// Hero Data
+const heroProps = {
+    heroHeadline: acf?.hero_section?.hero_headline,
+    heroSubheadline: acf?.hero_section?.hero_subheadline,
+    heroDescription: acf?.hero_section?.hero_description,
+    heroButtonText: acf?.hero_section?.hero_button_text,
+    heroButtonLink: "#contact",
+};
+
+// Feature Cards Data
+// If WP data exists, use it. Otherwise, fallback is handled in component,
+// BUT we want to use WP data if possible. The WP data has images as URL strings or IDs.
+// For now, if images are empty in WP, we might want fallbacks.
+// However, the component expects { title, desc, image }.
+// Let's map WP data to component props if available.
+const featureCards = acf?.feature_cards?.map((card) => ({
+    title: card.title,
+    desc: card.description,
+    // Use WP image URL if available, else fallback to a default (or handle in component)
+    // Since we don't have exact mapping of WP image to the specific hardcoded assets easily without logic,
+    // we'll rely on the populated data having valid images or use the defaults if WP data is missing entirely.
+    // For the purpose of this task, we assume WP data is populated (we did migrate it, but scraped cards didn't have images uploaded).
+    // Wait, we SKIPPED image uploads in migration. So `card.image` will be empty/null in WP.
+    // We should fallback to local images if WP image is missing, based on index or title?
+    // Let's use a simple index-based fallback for the 3 main cards to ensure it looks good immediately.
+    image:
+        card.image?.url ||
+        [featureCustomImg, featureSuppliesImg, featureMobileImg][
+            acf?.feature_cards?.indexOf(card) || 0
+        ] ||
+        featureCustomImg,
+}));
+
+// About Section Data
+const aboutProps = {
+    title: acf?.about_section?.title,
+    content: acf?.about_section?.content,
+    artLessonsTitle: acf?.about_section?.art_lessons_title,
+    artLessonsContent: acf?.about_section?.art_lessons_content,
+    zipCodes: acf?.about_section?.zip_codes,
+    // Image skipped in migration, fallback handled in component default (aboutGirl)
+    // But if we want to pass it explicitly if it existed:
+    // image: acf?.about_section?.image?.url
+};
+
+// Testimonials Data
+// Similar to features, we scraped text but didn't upload avatar images.
+// We'll map text/author and fallback images.
+import avatarJulie from "../assets/images/juliet.jpg";
+import avatarAmy from "../assets/images/kelly.jpg";
+import avatarLeslie from "../assets/images/lyndsi.jpg";
+
+const testimonialImages = [avatarJulie, avatarAmy, avatarLeslie];
+
+const testimonials = acf?.testimonials?.map((t, index) => ({
+    text: t.quote,
+    author: t.author,
+    image: t.image?.url || testimonialImages[index] || avatarJulie, // Fallback to local avatars
+}));
 ---
 
-<Layout 
-	title="Kids Paint Parties in Charlotte NC | Mobile Art Birthday Parties"
-	description={seoDescription}
-	image="/images/og-homepage.jpg"
+<Layout
+    title={pageTitle}
+    description={seoDescription}
+    image="/images/og-homepage.jpg"
 >
-	<Header />
-    <FeatureCards />
-    <About />
-    <Logos />
+    <Header {...heroProps} />
+    <FeatureCards features={featureCards} />
+    <AboutSection {...aboutProps} />
+    <Logos images={acf?.press_section?.press_logos} />
     <Gallery />
     <PartyOptions />
     <Pricing />
-    <Cta />
-    <Testimonials />
+    <Cta buttonLink="#contact" />
+    <Testimonials testimonials={testimonials} />
     <Contact />
     <Footer />
 </Layout>

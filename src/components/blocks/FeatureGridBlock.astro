@@ -1,0 +1,58 @@
+---
+import { type FeatureGridBlock } from "../../lib/wordpress";
+
+interface Props {
+    block: FeatureGridBlock;
+}
+
+const { block } = Astro.props;
+const { title, items } = block;
+
+// Icon map to SVG paths
+const icons: Record<string, string> = {
+    shirt: "M12 2C13.1 2 14 2.9 14 4V5H18C19.1 5 20 5.9 20 7V19C20 20.1 19.1 21 18 21H6C4.9 21 4 20.1 4 19V7C4 5.9 4.9 5 6 5H10V4C10 2.9 10.9 2 12 2M12 4C11.45 4 11 4.45 11 5H13C13 4.45 12.55 4 12 4M6 7V19H18V7H6Z",
+    brush: "M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z",
+    gift: "M18,6V4H6V6H2V20H22V6H18M6,18V8H9V18H6M18,18H15V8H18V18M11,18H13V8H11V18M12,2L14.5,4.5L12,7L9.5,4.5L12,2Z",
+    person: "M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z",
+};
+---
+
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        {
+            title && (
+                <h2 class="font-display text-3xl md:text-4xl text-brand-pink text-center uppercase mb-12">
+                    {title}
+                </h2>
+            )
+        }
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {
+                items.map((item) => (
+                    <div
+                        class="text-white p-8 text-center rounded-sm shadow-md flex flex-col items-center h-full transition transform hover:-translate-y-1"
+                        style={{ backgroundColor: item.color || "#5BBAB5" }}
+                    >
+                        <div class="mb-4">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-16 w-16"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <path d={icons[item.icon] || icons.brush} />
+                            </svg>
+                        </div>
+                        <h4 class="font-display text-xl uppercase mb-3 font-bold">
+                            {item.title}
+                        </h4>
+                        <p class="text-sm leading-relaxed opacity-95">
+                            {item.description}
+                        </p>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>

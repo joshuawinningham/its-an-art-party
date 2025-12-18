@@ -1,18 +1,43 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import PageHeader from "../../components/PageHeader.astro";
+import {
+    getPosts,
+    decodeHtmlEntities,
+    stripHtml,
+    formatDate,
+    getAuthorName,
+    getExcerptText,
+    type WPPost,
+} from "../../lib/wordpress";
 
-const posts = (await getCollection("blog")).sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+// Try to fetch from WordPress, fall back to local content if unavailable
+let posts: WPPost[] = [];
+let useWordPress = true;
 
-const seoDescription = "Read our blog for tips on hosting paint parties, DIY art projects, homeschool art ideas, and starting your own paint party business. Expert advice from Charlotte's favorite kids art party service.";
+try {
+    posts = await getPosts({ orderBy: "date", order: "desc" });
+} catch (error) {
+    console.warn("WordPress API unavailable, using fallback content");
+    useWordPress = false;
+}
+
+// Fallback to local content collection if WordPress is unavailable
+let localPosts: any[] = [];
+if (!useWordPress) {
+    const { getCollection } = await import("astro:content");
+    localPosts = (await getCollection("blog")).sort(
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+    );
+}
+
+const seoDescription =
+    "Read our blog for tips on hosting paint parties, DIY art projects, homeschool art ideas, and starting your own paint party business. Expert advice from Charlotte's favorite kids art party service.";
 ---
 
-<Layout 
+<Layout
     title="Paint Party Blog | Tips, Ideas & DIY Art Projects"
     description={seoDescription}
     image="/images/og-blog.jpg"
@@ -25,49 +50,127 @@ const seoDescription = "Read our blog for tips on hosting paint parties, DIY art
     <main class="p-8 max-w-6xl mx-auto min-h-screen">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
             {
-                posts.map((post) => {
-                    const date = post.data.pubDate;
-                    // Simple excerpt generation (first 150 chars of body)
-                    // Note: post.body contains raw markdown. For better excerpt, we might need a helper or just use description if available.
-                    const excerpt =
-                        post.data.description ||
-                        post.body.substring(0, 150) + "...";
+                useWordPress
+                    ? /* WordPress Posts */
+                      posts.map((post) => {
+                          const title = decodeHtmlEntities(post.title.rendered);
+                          const date = new Date(post.date);
+                          const author = getAuthorName(post);
+                          const excerpt =
+                              post.acf?.description ||
+                              getExcerptText(post.content.rendered, 150);
 
-                    return (
-                        <article class="flex flex-col items-start" itemscope itemtype="https://schema.org/BlogPosting">
-                            <h2 class="text-2xl md:text-3xl font-display text-brand-teal mb-2 leading-tight" itemprop="headline">
-                                <a
-                                    href={`/${post.slug}`}
-                                    class="hover:text-brand-pink transition-colors"
-                                    itemprop="url"
-                                >
-                                    {post.data.title}
-                                </a>
-                            </h2>
-                            <div class="text-gray-400 text-xs font-body uppercase tracking-widest mb-4">
-                                <span itemprop="author" itemscope itemtype="https://schema.org/Person">
-                                    <span itemprop="name">{post.data.author}</span>
-                                </span> /{" "}
-                                <time datetime={date.toISOString()} itemprop="datePublished">
-                                    {date.toLocaleDateString("en-US", {
-                                        year: "numeric",
-                                        month: "long",
-                                        day: "numeric",
-                                    })}
-                                </time>
-                            </div>
-                            <p class="text-gray-500 mb-4 leading-relaxed font-body" itemprop="description">
-                                {excerpt}
-                            </p>
-                            <a
-                                href={`/${post.slug}`}
-                                class="text-brand-pink font-bold hover:underline text-sm uppercase tracking-wide"
-                            >
-                                Read Article
-                            </a>
-                        </article>
-                    );
-                })
+                          return (
+                              <article
+                                  class="flex flex-col items-start"
+                                  itemscope
+                                  itemtype="https://schema.org/BlogPosting"
+                              >
+                                  <h2
+                                      class="text-2xl md:text-3xl font-display text-brand-teal mb-2 leading-tight"
+                                      itemprop="headline"
+                                  >
+                                      <a
+                                          href={`/${post.slug}`}
+                                          class="hover:text-brand-pink transition-colors"
+                                          itemprop="url"
+                                      >
+                                          {title}
+                                      </a>
+                                  </h2>
+                                  <div class="text-gray-400 text-xs font-body uppercase tracking-widest mb-4">
+                                      <span
+                                          itemprop="author"
+                                          itemscope
+                                          itemtype="https://schema.org/Person"
+                                      >
+                                          <span itemprop="name">{author}</span>
+                                      </span>{" "}
+                                      /{" "}
+                                      <time
+                                          datetime={date.toISOString()}
+                                          itemprop="datePublished"
+                                      >
+                                          {formatDate(date.toISOString())}
+                                      </time>
+                                  </div>
+                                  <p
+                                      class="text-gray-500 mb-4 leading-relaxed font-body"
+                                      itemprop="description"
+                                  >
+                                      {excerpt}
+                                  </p>
+                                  <a
+                                      href={`/${post.slug}`}
+                                      class="text-brand-pink font-bold hover:underline text-sm uppercase tracking-wide"
+                                  >
+                                      Read Article
+                                  </a>
+                              </article>
+                          );
+                      })
+                    : /* Fallback: Local Markdown Posts */
+                      localPosts.map((post) => {
+                          const date = post.data.pubDate;
+                          const excerpt =
+                              post.data.description ||
+                              post.body.substring(0, 150) + "...";
+
+                          return (
+                              <article
+                                  class="flex flex-col items-start"
+                                  itemscope
+                                  itemtype="https://schema.org/BlogPosting"
+                              >
+                                  <h2
+                                      class="text-2xl md:text-3xl font-display text-brand-teal mb-2 leading-tight"
+                                      itemprop="headline"
+                                  >
+                                      <a
+                                          href={`/${post.slug}`}
+                                          class="hover:text-brand-pink transition-colors"
+                                          itemprop="url"
+                                      >
+                                          {post.data.title}
+                                      </a>
+                                  </h2>
+                                  <div class="text-gray-400 text-xs font-body uppercase tracking-widest mb-4">
+                                      <span
+                                          itemprop="author"
+                                          itemscope
+                                          itemtype="https://schema.org/Person"
+                                      >
+                                          <span itemprop="name">
+                                              {post.data.author}
+                                          </span>
+                                      </span>{" "}
+                                      /{" "}
+                                      <time
+                                          datetime={date.toISOString()}
+                                          itemprop="datePublished"
+                                      >
+                                          {date.toLocaleDateString("en-US", {
+                                              year: "numeric",
+                                              month: "long",
+                                              day: "numeric",
+                                          })}
+                                      </time>
+                                  </div>
+                                  <p
+                                      class="text-gray-500 mb-4 leading-relaxed font-body"
+                                      itemprop="description"
+                                  >
+                                      {excerpt}
+                                  </p>
+                                  <a
+                                      href={`/${post.slug}`}
+                                      class="text-brand-pink font-bold hover:underline text-sm uppercase tracking-wide"
+                                  >
+                                      Read Article
+                                  </a>
+                              </article>
+                          );
+                      })
             }
         </div>
     </main>

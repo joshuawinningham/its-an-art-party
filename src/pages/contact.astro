@@ -3,14 +3,76 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import PageHeader from "../components/PageHeader.astro";
+import { getContactPage, type WPContactPage } from "../lib/wordpress";
 
-// Images
+// Fallback image
 import hearFromYouImg from "../assets/images/9.jpg";
-import mapImg from "../assets/images/charlotte-group-art-lesson.jpg"; // Placeholder
 
-const seoDescription = "Contact It's an Art Party to book your kids paint party or art lesson in Charlotte, NC. Call 980-253-4829 or fill out our online form. Serving Charlotte and surrounding areas.";
+// Try to fetch from WordPress
+let wpPage: WPContactPage | null = null;
+let useWordPress = false;
 
-// Check for success parameters (handled client-side since Astro is static)
+try {
+    wpPage = await getContactPage();
+    if (wpPage?.acf) {
+        useWordPress = true;
+    }
+} catch (error) {
+    console.warn('WordPress API unavailable for Contact page, using fallback content');
+}
+
+// Extract WordPress data or use fallback values
+const acf = wpPage?.acf || {};
+
+// Page content (WordPress or fallback)
+const seoDescription = acf.seo_description || "Contact It's an Art Party to book your kids paint party or art lesson in Charlotte, NC. Call 980-253-4829 or fill out our online form. Serving Charlotte and surrounding areas.";
+
+// Form section
+const formTitle = acf.form_title || "Request a Party";
+const formSubtitle = acf.form_subtitle || "Please fill out the form below to request more information or schedule a paint party or art lesson.";
+
+// Hear from you section
+const hearFromYouTitle = acf.hear_from_you_title || "I Can't Wait To Hear From You!";
+const hearFromYouText = acf.hear_from_you_text || `You can also call or text me directly at <a href="tel:9802534829" class="text-brand-pink hover:underline">980-253-4829</a> or send an email to <a href="mailto:robin@itsanartparty.com" class="text-brand-pink hover:underline">robin@itsanartparty.com</a> and I will respond as soon as possible.`;
+const hearFromYouImage = acf.hear_from_you_image?.url;
+
+// Contact info
+const contactTitle = acf.contact_title || "Get In Touch";
+const address = acf.address || "7845 Colony Rd Ste C4-227\nCharlotte, NC 28226";
+const phone = acf.phone || "980-253-4829";
+const email = acf.email || "robin@itsanartparty.com";
+
+// Social links
+const socialLinks = acf.social_links || [
+    { platform: "facebook", url: "https://www.facebook.com/itsanartparty" },
+    { platform: "twitter", url: "https://twitter.com/itsanartparty" },
+    { platform: "youtube", url: "https://www.youtube.com/itsanartparty" },
+];
+
+// Map
+const mapEmbedUrl = acf.map_embed_url || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3261.687867696636!2d-80.82646868475515!3d35.16436798031804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88569f9a7a7a7a7a%3A0x7a7a7a7a7a7a7a7a!2s7845%20Colony%20Rd%20Ste%20C4-227%2C%20Charlotte%2C%20NC%2028226!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus";
+
+// Newsletter
+const newsletterTitle = acf.newsletter_title || "Newsletter";
+const newsletterSubtitle = acf.newsletter_subtitle || "Subscribe to my newsletter to stay updated!";
+
+// Social icon SVG paths
+const socialIcons: Record<string, string> = {
+    facebook: "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z",
+    twitter: "M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z",
+    youtube: "M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.263-4.356 2.698-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.63-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z",
+    instagram: "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z",
+    pinterest: "M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z",
+};
+
+// Social platform labels
+const socialLabels: Record<string, string> = {
+    facebook: "Follow us on Facebook",
+    twitter: "Follow us on Twitter",
+    youtube: "Subscribe to our YouTube channel",
+    instagram: "Follow us on Instagram",
+    pinterest: "Follow us on Pinterest",
+};
 ---
 
 <Layout 
@@ -38,11 +100,10 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                 <h1
                     class="font-display text-4xl md:text-6xl text-brand-teal mb-4 uppercase"
                 >
-                    Request a Party
+                    {formTitle}
                 </h1>
                 <p class="text-brand-pink font-body mb-12 max-w-2xl mx-auto">
-                    Please fill out the form below to request more information
-                    or schedule a paint party or art lesson.
+                    {formSubtitle}
                 </p>
 
                 <!-- Success Message for Contact Form -->
@@ -169,27 +230,27 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                 <h2
                     class="font-display text-3xl md:text-5xl text-brand-teal mb-6 uppercase"
                 >
-                    I Can't Wait To Hear From You!
+                    {hearFromYouTitle}
                 </h2>
-                <p class="font-body text-gray-600 mb-2">
-                    You can also call or text me directly at <a
-                        href="tel:9802534829"
-                        class="text-brand-pink hover:underline">980-253-4829</a
-                    > or send an email to <a
-                        href="mailto:robin@itsanartparty.com"
-                        class="text-brand-pink hover:underline"
-                        >robin@itsanartparty.com</a
-                    > and I will respond as soon as possible.
-                </p>
+                <div class="font-body text-gray-600 mb-2" set:html={hearFromYouText} />
                 <p class="font-body text-gray-600 mb-12">Thank you!</p>
 
                 <div class="max-w-5xl mx-auto">
-                    <img
-                        src={hearFromYouImg.src}
-                        alt="Happy kids at an art party painting colorful canvases"
-                        class="w-full h-auto object-cover rounded-lg shadow-sm"
-                        loading="lazy"
-                    />
+                    {hearFromYouImage ? (
+                        <img
+                            src={hearFromYouImage}
+                            alt="Happy kids at an art party painting colorful canvases"
+                            class="w-full h-auto object-cover rounded-lg shadow-sm"
+                            loading="lazy"
+                        />
+                    ) : (
+                        <img
+                            src={hearFromYouImg.src}
+                            alt="Happy kids at an art party painting colorful canvases"
+                            class="w-full h-auto object-cover rounded-lg shadow-sm"
+                            loading="lazy"
+                        />
+                    )}
                 </div>
             </div>
         </section>
@@ -205,7 +266,7 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                         <h2
                             class="font-display text-4xl text-brand-teal mb-12 uppercase text-center md:text-left"
                         >
-                            Get In Touch
+                            {contactTitle}
                         </h2>
 
                         <address class="space-y-8 not-italic">
@@ -232,9 +293,8 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                                     >
                                         Address
                                     </h3>
-                                    <p class="font-body text-gray-600">
-                                        7845 Colony Rd Ste C4-227<br
-                                        />Charlotte, NC 28226
+                                    <p class="font-body text-gray-600 whitespace-pre-line">
+                                        {address}
                                     </p>
                                 </div>
                             </div>
@@ -262,7 +322,7 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                                         Call or Text
                                     </h3>
                                     <p class="font-body text-gray-600">
-                                        <a href="tel:9802534829" class="hover:text-brand-pink transition">980-253-4829</a>
+                                        <a href={`tel:${phone.replace(/\D/g, '')}`} class="hover:text-brand-pink transition">{phone}</a>
                                     </p>
                                 </div>
                             </div>
@@ -293,7 +353,7 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                                         Email
                                     </h3>
                                     <p class="font-body text-gray-600">
-                                        <a href="mailto:robin@itsanartparty.com" class="hover:text-brand-pink transition">robin@itsanartparty.com</a>
+                                        <a href={`mailto:${email}`} class="hover:text-brand-pink transition">{email}</a>
                                     </p>
                                 </div>
                             </div>
@@ -304,54 +364,29 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                             class="flex gap-4 mt-12 justify-center md:justify-start"
                             aria-label="Social media links"
                         >
-                            <a
-                                href="https://www.facebook.com/itsanartparty"
-                                class="text-brand-pink hover:text-pink-600 transition text-2xl"
-                                aria-label="Follow us on Facebook"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <svg
-                                    class="w-6 h-6 fill-current"
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true"
-                                    ><path
-                                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-                                    ></path></svg
-                                >
-                            </a>
-                            <a
-                                href="https://twitter.com/itsanartparty"
-                                class="text-brand-pink hover:text-pink-600 transition text-2xl"
-                                aria-label="Follow us on Twitter"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <svg
-                                    class="w-6 h-6 fill-current"
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true"
-                                    ><path
-                                        d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
-                                    ></path></svg
-                                >
-                            </a>
-                            <a
-                                href="https://www.youtube.com/itsanartparty"
-                                class="text-brand-pink hover:text-pink-600 transition text-2xl"
-                                aria-label="Subscribe to our YouTube channel"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <svg
-                                    class="w-6 h-6 fill-current"
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true"
-                                    ><path
-                                        d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.263-4.356 2.698-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.63-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"
-                                    ></path></svg
-                                >
-                            </a>
+                            {socialLinks.map((link: any) => {
+                                const iconPath = socialIcons[link.platform];
+                                const label = socialLabels[link.platform] || `Follow us on ${link.platform}`;
+                                if (!iconPath) return null;
+                                
+                                return (
+                                    <a
+                                        href={link.url}
+                                        class="text-brand-pink hover:text-pink-600 transition text-2xl"
+                                        aria-label={label}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <svg
+                                            class="w-6 h-6 fill-current"
+                                            viewBox="0 0 24 24"
+                                            aria-hidden="true"
+                                        >
+                                            <path d={iconPath} />
+                                        </svg>
+                                    </a>
+                                );
+                            })}
                         </nav>
                     </div>
 
@@ -360,7 +395,7 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                         class="h-96 bg-gray-200 rounded-lg overflow-hidden relative"
                     >
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3261.687867696636!2d-80.82646868475515!3d35.16436798031804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88569f9a7a7a7a7a%3A0x7a7a7a7a7a7a7a7a!2s7845%20Colony%20Rd%20Ste%20C4-227%2C%20Charlotte%2C%20NC%2028226!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
+                            src={mapEmbedUrl}
                             width="100%"
                             height="100%"
                             style="border:0;"
@@ -397,10 +432,10 @@ const seoDescription = "Contact It's an Art Party to book your kids paint party 
                     </div>
                     <div>
                         <h2 class="font-display text-3xl text-white uppercase">
-                            Newsletter
+                            {newsletterTitle}
                         </h2>
                         <p class="font-body text-white text-sm">
-                            Subscribe to my newsletter to stay updated!
+                            {newsletterSubtitle}
                         </p>
                     </div>
                 </div>

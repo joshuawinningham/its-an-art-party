@@ -1,0 +1,49 @@
+---
+import { type CtaBlock } from "../../lib/wordpress";
+
+interface Props {
+    block: CtaBlock;
+}
+
+const { block } = Astro.props;
+const { title, subtitle, link } = block;
+---
+
+<section
+    class="bg-brand-pink py-16 text-center text-white relative overflow-hidden"
+>
+    {/* Decor */}
+    <div
+        class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
+    >
+        <div class="absolute top-10 right-20 text-6xl transform rotate-12">
+            ★
+        </div>
+        <div class="absolute bottom-10 left-20 text-4xl transform -rotate-12">
+            ★
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+        <h2
+            class="font-display text-4xl md:text-6xl mb-6 uppercase drop-shadow-md"
+        >
+            {title}
+        </h2>
+
+        {
+            subtitle && (
+                <p class="font-body text-xl md:text-2xl mb-10 max-w-2xl mx-auto opacity-90">
+                    {subtitle}
+                </p>
+            )
+        }
+
+        <a
+            href={link || "#contact"}
+            class="inline-block bg-white text-brand-pink hover:bg-gray-100 font-bold py-4 px-12 rounded-full text-xl uppercase tracking-widest transition transform hover:scale-105 shadow-xl"
+        >
+            Book Now
+        </a>
+    </div>
+</section>

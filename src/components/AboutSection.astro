@@ -1,0 +1,107 @@
+---
+import aboutGirl from "../assets/images/kids.png";
+
+interface Props {
+    title?: string;
+    content?: string;
+    artLessonsTitle?: string;
+    artLessonsContent?: string;
+    zipCodes?: string;
+    image?: any;
+}
+
+const DEFAULT_CONTENT = `<p>It's an Art Party is a mobile art and paint party service! I specialize in <a href="/kids-birthdays/">kids birthday parties</a> including canvas painting and mixed media art projects for ages 4 and up. I bring the creativity to you with all supplies included.</p>
+<p>My goal is for children to experience the fun of art and paint in a celebratory atmosphere. Art parties fuel their creativity with personalized projects that make great keepsakes!</p>
+<p><a href="/contact/">Contact me</a> today to plan your next party!</p>`;
+
+const DEFAULT_ART_LESSONS_CONTENT = `<p>I also offer options for <a href="/art-lessons/">art lessons</a> in small groups for ages 4 and up. Provide your kids with a creative outlet through one-on-one instruction and encouragement. Art provides many developmental benefits and may even improve academic performance.</p>`;
+
+const DEFAULT_ZIP_CODES =
+    "28277, 28226, 28211, 28270, 28105, 28209, 28173, 28079, 28104, 28025";
+
+const {
+    title = "CHARLOTTE PAINTING PARTIES FOR KIDS",
+    content = DEFAULT_CONTENT,
+    artLessonsTitle = "ART LESSONS",
+    artLessonsContent = DEFAULT_ART_LESSONS_CONTENT,
+    zipCodes = DEFAULT_ZIP_CODES,
+    image = aboutGirl,
+} = Astro.props;
+---
+
+<section class="bg-white pt-0 pb-12 px-6 relative overflow-visible">
+    <!-- Background decorations (Stars) -->
+    <div class="absolute top-20 left-10 text-gray-100 opacity-50 animate-pulse">
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor">
+            <path
+                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+            ></path>
+        </svg>
+    </div>
+    <div class="absolute top-1/2 right-20 text-gray-100 opacity-50">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor">
+            <path
+                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+            ></path>
+        </svg>
+    </div>
+    <div class="absolute bottom-20 left-1/3 text-gray-100 opacity-50">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+            <path
+                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+            ></path>
+        </svg>
+    </div>
+
+    <div
+        class="max-w-6xl mx-auto flex flex-col md:flex-row gap-16 relative z-10"
+    >
+        <div class="md:w-3/5 pt-10">
+            <h2
+                class="text-brand-teal text-5xl md:text-7xl mb-8 leading-tight drop-shadow-sm font-display uppercase"
+                set:html={title.replace(/\n/g, "<br />")}
+            />
+
+            <div
+                class="text-gray-600 font-body text-xl mb-6 leading-relaxed prose prose-lg prose-p:mb-6 prose-strong:text-brand-pink prose-strong:font-bold prose-strong:italic"
+                set:html={content}
+            />
+
+            <h3
+                class="text-brand-dark text-2xl md:text-3xl mb-6 mt-12 uppercase tracking-wide font-display"
+            >
+                {artLessonsTitle}
+            </h3>
+
+            <div
+                class="text-gray-600 font-body mb-10 leading-relaxed text-lg prose prose-lg"
+                set:html={artLessonsContent}
+            />
+
+            <div
+                class="text-gray-400 text-sm font-body mb-6 max-w-xl leading-relaxed"
+            >
+                I happily serve the following Charlotte, NC and surrounding area
+                zip codes: {zipCodes}
+            </div>
+
+            <a
+                href="/about"
+                class="inline-block bg-brand-pink hover:bg-pink-600 text-white font-bold py-4 px-12 rounded-full text-sm uppercase tracking-widest transition transform hover:scale-105 shadow-lg"
+            >
+                Read More
+            </a>
+        </div>
+
+        <div class="md:w-2/5 flex items-center justify-center relative">
+            <!-- Image of girl - positioned to overlap into next section -->
+            <div class="relative mb-[-80px] z-20">
+                <img
+                    src={typeof image === "string" ? image : image.src}
+                    alt="Girl with painting"
+                    class="w-80 h-auto object-contain drop-shadow-xl"
+                />
+            </div>
+        </div>
+    </div>
+</section>

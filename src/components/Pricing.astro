@@ -14,6 +14,7 @@ const plans = [
         popular: true,
         btnColor: "bg-brand-pink",
         priceColor: "text-brand-pink",
+        link: "/kids-birthdays",
     },
     {
         title: "ART LESSONS",
@@ -29,6 +30,7 @@ const plans = [
         popular: false,
         btnColor: "bg-brand-teal",
         priceColor: "text-brand-teal",
+        link: "/art-lessons",
     },
     {
         title: "DIY PARTY",
@@ -44,6 +46,7 @@ const plans = [
         popular: false,
         btnColor: "bg-brand-yellow",
         priceColor: "text-brand-yellow",
+        link: "https://www.etsy.com/shop/itsanartparty",
     },
 ];
 ---
@@ -107,7 +110,7 @@ const plans = [
                                 Starting Price
                             </div>
 
-                            <ul class="space-y-4 mb-10 text-left px-4">
+                            <ul class="space-y-5 mb-12 text-left px-4">
                                 {plan.features.map((feature) => (
                                     <li class="flex items-start text-gray-600 font-body text-sm">
                                         <span
@@ -120,11 +123,22 @@ const plans = [
                                 ))}
                             </ul>
 
-                            <button
-                                class={`${plan.btnColor} hover:brightness-90 text-white font-bold py-3 px-10 rounded-full text-xs uppercase tracking-widest transition shadow-md w-full`}
+                            <a
+                                href={plan.link}
+                                target={
+                                    plan.link.includes("http")
+                                        ? "_blank"
+                                        : undefined
+                                }
+                                rel={
+                                    plan.link.includes("http")
+                                        ? "noopener noreferrer"
+                                        : undefined
+                                }
+                                class={`${plan.btnColor} hover:brightness-90 text-white font-bold py-3 px-10 rounded-full text-xs uppercase tracking-widest transition-all duration-300 transform hover:scale-105 shadow-md w-full inline-block`}
                             >
                                 Read More
-                            </button>
+                            </a>
                         </div>
                     </div>
                 ))

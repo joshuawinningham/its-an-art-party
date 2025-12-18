@@ -1,0 +1,102 @@
+---
+import { type TextImageBlock } from "../../lib/wordpress";
+
+interface Props {
+    block: TextImageBlock;
+}
+
+const { block } = Astro.props;
+const { title, content, image, image_position, pricing_text, features } = block;
+
+const imageUrl = image?.url || image?.sizes?.large || image?.sizes?.medium;
+---
+
+<section class="py-16 md:py-24 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row gap-12 items-center">
+            {/* Image Side (Left) */}
+            {
+                imageUrl && image_position === "left" && (
+                    <div class="w-full md:w-1/2">
+                        <div class="relative transform -rotate-2 rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+                            <img
+                                src={imageUrl}
+                                alt={image?.alt || title}
+                                class="w-full h-auto object-cover"
+                            />
+                        </div>
+                    </div>
+                )
+            }
+
+            {/* Content Side */}
+            <div
+                class={`w-full ${imageUrl ? "md:w-1/2" : "max-w-4xl mx-auto text-center"}`}
+            >
+                {
+                    title && (
+                        <h2 class="font-display text-4xl md:text-5xl text-brand-pink mb-6 uppercase">
+                            {title}
+                        </h2>
+                    )
+                }
+
+                <div
+                    class="prose prose-lg text-gray-600 mb-8 font-light"
+                    set:html={content}
+                />
+
+                {
+                    pricing_text && (
+                        <div class="bg-brand-yellow/10 p-6 rounded-xl border-l-4 border-brand-yellow mb-8">
+                            <p class="font-display text-xl text-brand-dark whitespace-pre-line">
+                                {pricing_text}
+                            </p>
+                        </div>
+                    )
+                }
+
+                {
+                    features && features.length > 0 && (
+                        <ul class="space-y-3">
+                            {features.map((item) => (
+                                <li class="flex items-center gap-3 text-gray-700 font-medium">
+                                    <span class="bg-brand-teal rounded-full p-1 flex-shrink-0">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-4 w-4 text-white"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"
+                                            />
+                                        </svg>
+                                    </span>
+                                    {item.text}
+                                </li>
+                            ))}
+                        </ul>
+                    )
+                }
+            </div>
+
+            {/* Image Side (Right) */}
+            {
+                imageUrl && image_position === "right" && (
+                    <div class="w-full md:w-1/2">
+                        <div class="relative transform rotate-2 rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+                            <img
+                                src={imageUrl}
+                                alt={image?.alt || title}
+                                class="w-full h-auto object-cover"
+                            />
+                        </div>
+                    </div>
+                )
+            }
+        </div>
+    </div>
+</section>

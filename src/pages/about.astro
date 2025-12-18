@@ -5,6 +5,9 @@ import Footer from "../components/Footer.astro";
 import PageHeader from "../components/PageHeader.astro";
 import Cta from "../components/Cta.astro";
 import { Image } from "astro:assets";
+import { getAboutPage, type WPAboutPage } from "../lib/wordpress";
+
+// Fallback images (used when WordPress images aren't available)
 import robinImg from "../assets/images/robin-winningham.jpg";
 import collage1 from "../assets/images/kids-art-paint-party.jpg";
 import collage2 from "../assets/images/unicorn-kids-canvas-painting.jpg";
@@ -13,13 +16,141 @@ import collage4 from "../assets/images/dinosaur-kids-paint-party.jpg";
 import collage5 from "../assets/images/butterfly-kids-paint-party.jpg";
 import collage6 from "../assets/images/ice-cream-paint-party.jpg";
 
-const subtitle =
-    '"You can\'t use up creativity. The more you use, the more you have." Maya Angelou';
+// Try to fetch from WordPress
+let wpPage: WPAboutPage | null = null;
+let useWordPress = false;
 
-const seoDescription = "Meet Robin Winningham, founder of It's an Art Party in Charlotte, NC. Learn about our mobile paint party services, policies, and why families trust us for kids' birthday celebrations.";
+try {
+    wpPage = await getAboutPage();
+    if (wpPage?.acf) {
+        useWordPress = true;
+    }
+} catch (error) {
+    console.warn(
+        "WordPress API unavailable for About page, using fallback content",
+    );
+}
+
+// Extract WordPress data or use fallback values
+const acf = wpPage?.acf || {};
+
+// Page content (WordPress or fallback) - access via nested group structure
+const subtitle =
+    acf.hero?.subtitle_quote ||
+    '"You can\'t use up creativity. The more you use, the more you have." Maya Angelou';
+const seoDescription =
+    acf.seo?.seo_description ||
+    "Meet Robin Winningham, founder of It's an Art Party in Charlotte, NC. Learn about our mobile paint party services, policies, and why families trust us for kids' birthday celebrations.";
+
+// Intro section (from intro_section group)
+const introText =
+    acf.intro_section?.intro_text ||
+    "I started It's an Art Party as a way to combine my passion for art with my love for children. There is no greater feeling than watching a child light up when given the encouragement and opportunity to create something on their own.";
+const ownerName = acf.intro_section?.owner_name || "Robin Winningham";
+const ownerTitle = acf.intro_section?.owner_title || "Artist and Owner";
+const introImage = acf.intro_section?.intro_image?.url;
+
+// About Me content (from about_me group)
+const aboutMeContent =
+    acf.about_me?.about_me_content ||
+    `
+<p class="font-bold">Hi, my name is Robin and I am the creator of It's an Art Party!</p>
+<p>I believe that everyone has the ability to be creative and express themselves through one art form or another. The possibilities are endless! I hope to help the next generation express themselves freely through art. It's an Art Party takes that goal and combines it with the celebration of a special event such as a birthday.</p>
+<p>My fondest childhood birthday memories are the art parties I had with friends. Not only did I love working on my special birthday art project, but I loved seeing what my friends created as well. It was a special time for making memories and doing something fun as a group.</p>
+<p>I can't remember a time when I wasn't pursuing a love of art. I started taking art classes in elementary school and put my first portfolio together at the age of 10. I was accepted into a magnet school for performing and visual arts from grades 6-8. What I learned about art in those 3 years became the foundation for my dream of becoming a full-time artist.</p>
+<p>I sampled a lot of different mediums and tried many new techniques in those years. I continued to take art classes throughout high school and into college. I love working with my hands and today I am continuing to experiment with different mediums and challenge myself creatively. My abstract paintings can be found on my artist website. You can also read more about me there.</p>
+<p>I have also spent many years teaching Sunday school and working with children at my church. I love watching children discover all the fun that art has to offer!</p>
+<p>Throughout our journey, I want to help celebrate your special occasions by bringing art to you! Visit the <a href="/services/kids-birthdays" class="text-brand-pink hover:underline">kids painting parties page</a> for project examples and pricing.</p>
+<p>I also offer art lessons for individuals or small groups. Find out more about art lessons <a href="/services/art-lessons" class="text-brand-pink hover:underline">here</a>.</p>
+<p><a href="/contact" class="text-brand-pink hover:underline">Contact me</a> or call or text <a href="tel:9802534829" class="text-brand-pink hover:underline">980-253-4829</a>. I can't wait to start planning your art party to remember!</p>
+`;
+
+// Why Choose section (from why_choose_section group)
+const whyChooseTitle =
+    acf.why_choose_section?.why_choose_title || "Why Choose It's an Art Party?";
+const whyChooseDescription =
+    acf.why_choose_section?.why_choose_description ||
+    "I will work behind the scenes to create a custom design for a canvas painting that kids can take home as a party favor.";
+const whyChooseFeatures = acf.why_choose_section?.why_choose_features || [
+    { feature_text: "Professional Planning" },
+    { feature_text: "Unlimited Party Themes" },
+    { feature_text: "Hassle Free Options" },
+    { feature_text: "Affordable Prices" },
+];
+const collageImages = acf.why_choose_section?.collage_images || [];
+
+// Policies section (from policies_section group)
+const policiesTitle = acf.policies_section?.policies_title || "Other Policies";
+const policiesSubtitle =
+    acf.policies_section?.policies_subtitle ||
+    "Read more about what to expect and contact me with any questions.";
+const policies = acf.policies_section?.policies || [
+    {
+        icon_color: "teal",
+        title: "Age Limitation",
+        description: "All parties are intended for ages 4 and up.",
+    },
+    {
+        icon_color: "yellow",
+        title: "Food & Drink",
+        description: "I do not supply food or drinks.",
+    },
+    {
+        icon_color: "pink",
+        title: "Decorations",
+        description:
+            "Decorations are up to you, but I can use your theme to design custom canvas.",
+    },
+    {
+        icon_color: "blue",
+        title: "Deposit",
+        description:
+            "I require a $75 deposit to secure your date/time. This is non-refundable.",
+    },
+];
+
+// CTA (from cta group)
+const ctaTitle = acf.cta?.cta_title || "Ready to Book Your Party?";
+
+// Fallback collage images array
+const fallbackCollageImages = [
+    collage1,
+    collage2,
+    collage3,
+    collage4,
+    collage5,
+    collage6,
+];
+const fallbackCollageAlts = [
+    "Kids art paint party with colorful canvas paintings",
+    "Unicorn themed canvas painting for kids birthday party",
+    "Mermaid paint party design for girls birthday",
+    "Dinosaur themed kids paint party canvas",
+    "Butterfly canvas painting party for children",
+    "Ice cream themed paint party artwork",
+];
+
+// Policy icon color classes
+const colorClasses: Record<string, string> = {
+    teal: "text-brand-teal",
+    yellow: "text-brand-yellow",
+    pink: "text-brand-pink",
+    blue: "text-brand-blue",
+};
+
+// Policy icons
+const policyIcons: Record<string, string> = {
+    "Age Limitation": `<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />`,
+    "Food & Drink": `<path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.87c1.355 0 2.697.055 4.024.165C17.155 8.51 18 9.473 18 10.608v2.513m-3-4.87v-1.5m-6 1.5v-1.5m12 9.75l-1.5.75a3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0L3 16.5m15-3.38a48.474 48.474 0 00-6-.37c-2.032 0-4.034.125-6 .37m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.17c0 .62-.504 1.124-1.125 1.124H4.125A1.125 1.125 0 013 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 016 13.12M12.265 3.11a.375.375 0 11-.53 0L12 2.845l.265.265zm-3 0a.375.375 0 11-.53 0L9 2.845l.265.265zm6 0a.375.375 0 11-.53 0L15 2.845l.265.265z" />`,
+    Decorations: `<path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />`,
+    Deposit: `<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />`,
+};
+
+// Default icon for unknown policies
+const defaultIcon = `<path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />`;
 ---
 
-<Layout 
+<Layout
     title="About Robin Winningham | Charlotte Kids Paint Party Artist"
     description={seoDescription}
     image="/images/og-about.jpg"
@@ -37,32 +168,39 @@ const seoDescription = "Meet Robin Winningham, founder of It's an Art Party in C
                     class="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-center"
                 >
                     <div class="flex-shrink-0 relative">
-                        <Image
-                            src={robinImg}
-                            alt="Robin Winningham - Owner and Artist at It's an Art Party Charlotte"
-                            class="w-48 h-48 md:w-56 md:h-56 object-cover shadow-lg grayscale"
-                            style="mask-image: radial-gradient(circle, black 60%, transparent 100%); -webkit-mask-image: radial-gradient(circle, black 60%, transparent 100%);"
-                        />
+                        {
+                            introImage ? (
+                                <img
+                                    src={introImage}
+                                    alt={`${ownerName} - Owner and Artist at It's an Art Party Charlotte`}
+                                    class="w-48 h-48 md:w-56 md:h-56 object-cover shadow-lg grayscale"
+                                    style="mask-image: radial-gradient(circle, black 60%, transparent 100%); -webkit-mask-image: radial-gradient(circle, black 60%, transparent 100%);"
+                                />
+                            ) : (
+                                <Image
+                                    src={robinImg}
+                                    alt={`${ownerName} - Owner and Artist at It's an Art Party Charlotte`}
+                                    class="w-48 h-48 md:w-56 md:h-56 object-cover shadow-lg grayscale"
+                                    style="mask-image: radial-gradient(circle, black 60%, transparent 100%); -webkit-mask-image: radial-gradient(circle, black 60%, transparent 100%);"
+                                />
+                            )
+                        }
                     </div>
                     <div class="text-center md:text-left">
                         <p
                             class="font-body text-lg md:text-xl mb-6 leading-relaxed"
                         >
-                            I started It's an Art Party as a way to combine my
-                            passion for art with my love for children. There is
-                            no greater feeling than watching a child light up
-                            when given the encouragement and opportunity to
-                            create something on their own.
+                            {introText}
                         </p>
                         <h2
                             class="font-display text-4xl md:text-5xl uppercase mb-1"
                         >
-                            Robin Winningham
+                            {ownerName}
                         </h2>
                         <p
                             class="font-body text-sm uppercase tracking-widest opacity-90"
                         >
-                            Artist and Owner
+                            {ownerTitle}
                         </p>
                     </div>
                 </div>
@@ -84,78 +222,9 @@ const seoDescription = "Meet Robin Winningham, founder of It's an Art Party in C
 
             <div class="container mx-auto px-4">
                 <div
-                    class="max-w-4xl mx-auto font-body text-gray-600 leading-relaxed space-y-6"
-                >
-                    <p class="font-bold">
-                        Hi, my name is Robin and I am the creator of It's an Art
-                        Party!
-                    </p>
-                    <p>
-                        I believe that everyone has the ability to be creative
-                        and express themselves through one art form or another.
-                        The possibilities are endless! I hope to help the next
-                        generation express themselves freely through art. It's
-                        an Art Party takes that goal and combines it with the
-                        celebration of a special event such as a birthday.
-                    </p>
-                    <p>
-                        My fondest childhood birthday memories are the art
-                        parties I had with friends. Not only did I love working
-                        on my special birthday art project, but I loved seeing
-                        what my friends created as well. It was a special time
-                        for making memories and doing something fun as a group.
-                    </p>
-                    <p>
-                        I can't remember a time when I wasn't pursuing a love of
-                        art. I started taking art classes in elementary school
-                        and put my first portfolio together at the age of 10. I
-                        was accepted into a magnet school for performing and
-                        visual arts from grades 6-8. What I learned about art in
-                        those 3 years became the foundation for my dream of
-                        becoming a full-time artist.
-                    </p>
-                    <p>
-                        I sampled a lot of different mediums and tried many new
-                        techniques in those years. I continued to take art
-                        classes throughout high school and into college. I love
-                        working with my hands and today I am continuing to
-                        experiment with different mediums and challenge myself
-                        creatively. My abstract paintings can be found on my
-                        artist website. You can also read more about me there.
-                    </p>
-                    <p>
-                        I have also spent many years teaching Sunday school and
-                        working with children at my church. I love watching
-                        children discover all the fun that art has to offer!
-                    </p>
-                    <p>
-                        Throughout our journey, I want to help celebrate your
-                        special occasions by bringing art to you! Visit the <a
-                            href="/kids-birthdays"
-                            class="text-brand-pink hover:underline"
-                            >kids painting parties page</a
-                        > for project examples and pricing.
-                    </p>
-                    <p>
-                        I also offer art lessons for individuals or small
-                        groups. Find out more about art lessons <a
-                            href="/art-lessons"
-                            class="text-brand-pink hover:underline">here</a
-                        >.
-                    </p>
-                    <p>
-                        <a
-                            href="/contact"
-                            class="text-brand-pink hover:underline"
-                            >Contact me</a
-                        > or call or text <a
-                            href="tel:9802534829"
-                            class="text-brand-pink hover:underline"
-                            >980-253-4829</a
-                        >. I can't wait to start planning your art party to
-                        remember!
-                    </p>
-                </div>
+                    class="max-w-4xl mx-auto font-body text-gray-600 leading-relaxed space-y-6 prose prose-a:text-brand-pink prose-a:no-underline hover:prose-a:underline"
+                    set:html={aboutMeContent}
+                />
             </div>
         </section>
 
@@ -169,148 +238,83 @@ const seoDescription = "Meet Robin Winningham, founder of It's an Art Party in C
                     <div class="md:w-1/2">
                         <h2
                             class="font-display text-4xl md:text-5xl text-brand-teal mb-6 uppercase leading-tight"
-                        >
-                            Why Choose It's an<br />Art Party?
-                        </h2>
+                            set:html={whyChooseTitle.replace(
+                                "It's an",
+                                "It's an<br />",
+                            )}
+                        />
                         <p class="font-body text-gray-600 mb-8 leading-relaxed">
-                            I will work behind the scenes to create a custom
-                            design for a canvas painting that kids can take home
-                            as a party favor.
+                            {whyChooseDescription}
                         </p>
 
                         <ul class="space-y-4">
-                            <li class="flex items-center gap-4">
-                                <div
-                                    class="bg-brand-pink rounded-full p-1 flex-shrink-0"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="h-4 w-4 text-white"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                    >
-                                        <path
-                                            fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <span
-                                    class="font-display text-lg uppercase text-gray-800"
-                                    >Professional Planning</span
-                                >
-                            </li>
-                            <li class="flex items-center gap-4">
-                                <div
-                                    class="bg-brand-pink rounded-full p-1 flex-shrink-0"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="h-4 w-4 text-white"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                    >
-                                        <path
-                                            fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <span
-                                    class="font-display text-lg uppercase text-gray-800"
-                                    >Unlimited Party Themes</span
-                                >
-                            </li>
-                            <li class="flex items-center gap-4">
-                                <div
-                                    class="bg-brand-pink rounded-full p-1 flex-shrink-0"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="h-4 w-4 text-white"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                    >
-                                        <path
-                                            fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <span
-                                    class="font-display text-lg uppercase text-gray-800"
-                                    >Hassle Free Options</span
-                                >
-                            </li>
-                            <li class="flex items-center gap-4">
-                                <div
-                                    class="bg-brand-pink rounded-full p-1 flex-shrink-0"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="h-4 w-4 text-white"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                    >
-                                        <path
-                                            fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                                <span
-                                    class="font-display text-lg uppercase text-gray-800"
-                                    >Affordable Prices</span
-                                >
-                            </li>
+                            {
+                                whyChooseFeatures.map((feature: any) => (
+                                    <li class="flex items-center gap-4">
+                                        <div class="bg-brand-pink rounded-full p-1 flex-shrink-0">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="h-4 w-4 text-white"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd"
+                                                />
+                                            </svg>
+                                        </div>
+                                        <span class="font-display text-lg uppercase text-gray-800">
+                                            {feature.feature_text ||
+                                                feature.title ||
+                                                feature}
+                                        </span>
+                                    </li>
+                                ))
+                            }
                         </ul>
                     </div>
 
                     <!-- Right Content (Collage) -->
                     <div class="md:w-1/2">
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <div class="overflow-hidden rounded-lg shadow-md">
-                                <Image
-                                    src={collage1}
-                                    alt="Kids art paint party with colorful canvas paintings"
-                                    class="w-full h-32 object-cover transform hover:scale-110 transition duration-500"
-                                />
-                            </div>
-                            <div class="overflow-hidden rounded-lg shadow-md">
-                                <Image
-                                    src={collage2}
-                                    alt="Unicorn themed canvas painting for kids birthday party"
-                                    class="w-full h-32 object-cover transform hover:scale-110 transition duration-500"
-                                />
-                            </div>
-                            <div class="overflow-hidden rounded-lg shadow-md">
-                                <Image
-                                    src={collage3}
-                                    alt="Mermaid paint party design for girls birthday"
-                                    class="w-full h-32 object-cover transform hover:scale-110 transition duration-500"
-                                />
-                            </div>
-                            <div class="overflow-hidden rounded-lg shadow-md">
-                                <Image
-                                    src={collage4}
-                                    alt="Dinosaur themed kids paint party canvas"
-                                    class="w-full h-32 object-cover transform hover:scale-110 transition duration-500"
-                                />
-                            </div>
-                            <div class="overflow-hidden rounded-lg shadow-md">
-                                <Image
-                                    src={collage5}
-                                    alt="Butterfly canvas painting party for children"
-                                    class="w-full h-32 object-cover transform hover:scale-110 transition duration-500"
-                                />
-                            </div>
-                            <div class="overflow-hidden rounded-lg shadow-md">
-                                <Image
-                                    src={collage6}
-                                    alt="Ice cream themed paint party artwork"
-                                    class="w-full h-32 object-cover transform hover:scale-110 transition duration-500"
-                                />
-                            </div>
+                            {
+                                collageImages.length > 0
+                                    ? collageImages
+                                          .slice(0, 6)
+                                          .map((image: any, index: number) => (
+                                              <div class="overflow-hidden rounded-lg shadow-md">
+                                                  <img
+                                                      src={
+                                                          image.url ||
+                                                          image.sizes?.medium ||
+                                                          image
+                                                      }
+                                                      alt={
+                                                          image.alt ||
+                                                          `Gallery image ${index + 1}`
+                                                      }
+                                                      class="w-full h-32 object-cover transform hover:scale-110 transition duration-500"
+                                                  />
+                                              </div>
+                                          ))
+                                    : fallbackCollageImages.map(
+                                          (img, index) => (
+                                              <div class="overflow-hidden rounded-lg shadow-md">
+                                                  <Image
+                                                      src={img}
+                                                      alt={
+                                                          fallbackCollageAlts[
+                                                              index
+                                                          ]
+                                                      }
+                                                      class="w-full h-32 object-cover transform hover:scale-110 transition duration-500"
+                                                  />
+                                              </div>
+                                          ),
+                                      )
+                            }
                         </div>
                     </div>
                 </div>
@@ -323,134 +327,54 @@ const seoDescription = "Meet Robin Winningham, founder of It's an Art Party in C
                 <h2
                     class="font-display text-4xl md:text-5xl text-brand-teal mb-4 uppercase"
                 >
-                    Other Policies
+                    {policiesTitle}
                 </h2>
                 <p class="text-brand-pink font-body mb-16">
-                    Read more about what to expect and contact me with any
-                    questions.
+                    {policiesSubtitle}
                 </p>
 
                 <div
                     class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12"
                 >
-                    <!-- Age Limitation -->
-                    <div class="flex flex-col items-center">
-                        <div class="text-brand-teal mb-6">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-16 w-16"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                                ></path>
-                            </svg>
-                        </div>
-                        <h3
-                            class="font-display text-xl text-brand-teal mb-3 uppercase tracking-wide"
-                        >
-                            Age Limitation
-                        </h3>
-                        <p class="text-gray-600 font-body text-sm">
-                            All parties are intended for ages 4 and up.
-                        </p>
-                    </div>
+                    {
+                        policies.map((policy: any) => {
+                            const colorClass =
+                                colorClasses[policy.icon_color] ||
+                                "text-brand-teal";
+                            const iconPath =
+                                policyIcons[policy.title] || defaultIcon;
 
-                    <!-- Food & Drink -->
-                    <div class="flex flex-col items-center">
-                        <div class="text-brand-yellow mb-6">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-16 w-16"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.87c1.355 0 2.697.055 4.024.165C17.155 8.51 18 9.473 18 10.608v2.513m-3-4.87v-1.5m-6 1.5v-1.5m12 9.75l-1.5.75a3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0L3 16.5m15-3.38a48.474 48.474 0 00-6-.37c-2.032 0-4.034.125-6 .37m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.17c0 .62-.504 1.124-1.125 1.124H4.125A1.125 1.125 0 013 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 016 13.12M12.265 3.11a.375.375 0 11-.53 0L12 2.845l.265.265zm-3 0a.375.375 0 11-.53 0L9 2.845l.265.265zm6 0a.375.375 0 11-.53 0L15 2.845l.265.265z"
-                                ></path>
-                            </svg>
-                        </div>
-                        <h3
-                            class="font-display text-xl text-brand-yellow mb-3 uppercase tracking-wide"
-                        >
-                            Food & Drink
-                        </h3>
-                        <p class="text-gray-600 font-body text-sm">
-                            I do not supply food or drinks.
-                        </p>
-                    </div>
-
-                    <!-- Decorations -->
-                    <div class="flex flex-col items-center">
-                        <div class="text-brand-pink mb-6">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-16 w-16"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                                ></path>
-                            </svg>
-                        </div>
-                        <h3
-                            class="font-display text-xl text-brand-pink mb-3 uppercase tracking-wide"
-                        >
-                            Decorations
-                        </h3>
-                        <p class="text-gray-600 font-body text-sm">
-                            Decorations are up to you, but I can use your theme
-                            to design custom canvas.
-                        </p>
-                    </div>
-
-                    <!-- Deposit -->
-                    <div class="flex flex-col items-center">
-                        <div class="text-brand-blue mb-6">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-16 w-16"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                ></path>
-                            </svg>
-                        </div>
-                        <h3
-                            class="font-display text-xl text-brand-blue mb-3 uppercase tracking-wide"
-                        >
-                            Deposit
-                        </h3>
-                        <p class="text-gray-600 font-body text-sm">
-                            I require a $75 deposit to secure your date/time.
-                            This is non-refundable.
-                        </p>
-                    </div>
+                            return (
+                                <div class="flex flex-col items-center">
+                                    <div class={`${colorClass} mb-6`}>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-16 w-16"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                        >
+                                            <path set:html={iconPath} />
+                                        </svg>
+                                    </div>
+                                    <h3
+                                        class={`font-display text-xl ${colorClass} mb-3 uppercase tracking-wide`}
+                                    >
+                                        {policy.title}
+                                    </h3>
+                                    <p class="text-gray-600 font-body text-sm">
+                                        {policy.description}
+                                    </p>
+                                </div>
+                            );
+                        })
+                    }
                 </div>
             </div>
         </section>
 
-        <Cta title="Ready to Book Your Party?" />
+        <Cta title={ctaTitle} />
     </main>
 
     <Footer />

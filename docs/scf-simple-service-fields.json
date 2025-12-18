@@ -1,0 +1,86 @@
+[
+    {
+        "key": "group_simple_service_fields",
+        "title": "Service Page Content",
+        "fields": [
+            {
+                "key": "field_service_description",
+                "label": "Description",
+                "name": "description",
+                "type": "wysiwyg"
+            },
+            {
+                "key": "field_service_pricing",
+                "label": "Pricing Text",
+                "name": "pricing",
+                "type": "textarea"
+            },
+            {
+                "key": "field_service_features",
+                "label": "Features",
+                "name": "features",
+                "type": "repeater",
+                "sub_fields": [
+                    {
+                        "key": "field_feature_item",
+                        "label": "Feature",
+                        "name": "feature",
+                        "type": "text"
+                    }
+                ]
+            },
+            {
+                "key": "field_service_details",
+                "label": "Detail Cards",
+                "name": "details",
+                "type": "repeater",
+                "sub_fields": [
+                    {
+                        "key": "field_detail_title",
+                        "label": "Title",
+                        "name": "title",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_detail_text",
+                        "label": "Description",
+                        "name": "description",
+                        "type": "textarea"
+                    },
+                    {
+                        "key": "field_detail_color",
+                        "label": "Color",
+                        "name": "color",
+                        "type": "color_picker"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "page"
+                },
+                {
+                    "param": "page",
+                    "operator": "==",
+                    "value": "1767"
+                }
+            ],
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "page"
+                },
+                {
+                    "param": "page",
+                    "operator": "==",
+                    "value": "1766"
+                }
+            ]
+        ]
+    }
+]
