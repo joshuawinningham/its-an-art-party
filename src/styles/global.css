@@ -88,3 +88,13 @@ section.bg-gray-50 .prose h3 {
     margin-bottom: 0.5rem;
     font-weight: normal;
 }
+
+/* Hide scrollbar for gallery */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}

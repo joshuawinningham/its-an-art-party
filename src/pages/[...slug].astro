@@ -16,6 +16,10 @@ import { getPage, getPostSlugs } from "../lib/wordpress";
 // Actually, if I don't export getStaticPaths, standard generic dynamic routes won't work in SSG mode.
 // I will create a simple fetch for pages.
 
+/**
+ * Generate static paths for all WordPress pages AND posts at build time.
+ * Both content types use root-level URLs per the site's URL structure.
+ */
 export async function getStaticPaths() {
     // This is optional for purely dynamic rendering in SSR mode, but required for SSG.
     // Since we don't have a getPageSlugs helper readily exposed yet,
