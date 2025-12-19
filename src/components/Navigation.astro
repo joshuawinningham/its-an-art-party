@@ -7,11 +7,13 @@
 >
     <div class="logo">
         {/* Logo Image */}
-        <img
-            src="/images/its-an-art-party-logo-black.svg"
-            alt="Art Party Logo"
-            class="h-12 w-auto drop-shadow-md"
-        />
+        <a href="/">
+            <img
+                src="/images/its-an-art-party-logo.png"
+                alt="It's An Art Party - Art Parties for Ages 4+"
+                class="h-12 w-auto drop-shadow-md"
+            />
+        </a>
     </div>
 
     {/* Desktop Menu */}
@@ -85,8 +87,29 @@
 {/* Mobile Menu Overlay */}
 <div
     id="mobile-menu"
-    class="fixed inset-0 bg-brand-teal z-40 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center"
+    class="fixed inset-0 bg-brand-teal z-[60] transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center pt-24"
 >
+    {/* Close Button */}
+    <button
+        id="mobile-menu-close"
+        class="absolute top-8 right-6 text-white focus:outline-none"
+        aria-label="Close menu"
+    >
+        <svg
+            class="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+
     <ul
         class="flex flex-col space-y-8 text-center text-2xl font-display text-white"
     >
@@ -134,7 +157,7 @@
         </li>
         <li>
             <a
-                href="#"
+                href="tel:9802534829"
                 class="mobile-link hover:text-brand-yellow transition duration-300"
                 >980-253-4829</a
             >
@@ -144,14 +167,20 @@
 
 <script>
     const btn = document.getElementById("mobile-menu-btn");
+    const closeBtn = document.getElementById("mobile-menu-close");
     const menu = document.getElementById("mobile-menu");
     const links = document.querySelectorAll(".mobile-link");
 
     if (btn && menu) {
         btn.addEventListener("click", () => {
-            menu.classList.toggle("translate-x-full");
-            // Toggle icon (optional, simple implementation for now)
+            menu.classList.remove("translate-x-full");
         });
+
+        if (closeBtn) {
+            closeBtn.addEventListener("click", () => {
+                menu.classList.add("translate-x-full");
+            });
+        }
 
         links.forEach((link) => {
             link.addEventListener("click", () => {
