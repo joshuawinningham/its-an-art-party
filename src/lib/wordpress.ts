@@ -6,9 +6,8 @@
  */
 
 // WordPress API base URL - set in environment variables
-// For development: Use existing WordPress at www.itsanartparty.com
-// For production: Update to cms.itsanartparty.com after domain migration
-const WP_API_URL = import.meta.env.WORDPRESS_API_URL || 'https://www.itsanartparty.com/wp-json';
+// For production: cms.itsanartparty.com hosts the WordPress backend
+const WP_API_URL = import.meta.env.WORDPRESS_API_URL || 'https://cms.itsanartparty.com/wp-json';
 
 // =============================================================================
 // Type Definitions
