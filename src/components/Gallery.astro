@@ -35,7 +35,9 @@ const photos = [img1, img2, img3, img4, img5, img6, img7, img8, img9];
     Here are a few examples of some great parties!
   </p>
 
-  <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-2">
+  <div
+    class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2"
+  >
     {
       photos.map((photo, index) => (
         <div class="overflow-hidden group relative aspect-square">

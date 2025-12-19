@@ -114,9 +114,16 @@ const plans = [
                                 {plan.features.map((feature) => (
                                     <li class="flex items-start text-gray-600 font-body text-sm">
                                         <span
-                                            class={`mr-2 mt-1 ${plan.priceColor} text-xs`}
+                                            class={`mr-2 mt-1 ${plan.priceColor} flex-shrink-0`}
                                         >
-                                            ▶
+                                            <svg
+                                                class="w-3 h-3"
+                                                viewBox="0 0 24 24"
+                                                fill="currentColor"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path d="M8 5v14l11-7z" />
+                                            </svg>
                                         </span>
                                         {feature}
                                     </li>
