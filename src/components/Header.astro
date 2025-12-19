@@ -82,20 +82,17 @@ const isDefaultHeadline = heroHeadline.includes("MAKE YOUR PARTY FUN WITH ART");
 
         {/* Hero Content */}
         <div class="relative z-20 pt-20 md:pt-32 pb-36 md:pb-72 px-4 text-center max-w-5xl mx-auto">
-          <h1 class="text-3xl md:text-6xl lg:text-8xl mb-3 leading-tight drop-shadow-xl font-display transform -rotate-2">
-            {isDefaultHeadline ? (
-              <>
-                MAKE YOUR PARTY <span class="text-brand-yellow">FUN</span> WITH
-                ART!
-              </>
-            ) : (
-              heroHeadline
-            )}
+          <h1 class="text-3xl md:text-6xl lg:text-8xl mb-3 leading-tight drop-shadow-xl font-display transform -rotate-2 flex flex-col items-center">
+            <span>MAKE YOUR PARTY</span>
+            <span id="rotating-word" class="text-brand-yellow">
+              FUN
+            </span>
+            <span>WITH ART!</span>
           </h1>
           <h2 class="text-2xl md:text-3xl lg:text-5xl mb-6 md:mb-10 text-white drop-shadow-md tracking-wide font-display">
             {heroSubheadline}
           </h2>
-          <p class="text-base md:text-lg lg:text-xl mb-8 md:mb-12 font-body max-w-2xl mx-auto text-gray-100 font-light">
+          <p class="text-base md:text-lg lg:text-xl mb-8 md:mb-12 font-body max-w-2xl mx-auto text-white font-medium">
             {heroDescription}
           </p>
 
@@ -126,3 +123,63 @@ const isDefaultHeadline = heroHeadline.includes("MAKE YOUR PARTY FUN WITH ART");
     )
   }
 </header>
+
+<style>
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeOutUp {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+
+  #rotating-word {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  #rotating-word.fade-out {
+    animation: fadeOutUp 0.5s ease-out;
+  }
+</style>
+
+<script>
+  const words = ["FUN", "AMAZING", "MEMORABLE", "EASY"];
+  let currentIndex = 0;
+
+  function rotateWord() {
+    const element = document.getElementById("rotating-word");
+    if (!element) return;
+
+    // Fade out
+    element.classList.add("fade-out");
+
+    setTimeout(() => {
+      // Change word
+      currentIndex = (currentIndex + 1) % words.length;
+      element.textContent = words[currentIndex];
+
+      // Reset animation
+      element.classList.remove("fade-out");
+      element.style.animation = "none";
+      element.offsetHeight; // Trigger reflow
+      element.style.animation = "";
+    }, 500);
+  }
+
+  // Start rotation every 3 seconds
+  setInterval(rotateWord, 3000);
+</script>

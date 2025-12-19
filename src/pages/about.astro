@@ -278,13 +278,13 @@ const defaultIcon = `<path stroke-linecap="round" stroke-linejoin="round" d="M9.
 
                     <!-- Right Content (Collage) -->
                     <div class="md:w-1/2">
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
                             {
                                 collageImages.length > 0
                                     ? collageImages
                                           .slice(0, 6)
                                           .map((image: any, index: number) => (
-                                              <div class="overflow-hidden rounded-lg shadow-md">
+                                              <div class="aspect-square overflow-hidden rounded-lg">
                                                   <img
                                                       src={
                                                           image.url ||
@@ -295,13 +295,13 @@ const defaultIcon = `<path stroke-linecap="round" stroke-linejoin="round" d="M9.
                                                           image.alt ||
                                                           `Gallery image ${index + 1}`
                                                       }
-                                                      class="w-full h-32 object-cover transform hover:scale-110 transition duration-500"
+                                                      class="w-full h-full object-cover transform hover:scale-110 transition duration-500"
                                                   />
                                               </div>
                                           ))
                                     : fallbackCollageImages.map(
                                           (img, index) => (
-                                              <div class="overflow-hidden rounded-lg shadow-md">
+                                              <div class="aspect-square overflow-hidden rounded-lg">
                                                   <Image
                                                       src={img}
                                                       alt={
@@ -309,7 +309,7 @@ const defaultIcon = `<path stroke-linecap="round" stroke-linejoin="round" d="M9.
                                                               index
                                                           ]
                                                       }
-                                                      class="w-full h-32 object-cover transform hover:scale-110 transition duration-500"
+                                                      class="w-full h-full object-cover transform hover:scale-110 transition duration-500"
                                                   />
                                               </div>
                                           ),
@@ -354,9 +354,8 @@ const defaultIcon = `<path stroke-linecap="round" stroke-linejoin="round" d="M9.
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
                                             stroke-width="1.5"
-                                        >
-                                            <path set:html={iconPath} />
-                                        </svg>
+                                            set:html={iconPath}
+                                        />
                                     </div>
                                     <h3
                                         class={`font-display text-xl ${colorClass} mb-3 uppercase tracking-wide`}
