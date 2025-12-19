@@ -60,12 +60,35 @@ const seoDescription =
                               post.acf?.description ||
                               getExcerptText(post.content.rendered, 150);
 
+                          // Get featured image from embedded media
+                          const featuredMedia =
+                              post._embedded?.["wp:featuredmedia"]?.[0];
+                          const featuredImage =
+                              featuredMedia?.source_url ||
+                              featuredMedia?.media_details?.sizes?.medium_large
+                                  ?.source_url;
+                          const imageAlt = featuredMedia?.alt_text || title;
+
                           return (
                               <article
                                   class="flex flex-col items-start"
                                   itemscope
                                   itemtype="https://schema.org/BlogPosting"
                               >
+                                  {featuredImage && (
+                                      <a
+                                          href={`/${post.slug}`}
+                                          class="block w-full mb-4 overflow-hidden rounded-lg"
+                                      >
+                                          <img
+                                              src={featuredImage}
+                                              alt={imageAlt}
+                                              class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                                              loading="lazy"
+                                              itemprop="image"
+                                          />
+                                      </a>
+                                  )}
                                   <h2
                                       class="text-2xl md:text-3xl font-display text-brand-teal mb-2 leading-tight"
                                       itemprop="headline"
